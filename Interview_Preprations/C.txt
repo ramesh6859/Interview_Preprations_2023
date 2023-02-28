@@ -1,0 +1,66 @@
+c
+=
+Segmentation Fault:     Trying to read and write to an illegal memory location.
+                        Error occurs while returning the address of a local variable.
+Dangling Pointer:        Pointer which points to some non existing memory location.
+Null Pointer:           Pointer that does not point to any memory location.
+                        It represents an invalid memory location.
+                        When a NULL value is assigned to a pointer then the pointer is considered as NULL pointer.
+
+Compilation Process
+1.  Preprocessing
+    1.  All the lines starting with # will be interpreted.
+    2.  Output is .i file. 
+2.  Compilation
+    1.  .i file is converted to assembly instructions .s file.  
+    2.  Checks for syntax error.
+    3.  Optionally optimise code.
+3.  Assembly
+    1.  Assembler converts .s file to object file .o file.
+    2.  Contains actual instructions to be executed.
+    3.  No linkage to other object files.
+4.  Linking
+    1.  Linking for their original function calls.
+    2.  Library function calls are added.
+    3.  Generate final executable .exe, .elf, .bin, .hex
+
+.bin file properties
+1.  It has no memory reallocation.
+2.  Data loaded directly to specified address.
+3.  No symbol or debug info.
+4.  Not in human readable format.
+5.  Option to decode with Hex Dump Tool.
+
+
+Memory Layout of C program
+1.  Stack
+2.  Heap
+3.  Uninitialized data (bss)
+4.  Initialized data
+5.  Text/code segment
+
+List of pointers
+1.  Null pointer
+    1.  Points the base address of segment.
+    2.  float *ptr = (float *)0;
+2.  Dangling pointer
+    1.  Pointer pointing to a non existing memory location.
+3.  Generic pointer
+    1.  void pointer
+    2.  The pointer will not point to any data and therefore cannot be deference.
+    3.  To use it we have to cast it to another kind of pointer first.
+    4.  Pointer to point to data of different types at different times.
+4.  Wild pointer
+    1.  Pointer that has not been initialized.
+5.  Complex pointer
+6.  Near pointer
+    1.  Pointer that points only 64 KB data segment or segment number 8.
+    2.  Size - 2 bytes.
+7.  Far pointer
+    1.  Pointer that point or access whole the residence memory of RAM.
+    2.  Access all 16 segments.
+    3.  Size - 4 bytes.
+8.  Huge pointer
+    1.  Pointer that point or access whole the residence memory of RAM.
+    2.  Access all 16 segments.
+    3.  Size - 4 bytes.

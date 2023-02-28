@@ -1,0 +1,30 @@
+Create new file using cat
+	cat>filename
+	data
+	ctrl+d to save the data
+	
+Symbolic and Numeric umask Values
+	0	---		No permission
+	1	--x		Execute
+	2	-w-		Write
+	3	-wx		Write and execute
+	4	r--		Read
+	5	r-x		Read and execute
+	6	rw-		Read and write
+	7	rwx		Read, write, and execute
+	
+	By default file is not executable.
+
+Shortcuts in vim
+	yy - copy single line
+	dd - delete single line
+	cc - cut single line
+	p - paste 
+	
+https://www.youtube.com/playlist?list=PLWPirh4EWFpGsim4cuJrh9w6-yfuC9XqI
+25
+
+
+Uart  - 5 Mb/s
+
+

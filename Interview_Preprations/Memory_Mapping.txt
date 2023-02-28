@@ -1,0 +1,30 @@
+Memory Mapping in Embedded 
+    Microcontrollers or microprocessors have two types of memory regions such as memory mapped region and non-memory mapped region.
+
+Non-Memory Mapped Region
+    Non-memory mapped region includes internal general purpose and special function registers of CPU. 
+    These registers do not have addresses. 
+    We can access them using register names in assembly language. 
+    In C programming, we can access these registers using inline assembly language features of c programming. 
+    Therefore, in order to access internal CPU registers, we do not use their address instead use their names. 
+    For example, ARM Cortex M4 32-bit microcontroller has 13 general-purpose registers and nine special function registers. 
+
+Memory Mapped Region of Microcontrollers
+    The addressable memory space of a microcontroller or microprocessor depends on their address bus width. 
+    For instance, if we take the example of ARM Cortex M4 32-bit microcontroller, its addressable memory space is 2^32 which is equal to 4 gigabytes of memory. 
+    Each byte of this memory space has a unique memory address and the Cortex M4 microcontroller can access each memory location either to read and write data to each memory location.
+
+ARM Cortex M4 Different Memory Regions
+    1.  First half GB of memory space from 0x0000_0000 to 0x1FFFF_FFFF is used to store program/code. 
+        Static initialized data can also be stored in this location.
+    2.  SRAM ( 0x2000_0000 – 0x3FFF_FFFF) : It is used to store temporary data such as heap, stack and temporary function variables. 
+        SRAM region also stores bit-banded alias and a bit-band region.
+    3.  Peripheral Registers ( 0x4000_0000 – 0x5FFF_FFFF) : This memory map region is used for peripheral registers such as GPIO ports, UART, I2C, Timers etc.
+    4.  External RAM (0x6000.0000 – 0x9FFF.FFFF) : This memory region is used to map external memory devices such as SD card, external Flash
+
+    Similary other memory regions are used for external memory devices and last 0.5GB memory is reserved for system memory such as NVIC (nested interrupt vector controller), sytem timer and sytem control block (SCB).
+    This memory map is divided into different memory sections such as code, RAM, peripheral, external memory, system memory region.
+    The flash or code memory region is used to store the microcontroller’s application code and it is further divided into different segments such as vector table, text, read-only data, read-write data, and bss segments. 
+    These sections are used for predefined functions.
+
+

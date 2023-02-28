@@ -1,0 +1,172 @@
+SPI communication Protocol
+    SPI communication protocol which is also known as Serial Peripheral Interface, is a digital communication protocol that is used to transfer data serially (one bit at a time) between two or more digital devices like microcontrollers, microprocessors, or other devices. 
+    Many analog devices like analog to digital converts, analog sensors, temperature sensors, and data converters also provide interfacing mode based on SPI communication. 
+    The most commonly used devices which communicate with microcontrollers over SPI bust are:
+        SD Cards
+        RFID Modules
+        2.4GHz wireless transmitter and receiver modules
+
+SPI Communication Introduction
+    1.  It is a serial and synchronous interface. 
+        The synchronous interface means it requires a clock signal to transfer and receive data and the clock signal is synchronized between both master and slave.
+    2.  Unlike UART communication which is asynchronous.
+    3.  The clock signal controls when data is to be sent to the slave and when it should be ready to read.
+    4.  The only master device can control the clock and provide a clock signal to all slave devices.
+    5.  Data can not be transferred without a clock signal.
+    6.  Both master and slave can exchange data with each other.
+    7.  No address decoding is done.
+
+SPI Connection Between Two Devices
+    It is Full duplex synchronous communication.
+    Both Master and Slave can exchange data with each other on the rising and falling edge of the clock signal.
+    The functionality of each signal is:
+    1.  SCLK or SCK pin:
+        This signal provides a clock to Slaves and only Master can control clock signal. 
+        Note that this pin remains in idle state .i.e. inactive or tri-state when no operation is carried out.
+    2.  SS or CS:
+        This is known as a chip select or Slave select pin. 
+        This line selects the slave to which Master want to transfer data.
+    3.  MOSI:
+        It is a unidirectional pin. 
+        This stands for Master output and Slave input pin. 
+        As its name suggests, this line used to send data from master to slave.
+    4.  MISO:
+        This is known as Master input and a Slave output. 
+        This line is used to send data from the slave to the Master.
+
+    SPI communication protocol, devices exchange data in master/slave mode. 
+    The master device is mainly responsible for the initiation of the data frame. 
+    The master device also selects the slave device to which data need to be transferred. 
+    Chip select line is usually used to identify or select a particular slave device.
+
+    Whenever a master device read to transmit data to slave or want to receive data from the slave, the master does so by activating the clock signal. 
+    Every master device sends data on the MOSI line and receives data through another line that is MISO.
+
+SPI Working Operation
+    The SPI bus consists of a single master and multiple slave devices. 
+    But SPI bus can be used in different configurations like a single master and a single slave as shown in the diagram below.
+    For some SPI devices, if only a single slave is used, a chip select pin can be connected with active low signal, but this feature varies for different SPI based devices.
+
+SPI Protocol Data Transmission
+    1.  Firstly, the master outputs the clock signal.
+    2.  Now to activate the slave, the master switches the SS/CS pin to a low voltage state.
+    3.  The data is sent to the slave along the MOSI line one bit at a time by the master. 
+        The slave reads the bits as they are received.
+    4.  If the master requires a response, the slave sends data to the master one bit at a time via the MISO line. 
+        The master reads the bits as they are received.
+
+Different Configuration Modes of SPI Bus
+    1.  Typical SPI bus - In typical SPI bus mode, only one master device can control multiple independent slave devices. 
+    2.  Daisy chained SPI bus - In this configuration, only one chip select signal from the master device controls all slave devices and also all slave devices work on the same clock signal. 
+    
+SPI Module Internal Structure
+    1.  It usually forms a circular buffer consists of two shift registers.
+    2.  In order to transfer data, a master device initiates the active high clock signal to a slave device and the frequency of the clock signal is less than or equal to the operating frequency of a slave device.
+    3.  The frequency range is between 1-70MHz for maximum SPI devices.
+    4.  After that, the master device makes the chip select signal active high to select a particular slave device to which it wants to transfer data commands.
+    5.  Each SPI clock transfers data in full-duplex mode.
+    6.  After selecting a slave, the master sends a start bit to the slave device over a MOSI line and slave reads this bit with the same line.
+    7.  The master device share date with the slave device using the shift register. 
+        After reading data, the slave device store the data from the shift register into memory and similar operation happen when the master wants to receive data from the slave.
+
+Clock polarity and Phase
+    The master device is responsible for setting the clock frequency. 
+    The master device also configures two things such as clock polarity and phase according to the data transmission.
+    Two registers/names are most commonly used and adopted by maximum vendors namely CPOL and CPHA. 
+    
+    1.  During the active and idle state of the clock, the CPOL bit defines the clock polarity.
+    2.  On the other hand, the CPHA bit defines the phase clock. 
+        In other words, CPHA bit value sets either data will shift/sample on a positive edge of the clock or negative edge of the clock signal.
+    3.  The master device sets these two bits according to a slave device.
+
+Advantages
+    1.  It supports a full-duplex mode of serial communication.
+    2.  It provides higher throughput than I2C.
+    3.  The speed is faster than traditional asynchronous serial communication.
+    4.  Interfacing hardware is very simple. 
+        It just consists of a simple shift register.
+    5.  Power consumption is less as compared to I2C due to very simple hardware circuitry.
+    6.  Slaves do not require precision oscillator Because they use a clock from the Master device.
+    7.  No requirement of the transceiver circuit.
+
+Disadvantages
+    1.  It requires more wires than I2C Communication.
+        However, a three-wire variant of SPI exists but still, it consists of more wires than I2C.
+    2.  No hardware exists for flow control of data.
+    3.  No acknowledgment between Master and Slave. 
+        Even the master sends data to no device without noticing it.
+    4.  Only one master device is available at a time.
+    5.  It supports only short distance communication as compared to RS485, CAN and LIN communication.
+    6.  This communication requires slave select (SS) or chip select line for each slave device. 
+        It can create an issue if we are using a large number of slave devices.
+
+SPI Communication Applications
+    1.  It is available to interface bare-metal embedded devices like microcontrollers with many peripheral devices like ADC modules, DAC, Temperature sensors and pressure sensors.
+    2.  External memory devices like a flash, Memory cards, and EEPROM also interface with microcontroller based on SPI.
+    3.  Many liquid crystal displays, OLEDs, TFT displays also used this communication protocol to interface with embedded devices.
+
+Why SPI communication is used?
+    1.  Usually, Embedded system engineers use this communication protocol when they want to transfer fast data between two digital devices and a small number of input-output pins are available.
+    2.  In embedded systems due to constraints of less number of GPIO pins, we use serial peripheral interface to transfer data between two devices by using the minimum number of GPIO pins.
+    3.  SPI communication saves us wiring pins and also reduces the cost of hardware.
+    4.  This protocol can be implemented very easily and quickly with fewer I/O pins.
+    5.  It has a serial interface and a single master can control multiple slave devices to transfer data between each other.
+    6.  The only disadvantage of this is slower communication or data transfer rate. 
+        However, it is used in those applications where real-time data transfer is not mandatory.
+
+Advantages
+    1.  No start and stop bits.
+    2.  No complicated slave addressing system.
+    3.  Higher data transfer rate.
+    4.  Full duplex communication, separate pins for transmission and reception.
+
+Disadvantages
+    1.  Uses 4 wires.
+    2.  No acknowledgement.
+    3.  No form of error checking.
+    4.  Only have single master.
+
+SPI pin
+    1.  SCLK - Clock selection pin.
+    2.  MOSI - Master Out Slave In.
+    3.  MISO - Master In Slave Out.
+    4.  SS - Slave Selection
+
+SPI Modes
+    Clock polarity
+        CPOL - 0
+            Clock should start from low to high.
+            Master should initiate the clock.
+        CPOL - 1
+            Clock should start from high to low.
+    Clock Phase
+        CPHA - 0
+            Data is exchanging in the leading edge.
+        CPHA - 1
+            Data is exchanging in the trailing edge.
+
+    4 modes of SPI communication
+        1.  Mode 0
+                CPOL - 0
+                CPHA - 0
+        2.  Mode 1
+                CPOL - 0
+                CPHA - 1
+        3.  Mode 2
+                CPOL - 1
+                CPHA - 0
+        4.  Mode 3
+                CPOL - 1
+                CPHA - 1
+
+SPI Configuration
+    1.  Independent Slave Configuration
+            Each slave is connected to separate pins of the master.
+            Send logic low to SS pin to activate the particular slave.
+            Send logic high to SS pin to deactivate the particular slaves.
+    2.  Daisy Chin Configuration
+            Data is send as serially.
+            Master send the data to first slave. First slave to second slave and so on.
+            MOSI of master is connected to MOSI of first slave.
+            MISO of first slave is connected to MISO of second slave and so on.
+

@@ -1,0 +1,61 @@
+ARM7 Modes
+==========
+Privileged Modes
+    1.  Abort
+        1.  Processor enters the abort mode when there is a failed attempt to access the memory.
+    2.  Fast Interrupt Request (FIQ)
+    3.  Interrupt Request (IRQ)
+        1.  Processor enters the mode when there is an external interrupt.
+        2.  These interrupt modes corresponds to two interrupt levels available on the ARM processor.
+        3.  FIQ has higher priority than IRQ.
+        4.  This means when core takes FIQ exception it automatically masks IRQ.
+    4.  Supervisor
+        1.  Mode the processor is in after reset and is generally the mode that an operating system kernel operates in. 
+        2.  Additional privileges - greater control.
+        3.  read I/O module.
+    5.  System
+        1.  Special version of user mode that allows full read write access to CPCR.
+    6.  Undefined
+        1.  Mode when the processor encounters an instruction that is undefined or not supported by implementation.
+
+Non Privileged Modes
+        Allows only read access to control field (Mode selection bites, Thumb selection bites and interrupt mask bits). 
+        Allows read write access to conditional flags.
+    7.  User
+        1.  Mode used by programs or applications.
+        2.  Most of the tasks are executed in this mode.
+        3.  Memory access is restricted.
+        4.  Hardware devices cannot read directly.
+
+ARM Cortex-M4 Register Bank
+    The Cortex-M microcontroller are based on the ARMv7 processor and this processor has a set of internal registers known as a register bank. 
+    This register bank consists of 16 registers ranging from R0-R16. 
+    First 13 registers from R0-12 are general purpose registers and last three from R12-R15 are special function registers.
+
+    General Purpose Registers (GPR)
+        General purpose registers are divided into two groups .i.e.  lower registers (R0-R7) and higher registers(R8-R12). 
+        GPR are used to store addresses and data which is currently under process.
+
+    Special Function Registers
+        In special function registers, R13 (SP) is a stack pointer and it holds the address of the top element of the stack. 
+        R14 is a link register LR and it is used to store the return address of the functions. 
+        R15 (PC) is a program counter and it holds the address of the next instruction to be executed. 
+        Program counter value automatically increases by 4 after every instruction execution so that it points to the next instruction address.
+
+    Special Registers
+        Other than register bank, the processor also has special registers that contain the program status such as operational status, system interrupts. 
+        These status registers are:
+            PSR ( Program status register)
+            PRIMASK
+            FAULTMASK
+            BASEPRI
+            CONTROL
+    Cortex-M4 Main Components
+        ARM Cortex-M4 based consists of the following main building blocks as mentioned below:
+            Processor core
+            NVIC (Nested Vector Interrupt Controller)
+            Debug system
+            Bus system and bus matrix
+            Memory
+            Peripheral
+

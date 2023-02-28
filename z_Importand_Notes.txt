@@ -1,0 +1,26 @@
+Selecting the Microcontroller and Microprocessor.
+================================================
+1.  Speed.
+2.  Packaging.
+3.  Power Consumption.
+4.  The size of RAM and ROM on the chip.
+5.  The number of I/O pins and the timer on the chip.
+6.  How easy to upgrade to higher performance or lower power consumption versions.
+7.  Cost per unit.
+8.  Availability of software development tools such as compilers, assemblers and debuggers.
+
+Compilation process
+function pointer
+malloc and calloc
+ADC working in microcontroller
+structure padding 
+structure packing
+dynamic memory allocation
+segmentation fault
+power on reset in embedded system
+startup code
+maskable interrupt
+NVIC
+    
+
+
