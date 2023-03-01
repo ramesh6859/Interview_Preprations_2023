@@ -22,7 +22,7 @@ ARM Cortex M4 Different Memory Regions
     3.  Peripheral Registers ( 0x4000_0000 – 0x5FFF_FFFF) : This memory map region is used for peripheral registers such as GPIO ports, UART, I2C, Timers etc.
     4.  External RAM (0x6000.0000 – 0x9FFF.FFFF) : This memory region is used to map external memory devices such as SD card, external Flash
 
-    Similary other memory regions are used for external memory devices and last 0.5GB memory is reserved for system memory such as NVIC (nested interrupt vector controller), sytem timer and sytem control block (SCB).
+    Similarly other memory regions are used for external memory devices and last 0.5GB memory is reserved for system memory such as NVIC (nested interrupt vector controller), sytem timer and sytem control block (SCB).
     This memory map is divided into different memory sections such as code, RAM, peripheral, external memory, system memory region.
     The flash or code memory region is used to store the microcontroller’s application code and it is further divided into different segments such as vector table, text, read-only data, read-write data, and bss segments. 
     These sections are used for predefined functions.

@@ -33,10 +33,10 @@ Compilation Process
 
 
 Memory Layout of C program
-1.  Stack
+1.  Stack - local variables and values of parameters passed to a function. instruction's return address
 2.  Heap
-3.  Uninitialized data (bss)
-4.  Initialized data
+3.  Uninitialized data (bss) -  static and global. initialized to 0 and pointer to NULL pointer
+4.  Initialized data - external, global, static, and constant
 5.  Text/code segment
 
 List of pointers
@@ -64,3 +64,5 @@ List of pointers
     1.  Pointer that point or access whole the residence memory of RAM.
     2.  Access all 16 segments.
     3.  Size - 4 bytes.
+
+
