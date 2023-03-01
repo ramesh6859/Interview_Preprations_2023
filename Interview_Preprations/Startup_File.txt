@@ -5,3 +5,11 @@ Program Counter
 3.  For 16 bit the program counter increase by 2.
 4.  For 32 bit the program counter increase by 4.
 
+Disable all interrupts
+Copying initialized global, global static, and local static variable data from flash to .data section RAM memory of a microcontroller
+Copying uninitialized global, global static, and local static variable data from flash to .bss section of RAM memory and initialize .bss section of RAM to zero. 
+Allocate space for the stack and initialize the stack pointer
+It also contains an array of function pointers ( interrupt vector table) that point to various interrupt vector routines such as interrupts and exceptions. The startup file also contains definitions of these interrupt or exception routines such as reset handler, NMI handler, bus fault handler, etc.
+Enable interrupts
+Calls the main function 
+
