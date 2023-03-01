@@ -13,7 +13,6 @@ void ascDecFunc(int a[], int n)
                 a[j + 1] = temp;
             }
         }
-
         for (int j = n / 2; j < n - 1; j++)
         {
             if (a[j] < a[j + 1])
@@ -24,16 +23,13 @@ void ascDecFunc(int a[], int n)
             }
         }
     }
-
     for (int i = 0; i < n; i++)
         printf("%d ", a[i]);
 }
-
 int main()
 {
     int arr[] = {3, 2, 4, 1, 10, 30, 40, 20};
     int len = sizeof(arr) / sizeof(arr[0]);
     ascDecFunc(arr, len);
-
     return 0;
 }
