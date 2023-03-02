@@ -33,11 +33,46 @@ Compilation Process
 
 
 Memory Layout of C program
-1.  Stack - local variables and values of parameters passed to a function. instruction's return address
-2.  Heap
-3.  Uninitialized data (bss) -  static and global. initialized to 0 and pointer to NULL pointer
-4.  Initialized data - external, global, static, and constant
-5.  Text/code segment
+1.  Text section:
+    1.  The text section or code section contains the executable instructions of the program. 
+    2.  This section is read-only and stores the machine code of the program.
+2.  Data section:
+    1.  The data section contains two sub-sections: initialized data and uninitialized data.
+    2.  Initialized data section contains global and static variables that are initialized with a specific value. 
+    3.  This section is read-write, and the values of the variables remain constant throughout the program's execution.
+    4.  Uninitialized data section, also known as the bss section, contains global and static variables that are not initialized with any value. 
+    5.  This section is also read-write, but the values of the variables are initialized to zero.
+3.  Stack section:
+    1.  The stack section is used to store the function calls and their local variables. 
+    2.  This section grows and shrinks dynamically as functions are called and returned. 
+    3.  The variables with automatic storage class are stored in this section.
+4.  Heap section:
+    1.  The heap section is used to store dynamic memory allocated using functions such as malloc() and calloc(). 
+    2.  The variables with a pointer type are stored in this section.
+
+
+Storage Classes
+Scope, Stored Memory and Default Value
+1.  Automatic Storage Class:
+    1.  The automatic storage class is the default storage class for all local variables. 
+    2.  It is used to declare variables that have a temporary existence, such as those declared inside a function. 
+    3.  Variables with automatic storage are created when the function is called and destroyed when the function returns.
+    4.  Variables with the automatic storage class are stored in the stack memory. 
+    5.  The default value of the automatic storage class is garbage or undefined, and it is not necessary to initialize them.
+2.  Static Storage Class:
+    1.  The static storage class is used to declare variables that have a permanent existence throughout the program's execution. 
+    2.  Variables with static storage are initialized only once, and they retain their value throughout the program's lifetime.
+    3.  Variables with static storage class are stored in the data segment of the program's memory. 
+    4.  The default value of static variables is zero or null, and they are automatically initialized to this value.
+3.  Register Storage Class:
+    1.  The register storage class is used to declare variables that should be stored in the processor's register instead of the memory. 
+    2.  This class is not widely used today because modern compilers are optimized enough to automatically allocate variables in the register.
+    3.  Variables with register storage class have automatic storage duration, and their default value is undefined. 
+    4.  It is not necessary to initialize them.
+4.  Extern Storage Class:
+    1.  The extern storage class is used to declare variables that are defined in other files or functions. 
+    2.  These variables are declared in one file and can be accessed in another file or function by using the extern keyword.
+    3.  Variables with the extern storage class are stored in the data segment of the program's memory, and their default value is zero or null.
 
 List of pointers
 1.  Null pointer
