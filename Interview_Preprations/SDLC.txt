@@ -1,0 +1,38 @@
+4 Steps of the Embedded (or IoT) Product Development Life Cycle
+    
+Step 1. Planning and Analysis
+    1.  Idea
+    2.  The Need
+    3.  Target Audience
+    4.  Requirements
+    5.  Competitors
+    6.  Concept
+
+Step 2. Designing
+    1.  Architecture
+        Should reflect hardware and software components that in combination will ensure the performance of target functions.
+    2.  Technical Resources
+        1.  Development Kits
+        2.  Software Development Tools
+    3.  Development Team
+        1.  Embedded software engineer
+        2.  Hardware engineer
+        3.  PCB layout engineer
+        4.  Mechanical engineer
+        
+Step 3. Implementation
+    1.  Alpha Prototype
+        A raw product that reveals functional issues and requires certain adjustments.
+    2.  Beta Prototype
+        A version that is ready for production.
+
+Step 4. Commercial Launch
+    1.  Procurement of components and setting up the manufacturing.
+    2.  Production
+    3.  Post manufacturing testing
+    4.  Assembling.
+    5.  Shipping
+    6.  Post-production support and maintenance.
+    
+    
+    
