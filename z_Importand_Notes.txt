@@ -9,18 +9,13 @@ Selecting the Microcontroller and Microprocessor.
 7.  Cost per unit.
 8.  Availability of software development tools such as compilers, assemblers and debuggers.
 
-Compilation process
-function pointer
-malloc and calloc
 ADC working in microcontroller
-structure padding 
-structure packing
-dynamic memory allocation
-segmentation fault
 power on reset in embedded system
+watchdog timer in microcontroller
 startup code
-maskable interrupt
-NVIC
+bootloading process
+linker script
+
     
 
 

@@ -2,5 +2,8 @@
     "cSpell.words": [
         "microcontroller",
         "Microcontrollers"
-    ]
+    ],
+    "files.associations": {
+        "conio.h": "c"
+    }
 }
