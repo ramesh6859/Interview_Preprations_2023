@@ -1,0 +1,55 @@
+Pickit3 Programmer Pinouts
+    1.  Mclr                    -   PIC16F877A Pin 1
+    2.  VDD (Target Voltage)    -   PIC16F877A Pin 11 or Pin 32 (5 v DC From External Source)
+    3.  VSS (Ground)            -   PIC16F877A Pin 12 or Pin 31
+    4.  PGD                     -   PIC16F877A Pin 40
+    5.  PGC                     -   PIC16F877A Pin 39
+    6.  No Connection           -
+
+Configuration Parameters of MPLAB IDE
+    1.  OSC (Oscillator)                    -   HS (High Speed)
+    2.  WDT (Watch Dog Timer)               -   OFF
+    3.  PUT (Power Up Timer)                -   ON
+    4.  BODEN (Brown Out Detect)            -   ON
+    5.  LVP (Low Voltage Program)           -   Enabled
+    6.  CPD (Data EE Read Protect)          -   OFF
+    7.  WRT_ENABLE (Flash Program Write)    -   Write Protection Off
+    8.  CP (Code Protect)                   -   OFF
+
+LCD Displays
+    1.  Controller - HD44780
+    2.  Two registers - Instruction register and Data register.
+    3.  Address -   First Row starts from  0x8081 to 0x808F
+                    Second Row starts from 0xC0C1 to 0xC0CF
+    4.  Pinouts of LCD
+        1.  VSS (Ground)
+        2.  VDD (5 V)
+        3.  VEE (Contrast)
+        4.  RS (Register Select)
+            1.  0 - Data is passed to the Data register.
+            2.  1 - Data is passed to the Instruction register.
+        5.  RW (Read or Write)
+            1.  0 - Write operation is performed in LCD.
+            2.  1 - Read operation is performed in LCD.
+        6.  E (Enable).
+        7.  D0 - Data pins of LCD.
+        8.  D1 - Data pins of LCD.
+        9.  D2 - Data pins of LCD.
+        10. D3 - Data pins of LCD.
+        11. D4 - Data pins of LCD.
+        12. D5 - Data pins of LCD.
+        13. D6 - Data pins of LCD.
+        14. D7 - Data pins of LCD.
+        15.  Anode of Backlight of LCD.
+        16.  Cathode of Backlight of LCD.
+
+LCD initialization commands
+    1.  0x38 - Set the LCD to 16 column and 2 row format.
+    2.  0x06 - Auto incrementing the cursor of LCD from the current position.
+    3.  0x0C - Display on and cursor off.
+    4.  0x01 - Clear screen.
+
+
+
+
+   

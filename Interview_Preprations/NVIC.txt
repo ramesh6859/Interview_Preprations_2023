@@ -9,6 +9,20 @@ Interrupt latency
     Interrupt latency refers to the time taken by ISR to respond to the interrupt. 
     The lesser the latency faster is the response to the interrupt event.
 
+Reasons for Interrupt Latency
+    Hardware: 
+        Whenever an interrupt occurs, the signal has to be synchronized with the CPU clock cycles. 
+        Depending on the hardware of the processor and the logic of synchronization, it can take up to 3 CPU cycles before the interrupt signal has reached the processor for processing.
+    Pipeline: 
+        Most of the modern CPUs have instructions pipelined. 
+        Execution happens when the instruction has reached the last stage of the pipeline. 
+        Once the execution of an instruction is done, it would require some extra CPU cycles to refill the pipeline with instructions. 
+        This contributes to the latency.
+    Interrupt latency can be reduced by ensuring that the ISR routines are short. 
+    When a lower priority interrupt gets triggered while a higher priority interrupt is getting executed, then the lower priority interrupt would get delayed resulting in increased latency. 
+    In such cases, having smaller ISR routines for lower priority interrupts would help to reduce the delay.
+    Also, better scheduling and synchronization algorithms in the processor CPU would help minimize the ISR latency.
+
 Interrupt Vector Table ( IVT)
     It is a table that contains vectors. 
     In embedded programming, vector means memory address. 

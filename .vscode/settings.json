@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "microcontroller",
-        "Microcontrollers"
+        "Microcontrollers",
+        "Pinouts"
     ],
     "files.associations": {
         "conio.h": "c"
