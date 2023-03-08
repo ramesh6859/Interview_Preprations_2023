@@ -49,7 +49,13 @@ LCD initialization commands
     3.  0x0C - Display on and cursor off.
     4.  0x01 - Clear screen.
 
+Timer
+    Machine Cycle - 4 for every microcontroller.
+    Fetch
+    Decode
+    Execute
+    Store
 
-
-
-   
+ADC
+    Successive Approximation
+    

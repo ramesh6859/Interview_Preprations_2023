@@ -16,6 +16,14 @@ startup code
 bootloading process
 linker script
 
+1.  Set the last bits of a input number
+    example: (0,3) - 00000111
+2.  Generate the binary of a number and get the mirror image of that binary number from the middle.
+3.  Swap two nibbles.
+4.  String Manipulation
+    a3[b]c  -   abbbc
+    abc2[pq]    -   abcpqpq
+    
     
 
 
