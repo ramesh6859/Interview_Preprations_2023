@@ -60,7 +60,7 @@ void GET_highest_order_set_bit(int number)
         if ((number >> i) & 1)
             order = i;
     }
-    if (order != -i)
+    if (order != -1)
         printf("Highest order set bit in %d is %d.\n", number, order);
     else
         printf("0 has no set bits. \n");
@@ -175,9 +175,7 @@ void check_even_or_odd(int number)
 void main()
 {
     system("cls");
-
     int *array, input = 0;
-
     printf("Enter the Number: ");
     scanf("%d", &input);
     printf("The input number is: %d\n", input);
