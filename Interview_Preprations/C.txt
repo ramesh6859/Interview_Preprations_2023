@@ -31,6 +31,33 @@ Compilation Process
 4.  Not in human readable format.
 5.  Option to decode with Hex Dump Tool.
 
+Cross Compilation
+1.  List file (.lst)
+    1.  Contains information about the cross compilation process, cross compiler details.
+    2.  Contains 2 sections
+        1.  Page header.
+        2.  Command line
+    3.  Work as index path for the program.
+2.  Preprocessor Output File
+    1.  Used for verifying the operations of Macros and conditional preprocessor directives.
+    2.  File extension is cross compiler dependent.
+3.  Object file (.obj)
+    1.  Deals with data records for symbolic information, object code and debugging.
+    2.  Details stored are
+        1.  Reserved memory for global variables.
+        2.  Public symbol (variable and function) names.
+        3.  External symbol (variable and function) references.
+        4.  Library files which to link.
+        5.  Debugging information to help synchronize source lines with object code.
+4.  Map file (.map)
+    1.  Work as Linker file.
+    2.  Details stored are
+        1.  Page header.
+        2.  Command Line.
+        3.  CPU details.
+        4.  Input Modules.
+5.  Hex File (.hex)
+    1.  Binary executable file created from the source code.
 
 Memory Layout of C program
 1.  Text Section:
