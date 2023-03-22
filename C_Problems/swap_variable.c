@@ -15,6 +15,7 @@ void passbyreference(int *x, int *y)
 }
 int main()
 {
+    system("cls");
     int a, b;
     printf("Enter the first number : ");
     scanf("%d", &a);

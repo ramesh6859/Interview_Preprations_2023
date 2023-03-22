@@ -28,6 +28,7 @@ void ascDecFunc(int a[], int n)
 }
 int main()
 {
+    system("cls");
     int arr[] = {3, 2, 4, 1, 10, 30, 40, 20};
     int len = sizeof(arr) / sizeof(arr[0]);
     ascDecFunc(arr, len);

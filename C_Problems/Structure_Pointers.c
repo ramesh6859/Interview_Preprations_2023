@@ -7,6 +7,7 @@ struct person
 
 int main()
 {
+    system("cls");
     struct person *personPtr, person1;
     personPtr = &person1;
 

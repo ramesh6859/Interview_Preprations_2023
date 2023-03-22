@@ -1,6 +1,7 @@
 #include <stdio.h>
 int main()
 {
+    system("cls");
     int arr[20], i, j, k, size;
     printf(" Define the number of elements in an array: ");
     scanf(" %d", &size);

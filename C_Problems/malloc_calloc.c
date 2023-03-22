@@ -2,6 +2,7 @@
 #include <stdlib.h>
 int main()
 {
+    system("cls");
     int n, i, *ptr, sum = 0;
     printf("Enter number of elements: ");
     scanf("%d", &n);

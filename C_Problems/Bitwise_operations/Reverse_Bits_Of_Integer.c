@@ -13,7 +13,7 @@ int main()
 int Reverse_bits(int number)
 {
     int output_number = 0;
-    for (int i = 0; i < IntSize; i++)
+    for (int i = 0; i < 8; i++)
     {
         output_number <<= 1;           // Left shift by 1 bit
         output_number |= (number & 1); // Add the rightmost bit to the reversed number

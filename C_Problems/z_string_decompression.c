@@ -38,6 +38,7 @@ char *expandString(char *input)
 }
 int main()
 {
+    system("cls");
     char *input1 = "a3[b]c";
     char *output1 = expandString(input1);
     printf("Input: %s\n", input1);

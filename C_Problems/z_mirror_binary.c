@@ -1,6 +1,7 @@
 #include <stdio.h>
 int main()
 {
+    system("cls");
     int decimal, mirrored_decimal = 0;
     printf("Enter a decimal number: ");
     scanf("%d", &decimal);

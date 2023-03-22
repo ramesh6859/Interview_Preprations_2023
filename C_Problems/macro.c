@@ -6,6 +6,7 @@
         printf("%d is Minimum", b);
 void main()
 {
+    system("cls");
     printf("\n");
     printf("\n");
 
