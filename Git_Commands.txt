@@ -10,7 +10,7 @@ git status
 git add .
     Add the files in your new local repository. This stages them for the first commit.
 
-git commit -m "C Programming on going"
+git commit -m "C Programming on going 24/03/2023"
     Commit the files that you have staged in your local repository.
 
 git status

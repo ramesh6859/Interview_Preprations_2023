@@ -62,7 +62,7 @@
 void getBinary(int);
 int main()
 {
-    system("cls");
+    // system("cls");
     int num = 0;
     printf("Enter an integer number :");
     scanf("%d", &num);
@@ -73,7 +73,7 @@ int main()
 void getBinary(int n)
 {
     int loop;
-    for (loop = 7; loop >= 0; loop--)
+    for (loop = 31; loop >= 0; loop--)
     {
         if ((1 << loop) & n)
             printf("1");
