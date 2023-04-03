@@ -1,14 +1,3 @@
-Selecting the Microcontroller and Microprocessor.
-================================================
-1.  Speed.
-2.  Packaging.
-3.  Power Consumption.
-4.  The size of RAM and ROM on the chip.
-5.  The number of I/O pins and the timer on the chip.
-6.  How easy to upgrade to higher performance or lower power consumption versions.
-7.  Cost per unit.
-8.  Availability of software development tools such as compilers, assemblers and debuggers.
-
 ADC working in microcontroller
 power on reset in embedded system
 watchdog timer in microcontroller
@@ -19,11 +8,78 @@ linker script
 1.  Set the last bits of a input number
     example: (0,3) - 00000111
 2.  Generate the binary of a number and get the mirror image of that binary number from the middle.
-3.  Swap two nibbles.
 4.  String Manipulation
     a3[b]c  -   abbbc
     abc2[pq]    -   abcpqpq
+
+Interview Questions
+-------------------
+MODBUS
+    MODBUS Protocol.
+    How many bytes can we send in a single MODBUS frame at most?
+
+I2C
+    I2C Where I am used.
+    A data frame of I2C.
+    Between start bit and slave address anything.
+    Explain slave address.
+    what the slave address truly includes.
+    All 8 bits of slave address is device address.
+    How many I2C sensors can connect to microcontroller.
+
+SPI
+    Maximum how many slaves we can communicate
+    What is the maximum speed of communication.
+
+MQTT
+    Way MQTT works.
+    What are the main parts of MQTT?
+    Steps to see the data in the portal via MQTT while connecting to the cloud.
+    What is the very first step needed to do when a device need to connect to MQTT.
+
+Microcontroller
+    PIC and ARM architectural differences
+    7 modes of ARM architecture.
+    Mode of architecture in PIC.
+    What a microcontroller's 32-bit or 16-bit designations represent.
+
+Interrupt
+    Where it stores the return address.
+    How the microcontroller pauses the current execution of the program when an interrupt comes.
+    What registers are involved when an interrupt happens while switching.
+    Interrupt latency.
+    Measure the latency.
+
+C
+    Compilation error - Undefined reference, solve, and where it comes.
+    What are the different concepts we are basically using in embedded c most?
+    What are the bit fields in C.
+    Memory optimization is implemented.
+    Stack optimization is implemented.
+    How to calculate the stack memory the function is using.
+    Send big data efficiently on a 8 bit bus using Unions.
+
+Serial
+    How can we configure and communicate between 2 Zigbee modules, what are the basics that we need to take care of?
+
+Git
+    How to take one particular commit from another branch.
+
+Others
+    Which cross compiler is used for Raspberry Pi?
+    What is the project you have worked on any RTOS was there, and how you are doing the scheduling?
+    Program for scheduling in Baremetal device.
+    There is some kind of time-slicing and scheduling idea.
+    What are the sequence when powering up the board, how it will be started and executed and able to check the display?
+    How is the program flashed to the microcontroller, debugger pin (via). Interface with the program to the board.
+    Breakpoints - software breakpoint and hardware breakpoint.
+    Software development tools that we have used so far.
+    Why there is different options frequency of oscillation in ADC conversion?
+    What is the disadvantage of selecting maximum frequency in ADC conversion?
+    Almanac in GPS.
+    How do you ensure that threading is parallely executed in python.
     
+
     
 
 

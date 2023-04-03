@@ -1,8 +1,14 @@
 {
     "cSpell.words": [
+        "Baremetal",
+        "bootloading",
         "microcontroller",
         "Microcontrollers",
-        "Pinouts"
+        "MODBUS",
+        "MQTT",
+        "parallely",
+        "Pinouts",
+        "Zigbee"
     ],
     "files.associations": {
         "conio.h": "c",
