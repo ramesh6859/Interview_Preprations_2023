@@ -159,6 +159,22 @@ SPI Modes
                 CPOL - 1
                 CPHA - 1
 
+    Generally 4 pins.
+        1.	Clk - Clk.
+        2.	SDI/MOSI - DOUT.
+        3.	SDO/MISO - DIN.
+        4.	SS (Slave Select).
+	Modes (4 modes - Mode 0, Mode 1, Mode 2 and Mode 3).
+        Clock Polarity (CPOL) and Clock Phase (CPHA).
+        
+        If CPHA = 0 : Data will be sampled on the leading edge of the clock.
+        If CPHA = 1 : Data will be sampled on the trailing edge of the clock.
+        
+        SPI Mode 0 : CPOL = 0, CPHA = 0, CLK idle state = low, data sampled on the rising edge and shifted on the falling edge.
+        SPI Mode 1 : CPOL = 0, CPHA = 1, CLK idle state = low, data sampled on the falling edge and shifted on the rising edge.
+        SPI Mode 2 : CPOL = 1, CPHA = 0, CLK idle state = high, data sampled on the rising edge and shifted on the falling edge.
+        SPI Mode 3 : CPOL = 1, CPHA = 1, CLK idle state = high, data sampled on the falling edge and shifted on the rising edge. 
+		
 SPI Configuration
     1.  Independent Slave Configuration
             Each slave is connected to separate pins of the master.

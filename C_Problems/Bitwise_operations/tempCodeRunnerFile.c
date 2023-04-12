@@ -1,2 +1,1 @@
-   {
-    case "+":
+system("cls");
