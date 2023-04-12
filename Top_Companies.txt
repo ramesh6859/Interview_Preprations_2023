@@ -1,0 +1,67 @@
+Completed
+---------
+Bluebinaries
+Acsia
+Visteon Corporation
+Continental
+L&T Technology Services
+
+
+---------
+
+AMD India
+ARM India
+Alstom
+Altran Technologies
+Analog Devices
+Aptive
+Aricent
+Atmel India
+Broadcom India
+Cadence Design Systems
+Capgemini
+
+Cyient
+Cypress Semiconductor
+Dialog Semiconductor
+Einfochips (An Arrow Company)
+Freescale Semiconductor
+HCL Technologies
+Ignatarium
+Infineon Technologies
+Infosys
+Intech GmbH
+Intellect Design Arena
+KPIT Technologies
+Larsen & Toubro Infotech (LTI)
+Marvell India
+Maxim Integrated
+MediaTek India
+Mentor Graphics (A Siemens Business)
+Microchip Technology
+Mindtree
+Mistral Solutions
+NVIDIA India
+NXP Semiconductors
+ON Semiconductor India
+PathPartner
+Persistent Systems
+Qualcomm India
+Quest Global
+Renesas Electronics
+Robert Bosch Engineering and Business Solutions (RBEI)
+Rolta India
+STMicroelectronics
+Sasken Technologies
+Silicon Labs India
+Synopsys
+Tata Consultancy Services (TCS)
+Tata Elxsi
+Tata Technologies
+TechMahindra
+Tejas Networks
+Texas Instruments
+VVDN Technologies
+Wafer Space
+Wipro
+Xilinx India
