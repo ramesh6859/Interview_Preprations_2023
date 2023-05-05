@@ -28,9 +28,7 @@ Non Privileged Modes
         4.  Hardware devices cannot read directly.
 
 ARM Cortex-M4 Register Bank
-    The Cortex-M microcontroller are based on the ARMv7 processor and this processor has a set of internal registers known as a register bank. 
-    This register bank consists of 16 registers ranging from R0-R16. 
-    First 13 registers from R0-12 are general purpose registers and last three from R12-R15 are special function registers.
+    The Cortex-M microcontroller are based on the ARMv7 processor and this processor has a set of internal registers known as a register bank. This register bank consists of 16 registers ranging from R0-R16. First 13 registers from R0-12 are general purpose registers and last three from R12-R15 are special function registers.
 
     General Purpose Registers (GPR)
         General purpose registers are divided into two groups .i.e.  lower registers (R0-R7) and higher registers(R8-R12). 
