@@ -66,7 +66,7 @@ Git
     How to take one particular commit from another branch.
 
 Others
-    Which cross compiler is used for Raspberry Pi?
+        Which cross compiler is used for Raspberry Pi?
     What is the project you have worked on any RTOS was there, and how you are doing the scheduling?
     Program for scheduling in Baremetal device.
     There is some kind of time-slicing and scheduling idea.

@@ -1,0 +1,24 @@
+High impedance (High-Z, Hi-Z) pin
+    A pin that is characterized by having a high impedance which effectively removes its influence on the electrical circuit it is connected to. It is not actively driven and is “floating” unless another external device or circuitry (pull-up/pull-down) is driving it.
+    
+Floating pin
+    A pin is “floating” if it is left unconnected and is also not driven by a circuit inside the integrated circuit. Its voltage level is undefined and unpredictable. A high impedance pin that is not driven by a pull-up or pull-down circuit is said to be floating.
+
+Pull-up and pull-down resistors
+    These resistors are used to set a specific level (logic 0 or logic 1) at a floating pin. A pull-up resistor is connected to the power supply so it can pull the floating pin to logic high level. A pull-down resistor connects the floating pin to the ground (logic 0).
+
+Push-Pull
+    One is pull to ground (pull/sink current from the load) and the other is push to power supply voltage (push/source current to the load). The practical implementation in an integrated circuit involves the use of transistors.
+
+Push phase
+    When the Internal Signal connected to the gates of the transistors is set to a low logic level, the PMOS transistor is activated and current flows through it from the VDD to the output pin. NMOS transistor is inactive and not conducting.
+
+Pull phase
+    When the Internal Signal connected to the gates of the transistors is set to a high logic level, the NMOS transistor is activated and current starts to flow through it from the output pin to the GND. At the same time, the PMOS transistor is inactive and is not conducting current.
+
+Open drain outputs are most commonly used in communication interfaces where multiple devices are connected on the same line (e.g I2C, One-Wire etc.). When all of the outputs of the devices connected to the line are in Hi-Z state, the line is driven to a default logic 1 level by a pull-up. Any device can pull the line to logic 0 using its open drain output and all devices can see this level.
+
+Summary
+    1.  Push-pull output is best suited for communication interfaces that have single direction lines (e.g SPI, UART etc.). Open drain is commonly used for bidirectional single line communication interfaces, where more than two devices are connected on the same line(e.g I2C, One-Wire etc.)
+    2.  Open drain output has higher power consumption during active transfers due to the pull-up resistors that are used.
+    3.  In general, the push-pull output has faster slopes than the open drain output.
