@@ -10,11 +10,7 @@ git status
 git add .
     Add the files in your new local repository. This stages them for the first commit.
 
-<<<<<<< HEAD
-git commit -m "Merged two laps"
-=======
-git commit -m "Sorted Programs"
->>>>>>> cc9b4534738a5f48d308e836e96e8af360fcf8c7
+git commit -m "Synced both the laps 05/05/2023"
     Commit the files that you have staged in your local repository.
 
 git status
