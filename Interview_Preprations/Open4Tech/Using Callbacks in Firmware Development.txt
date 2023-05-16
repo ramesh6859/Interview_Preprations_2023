@@ -1,0 +1,21 @@
+A callback (aka callback function) is a function that is passed as an argument to another function. The function that accepts the callback as an argument is expected to call back on it (execute it) at a certain point in time. The callback mechanism allows a lower-level software layer to call functions defined in an upper-level software layer.
+
+Callbacks in C
+    Callbacks in C are implemented using function pointers. А function pointer acts just like a regular pointer but instead of pointing at an address of a variable, it points at an address of a function. The same function pointer can be set to point to different functions during the runtime of the program.
+
+Practical Usage of Callbacks
+    They provide greater code flexibility and allows us to develop drivers that can be fined tuned by the end-user without the need for code changes. The elements needed for having callback functionality in our code are:
+    1.  A function that will be called upon (callback function)
+    2.  A function pointer that will be used to access the callback function
+    3.  A function (“caller function”) that will call the callback function
+
+    Define the callback function
+    It is important to note that a callback function is just a function. We referer to it as a callback due to the way it is used (accessed by a function pointer).
+
+    Register the callback function
+    This is the operation of assigning an address to the the function pointer. In our case the address should be that of the callback function.
+    
+    The communication protocol stack implements two different types of frames – a standard communication frame and an enhanced communication frame.
+    
+Conclusion
+    By adding them to our arsenal of tools, they can make our code more efficient and easier to maintain. It is important to use them wisely, otherwise going overboard with the use of callbacks (function pointers) can make the code hard to review and debug. Another thing to consider is that using function pointers may prevent some of the optimizations (e.g function inlining) that the compiler performs.

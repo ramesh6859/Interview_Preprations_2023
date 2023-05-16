@@ -1,0 +1,4 @@
+Reading the State of the Button
+	Buttons generate electrical noise when pressed. This noise is short-lived but can cause toggling of the logic level on the MCU input and false readings in the code. For this reason, it is necessary to use a de-bounce filter. Many MCUs have such filters integrated into the GPIO pins. A software de-bounce filter can also be implemented. There are generally two ways of reading the state of a pin in an embedded system:
+	1.	Polling method – the state of the pin is checked (polled) periodically (e.g every 10ms).
+	2.	Interrupt-based method – an interrupt is generated If the logic level on the input pin changes.

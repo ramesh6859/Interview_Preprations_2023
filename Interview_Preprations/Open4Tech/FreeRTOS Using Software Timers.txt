@@ -1,0 +1,22 @@
+A software timer allows a function to be executed at a set time in the future. The function that is executed is referred to as a timer’s callback function. The interval between starting the timer and the time its callback function is executed is called the timer period. The timer period is user-configurable. Software timers do not rely on the underlying hardware timers of the microcontroller, instead, they use the OS tick counter. A software timer can be configured in one of the following modes of operation:
+	1.	One-shot
+		The timer’s callback function is executed only once. It does not restart itself automatically, it should be explicitly restarted by the user.
+	2.	Auto-reload
+		The timer automatically restarts itself after the callback function is executed. This results in periodic callback function execution.
+		
+	Each new software timer creation does not require a new individual FreeRTOS task. Instead, there is just one task (timer service task) for servicing all of the software timers. It is automatically created when the scheduler is started. All software timers and their callback functions execute in the context of this task. The task just as any other RTOS task runs according to the selected scheduling algorithm (e.g when it has the highest priority and is in a ready state). The timer service task checks if it is time to execute a timer’s callback function.
+	
+Software Timers vs Hardware Timers
+	It is important to know when to use software timers and when to use hardware timers. The following requirements should be
+	considered when making the choice:
+	1.	timer accuracy
+	2.	timer resolution
+	
+	Timer Accuracy
+		Every hardware timer needs a clock source in order to operate. The accuracy of this clock (which is usually very high) directly influences the hardware timer’s accuracy. We can use these kinds of timers for measuring pulse duration, generating precise timings, etc. When we judge the accuracy of FreeRTOS software timers we should take into account not only the accuracy of the OS tick counter but also additional error due to the scheduling algorithm. Remember, the timer service task is just a regular task with a specific priority, and its execution may be delayed if there is a higher priority task.
+		
+	Timer Resolution
+		The timer resolution is the smallest unit of time that the timer can measure (not to be confused with the timer bit resolution (e.g 8bit, 16bit, etc.)). It is equal to the time period of its input clock. A hardware timer with an input clock with a frequency of 10MHz will have a resolution of 1µs. Hardware timers have configurations and controls that make them very flexible and useful in a lot of embedded systems scenarios. The FreeRTOS software timers’ resolution is equal to the selected OS tick counter period. The minimum practical tick counter period for an RTOS starts at 1ms. This makes the software timers, not a good fit for scenarios requiring time resolution higher that 1ms.
+
+Conclusion
+	Software timers are a very useful feature of FreeRTOS. They are simple to use and a good alternative to hardware timers in many scenarios. When deciding if a software timer should be used in your design, always think about the required resolution and accuracy.

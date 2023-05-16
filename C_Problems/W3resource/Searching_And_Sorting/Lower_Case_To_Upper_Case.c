@@ -1,21 +1,55 @@
-/*
-("Python") -> "PYTHON"
-("abcdcsd") -> "ABCDCSD"
-*/
 #include <stdio.h>
-#include <string.h>
+
 int main()
+
 {
-    printf("\n");
-    char input_str[] = "Python";
-    int i;
-    int len = strlen(input_str);
-    for (i = 0; i < len; i++)
+
+    char a[50], b[50], t;
+
+    int i, j;
+
+    printf("Enter a String..\n");
+
+    gets(a);
+
+    for (i = 0; a[i]; i++)
+
+        b[i] = a[i];
+
+    b[i] = '\0';
+
+    printf("%s\n", b);
+
+    for (i = 0; a[i]; i++)
+        ;
+
+    for (j = i - 1, i = 0; i < j; i++, j--)
+
     {
-        if (input_str[i] >= 'a' && input_str[i] <= 'z')
-            input_str[i] = input_str[i] - 32;
+
+        t = a[i];
+
+        a[i] = a[j];
+
+        a[j] = t;
     }
-    printf("%s\n", input_str);
-    printf("\n");
-    return 0;
+
+    printf("%s\n", a);
+
+    for (i = 0; a[i]; i++)
+
+    {
+
+        if (a[i] != b[i])
+
+            break;
+    }
+
+    if (a[i] == b[i])
+
+        printf("It is a Palindrome..\n");
+
+    else
+
+        printf("It is not a Palindrome..\n");
 }

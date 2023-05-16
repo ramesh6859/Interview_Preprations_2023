@@ -1,3 +1,65 @@
+https://open4tech.com/category/embedded-systems/page/3/
+Open Drain Output vs. Push-Pull Output
+STM32 Bootloader Design – Part 1
+STM32 Bootloader Design – Part 2
+Slew Rate of Microcontroller Outputs
+Function Calls on ARM Cortex-M Microprocessors
+
+
+Start-up code
+	A start-up code is called prior to the main function, it creates a basic platform for the application. 
+	It is a small block of code that is written in assembly language.
+	There are the following parts of the start-up code.
+		Declaration of the Stack area.
+		Declaration of the Heap area.
+		Vector table.
+		Reset handler code.
+		Other exception handler code.
+
+Start-up code steps
+	Start-up code for C programs usually consists of the following actions, performed in the order described:
+		Disable all interrupts.
+		Copy any initialized data from ROM to RAM.
+		Zero the uninitialized data area.
+		Allocate space for and initialize the stack.
+		Initialize the processor’s stack pointer.
+		Create and initialize the heap.
+		Enable interrupts.
+		Call the main.
+		
+Software Development Life Cycle
+	There are five main stages of the software development life cycle:
+	1.	Requirement: 
+		In this phase, the customer fills a requirement form to write what they actually need from the product.
+	2.	Analysis: 
+		In this phase, the requirements are converted into documents and cover all the functional requirement specifications.
+	3.	Design: 
+		In this phase, the design of the product is prepared. The requirements are converted into architecture design. This phase includes:
+		1.	Low-Level Design Documentation (LLD) 
+		2.	High-Level Design Documentation (HLD) 
+	4.	Coding:
+		In this phase, the requirements are converted into a coded form.
+	5.	Testing:
+		In this phase, the software under development is tested for product quality. This includes 2 types:
+		1.	Static testing 
+		2.	Dynamic testing 
+	6.	Maintenance:
+		In this phase, the maintenance of the product is implemented. 
+		
+Levels of testing in embedded systems
+	There are four levels of testing in embedded systems: 
+	1.	Unit testing 
+	2.	Integration testing 
+	3.	System testing 
+	4.	User acceptance testing 
+	
+
+
+Interview Questions Answers
+1.	Which cross compiler is used for Raspberry Pi?
+A.	If you're developing in a higher-level programming language like Python, you typically don't need to use a cross-compiler since the code is interpreted at runtime. However, you may need to install specific libraries or modules that are optimized for the ARM architecture used by the Raspberry Pi.
+
+----------------------------------------------
 ADC working in microcontroller
 power on reset in embedded system
 watchdog timer in microcontroller
