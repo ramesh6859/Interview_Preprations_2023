@@ -1,0 +1,67 @@
+Memory Layout of C program
+    1.  Text Section:
+        1.  The text section or code section contains the executable instructions of the program. 
+        2.  This section is read-only and stores the machine code of the program.
+    2.  Data Section:
+        1.  The data section contains two sub-sections: initialized data and uninitialized data.
+        2.  Initialized data section contains global and static variables that are initialized with a specific value. 
+        3.  This section is read-write, and the values of the variables remain constant throughout the program's execution.
+        4.  Uninitialized data section, also known as the bss section, contains global and static variables that are not initialized with any value. 
+        5.  This section is also read-write, but the values of the variables are initialized to zero.
+    3.  Stack Section:
+        1.  The stack section is used to store the function calls and their local variables. 
+        2.  This section grows and shrinks dynamically as functions are called and returned. 
+        3.  The variables with automatic storage class are stored in this section.
+    4.  Heap Section:
+        1.  The heap section is used to store dynamic memory allocated using functions such as malloc() and calloc(). 
+        2.  The variables with a pointer type are stored in this section.
+
+
+Storage Classes
+    Scope, Stored Memory and Default Value
+        1.  Automatic Storage Class:
+            1.  The automatic storage class is the default storage class for all local variables. 
+            2.  It is used to declare variables that have a temporary existence, such as those declared inside a function. 
+            3.  Variables with automatic storage are created when the function is called and destroyed when the function returns.
+            4.  Variables with the automatic storage class are stored in the stack memory. 
+            5.  The default value of the automatic storage class is garbage or undefined, and it is not necessary to initialize them.
+        2.  Static Storage Class:
+            1.  The static storage class is used to declare variables that have a permanent existence throughout the program's execution. 
+            2.  Variables with static storage are initialized only once, and they retain their value throughout the program's lifetime.
+            3.  Variables with static storage class are stored in the data segment of the program's memory. 
+            4.  The default value of static variables is zero or null, and they are automatically initialized to this value.
+        3.  Register Storage Class:
+            1.  The register storage class is used to declare variables that should be stored in the processor's register instead of the memory. 
+            2.  This class is not widely used today because modern compilers are optimized enough to automatically allocate variables in the register.
+            3.  Variables with register storage class have automatic storage duration, and their default value is undefined. 
+            4.  It is not necessary to initialize them.
+        4.  Extern Storage Class:
+            1.  The extern storage class is used to declare variables that are defined in other files or functions. 
+            2.  These variables are declared in one file and can be accessed in another file or function by using the extern keyword.
+            3.  Variables with the extern storage class are stored in the data segment of the program's memory, and their default value is zero or null.
+
+---------------------------------
+
+Items declared with the auto or register specifier have local or automatic lifetimes. 
+Items declared with the static or extern specifier have global or static lifetimes (throughout the execution of the program).
+    1.  auto            :   automatic duration and no linkage
+        1.  Scope               :   Within the block in which it is declared
+        2.  Life                :   Live till the control remains in the block.
+        3.  Storage             :   stack.
+        4.  Default value       :   The values of uninitialized auto variables are undefined.
+        5.  Linkage             :   No
+        6.  Storage duration    :   automatic storage duration
+    2.  extern          :   static duration and external linkage (unless already declared internal)
+        1.  Linkage             :   By default, all global variable has external linkage
+        2.  Storage duration    :   The extern specifier specifies static storage duration only when not combined with storage-class specifier  _Thread_local.  ( Since C11).
+        3.  storage             :   If the global variable is initialized then stored in .ds otherwise stored in .bss.
+        4.  Default value       :   Global variables are initialized as 0 if not initialized explicitly.
+    3.  static          :   static duration and internal linkage (unless at block scope)
+        1.  Scope               :   It can be used with functions at file scope and with variables at both file and block scope.
+        2.  Storage duration    :   The static specifier specifies static storage duration only when not combined with storage-class specifier  _Thread_local.  ( Since C11).
+        3.  Storage             :   If the static variable is initialized then stored in .ds otherwise stored in .bss.
+        4.  Default value       :   The default value is zero.
+    4.  register        :   automatic duration and no linkage (address of this variable cannot be taken)
+    5.  Thread_local    :   thread storage duration (since C11)
+    6.  typedef         :   typedef specifier is called a ‘‘storage-class specifier’’ for syntactic convenience only it does not specify    storage.
+

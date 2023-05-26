@@ -1,0 +1,30 @@
+Volatile Keyword
+    The volatile keyword is mainly used for preventing a compiler from optimizing a variable that might change its behavior unexpectedly post the optimization. 
+    Consider a scenario where we have a variable where there is a possibility of its value getting updated by some event or a signal, then we need to tell the compiler not to optimize it and load that variable every time it is called. 
+    To inform the compiler, we use the keyword volatile at the time of variable declaration.
+
+    Is it possible for a variable to be both volatile and const?
+        The const keyword is used when we want to ensure that the variable value should not be changed. 
+        However, the value can still be changed due to external interrupts or events. 
+        So, we can use const with volatile keywords and it won’t cause any problem.
+
+Constant keyword
+    On most machines, read-only variables, constants, and jump tables are placed in the text section.
+    According to the C standard “the implementation can place a const object that is not volatile in a read-only region of storage.
+    The following are legal const declarations with a pointer:
+        1.  int const *ptr;         // Pointer to constant int
+        2.  const int *ptr;         // Pointer to constant int
+        3.  int *const ptr;         // Constant pointer to int
+        4.  int (*const ptr);       // Constant pointer to int
+        5.  const int *const ptr;   // Constant pointer to const int
+        6.  int const *const ptr;   // Constant pointer to const int
+
+
+Variables
+    Types of Variables in C:
+    1.  Local Variable
+    2.  Static Variable
+        By default static variable initialize with 0.
+    3.  Global Variable
+        By default global variable is initialized with 0.
+

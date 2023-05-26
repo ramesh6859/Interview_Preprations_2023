@@ -10,7 +10,7 @@ git status
 git add .
     Add the files in your new local repository. This stages them for the first commit.
 
-git commit -m "My lap synced"
+git commit -m "Updated on 26/05/2023"
     Commit the files that you have staged in your local repository.
 
 git status
