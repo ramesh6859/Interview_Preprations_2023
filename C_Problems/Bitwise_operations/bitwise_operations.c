@@ -128,36 +128,6 @@ void count_zeros_and_ones(int number)
     printf("Total zero bit is %d\n", zeros);
     printf("Total one bit is %d", ones);
 }
-int rotateLeft(int number, int rotation)
-{
-    int INT_SIZE = (sizeof(int) * 8) - 1;
-    int DROPPED_MSB;
-    rotation %= INT_SIZE;
-    while (rotation--)
-    {
-        DROPPED_MSB = (number >> INT_SIZE) & 1;
-        number = (number << 1) | DROPPED_MSB;
-    }
-    return number;
-}
-int rotateRight(int number, int rotation)
-{
-    int INT_SIZE = (sizeof(int) * 8) - 1;
-    int DROPPED_LSB;
-    rotation %= INT_SIZE;
-    while (rotation--)
-    {
-        DROPPED_LSB = number & 1;
-        number = (number >> 1) & (~(1 << INT_SIZE));
-        number = number | (DROPPED_LSB << INT_SIZE);
-    }
-    return number;
-}
-void rotate_bits(int number, int rotation)
-{
-    printf("%d left rotated %d times = %d\n", number, rotation, rotateLeft(number, rotation));
-    printf("%d right rotated %d times = %d\n", number, rotation, rotateRight(number, rotation));
-}
 void swap_two_numbers(int number1, int number2)
 {
     printf("Original value of number1 = %d\n", number1);

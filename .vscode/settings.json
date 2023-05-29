@@ -1,21 +1,22 @@
 {
-    "cSpell.words": [
-        "Baremetal",
-        "Bootloader",
-        "Bootloaders",
-        "bootloading",
-        "managable",
-        "microcontroller",
-        "Microcontrollers",
-        "MODBUS",
-        "MQTT",
-        "parallely",
-        "Pinouts",
-        "Zigbee"
-    ],
-    "files.associations": {
-        "conio.h": "c",
-        "stdio.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
+  "cSpell.words": [
+    "Baremetal",
+    "Bootloader",
+    "Bootloaders",
+    "bootloading",
+    "managable",
+    "microcontroller",
+    "Microcontrollers",
+    "MODBUS",
+    "MQTT",
+    "parallely",
+    "Pinouts",
+    "Zigbee"
+  ],
+  "files.associations": {
+    "conio.h": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }

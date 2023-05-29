@@ -62,7 +62,7 @@
 void getBinary(int);
 int main()
 {
-    // system("cls");
+    system("cls");
     int num = 0;
     printf("Enter an integer number :");
     scanf("%d", &num);
