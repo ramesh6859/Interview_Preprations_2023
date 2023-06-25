@@ -34,5 +34,29 @@ Step 4. Commercial Launch
     5.  Shipping
     6.  Post-production support and maintenance.
     
-    
+There are five main stages of the software development life cycle:
+	1.	Requirement: 
+		In this phase, the customer fills a requirement form to write what they actually need from the product.
+	2.	Analysis: 
+		In this phase, the requirements are converted into documents and cover all the functional requirement specifications.
+	3.	Design: 
+		In this phase, the design of the product is prepared. The requirements are converted into architecture design. This phase includes:
+		1.	Low-Level Design Documentation (LLD) 
+		2.	High-Level Design Documentation (HLD) 
+	4.	Coding:
+		In this phase, the requirements are converted into a coded form.
+	5.	Testing:
+		In this phase, the software under development is tested for product quality. This includes 2 types:
+		1.	Static testing 
+		2.	Dynamic testing 
+	6.	Maintenance:
+		In this phase, the maintenance of the product is implemented. 
+		
+Levels of testing in embedded systems
+	There are four levels of testing in embedded systems: 
+	1.	Unit testing 
+	2.	Integration testing 
+	3.	System testing 
+	4.	User acceptance testing
+
     

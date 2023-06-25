@@ -1,23 +1,40 @@
+//////// Normal Function
 // #include <stdio.h>
-// #define FACTORIAL(n) \
-//     ({ \
-//         int fact = 1; \
-//         for (int i = 1; i <= (n); ++i) \
-//             fact *= i; \
-//         fact; \
-//     })
+// #define Factorial(n) ({ int fact = 1; \
+//                         for (int i = 1; i <= (n); ++i) \
+//                             fact *= i; \
+//                         fact; \
+//                     })
 
-// int main() {
+// int main()
+// {
+//     system("cls");
 //     int num;
 //     printf("Enter a number: ");
 //     scanf("%d", &num);
-//     int result = FACTORIAL(num);
+//     int result = Factorial(num);
 //     printf("The factorial of %d is: %d\n", num, result);
 //     return 0;
 // }
 
+//  ############################################################
+
+//////// Function Pointer
 // #include <stdio.h>
-// int FACTORIAL(int n)
+// int factorial(int);
+// int main() 
+// {
+//     system("cls");
+//     int num, result;
+//     printf("Enter a number: ");
+//     scanf("%d", &num);
+//     int (*fact)(int);
+//     fact = factorial;
+//     result = fact(num);
+//     printf("The factorial of %d is: %d\n", num, result);
+//     return 0;
+// }
+// int factorial(int n)
 // {
 //     int fact = 1;
 //     for (int i = 1; i <= (n); ++i)
@@ -25,32 +42,58 @@
 //     return fact;
 // }
 
-// int main() {
-//     int num;
+//  ############################################################
+
+//////// Integer to Pointer Function
+// #include <stdio.h>
+// #include <stdlib.h>
+// int* factorial(int*);
+// int main() 
+// {
+//     system("cls");
+//     int num, *result;
 //     printf("Enter a number: ");
 //     scanf("%d", &num);
-//     int (*fact)(int);
-//     fact = FACTORIAL;
-//     int result = fact(num);
-//     printf("The factorial of %d is: %d\n", num, result);
+//     int* (*fact)(int*);
+//     fact = factorial;
+//     result = fact(&num);
+//     printf("The factorial of %d is: %d\n", num, *result);
+//     free(result); 
 //     return 0;
 // }
+// int* factorial(int* n)
+// {
+//     int *fact = (int*)malloc(sizeof(int));
+//     *fact = 1;
+//     for (int i = 1; i <= *n; ++i)
+//         *fact *= i;
+//     return fact;
+// }
 
+//  ############################################################
+
+//////// Using Recursion
 #include <stdio.h>
-long factorial(int n) 
+int factorial(int*);
+int main() 
 {
-    if (n == 0 || n == 1)
-        return 1;
-    else
-        return n * factorial(n - 1);
-}
-
-int main() {
-    int num;
+    system("cls");
+    int num = 0, result = 0;
     printf("Enter a number: ");
     scanf("%d", &num);
-    long result = factorial(num);
-    printf("The factorial of %d is: %llu\n", num, result);
+    result = factorial(&num);
+    printf("The factorial of %d is: %d\n", num, result);
     return 0;
 }
 
+int factorial(int* n)
+{
+    if (*n == 0 || *n == 1)
+        return 1;
+    else
+    {
+        int temp;
+        temp = *n - 1;
+        return *n * factorial(&temp);
+    }
+}

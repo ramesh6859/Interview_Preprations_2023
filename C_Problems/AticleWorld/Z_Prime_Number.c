@@ -1,6 +1,7 @@
 #include<stdio.h>
 int main()
 {
+    system("cls");
     int input_num = 0, flag = 1;
     printf("Enter the input number : ");
     scanf("%d", &input_num);

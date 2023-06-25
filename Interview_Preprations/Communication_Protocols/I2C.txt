@@ -1,16 +1,3 @@
-I2C Communication
-    I2C is also known as an inter-integrated circuit or IIC or I square C. 
-    It is a synchronous half-duplex serial communication protocol. 
-    Furthermore, it is a multi-master bus protocol that requires only two wires to transfer data serially that are SCL and SDA.
-        SDA ( Bidirectional data line)
-        SCL ( Bidirectional clock line)
-
-I2C Bus Connection
-    Each device connected with the I2C bus can be either in master mode or in slave mode. 
-    But only a master device can initiate the data transfer process. 
-    Usually, there are one master and one slave or multiple slave devices connects with the same I2C bus through pull-up resistors. 
-    Each salve address has a 7-bit unique address.
-
 All these I2C modules supports four data transmission speeds.
     Standard (100 Kbps)
     Fast-mode (400 Kbps)
@@ -18,13 +5,9 @@ All these I2C modules supports four data transmission speeds.
     High-speed mode (3.33 Mbps)
     
 I2C Communication Protocol Basics
-    I2C (Inter-Integrated Circuit) is a serial communication protocol that allows multiple devices to be connected to a single bus. 
-    The I2C (Inter-integrated circuit pronounced as “eye-squared-see”) is a protocol which allows different slave chips or circuits to communicate with different master chips. 
     It is only used for short-distance communications. 
     It is advantageous in terms of usage of wires, as it requires only 2 wires but 1008 devices can be supported by these 2 wires only.
-    I²C stands for Inter-Integrated Circuit. 
-    It is a short distance serial interface that requires only two bus lines for bi-directional data transfer. 
-    It is used for attaching lower-speed peripheral ICs to microcontrollers in short-distance communication. 
+     It is used for attaching lower-speed peripheral ICs to microcontrollers in short-distance communication. 
     Low-speed peripherals include external EEPROMs, digital sensors, I2C LCD, and temperature sensors.
 
     Three additional modes have been specified in this IC:
@@ -32,66 +15,18 @@ I2C Communication Protocol Basics
         2.  3.4 MHz: ‘high-speed mode’.
         3.  5 MHz: ‘ultra-fast mode’.
 
-    I2C supports multi-master communication, meaning that multiple masters can be connected to the bus and can communicate with each other and with the slaves. 
-    It also supports clock stretching, allowing a slave to hold the clock line low to indicate that it needs more time to process a command or data.
-
-I2C Communication Pins
-    It is often used in applications where low-cost, low-power communication is required, such as in sensors, displays, and other peripherals. 
-    1.  SDA (Serial Data) line:
-        This wire sends data to a slave device. 
-        Any data sent from one device to another goes through the SDA wire.
-    2.  SCL (Serial Clock) line:
-        It provides the necessary synchronization clock for the data transfer.
-
-    The bus master generates the clock signal. 
-    In some cases, the slaves become slow. 
-    This may be because the data given to them is too lengthy or the time span for each clock cycle is too short, then the slaves force the clock low so that they can easily prepare the data before the next cycle starts. 
-    This phenomenon is known as “clock stretching”.
+    It also supports clock stretching, allowing a slave to hold the clock line low to indicate that it needs more time to process a command or data. In some cases, the slaves become slow. This may be because the data given to them is too lengthy or the time span for each clock cycle is too short, then the slaves force the clock low so that they can easily prepare the data before the next cycle starts. This phenomenon is known as “clock stretching”.
 
     The bus drivers of I2C are “open drain”, which means that they can pull a signal line low, but they are unable to drive it high. 
-    Suppose if one device is trying to pull the line low whereas another device is trying to drive the line high, then there will be no bus contention. 
-    This secures the drivers from getting damaged and protects the system from being over heated. 
-    The pull-up resistors connected on the line drives that line to a high signal when no other signal is pulling it low. 
     
-I2C bus signals levels
-    Some of the times, the devices in a system have different voltage potentials. 
-    But it is possible to connect both the devices without using a level shifting circuit. 
-    This is done by connecting a pull up resistor to that device which is lower in voltage level. 
-    This method is not sure to work in all cases, but it works just fine in some cases where the lower voltage is greater than the input level of higher voltage system. 
-
 I2C Message Packet Format
-    Data is sent in either direction on the serial data line (SDA) by the master or slave. 
-    Only a Master can start a data transfer and Slaves respond to the Master. 
-    It is possible to have multiple Masters on a common bus, but only one could be active at a time. 
-    The SCL clock line is always driven by the master.
-
-    Both SCL and SDA lines are open-drain drivers and are connected to a positive supply voltage through pull-up resistors. 
-    I²C devices can only pull the line low, they cannot drive it high. 
-    When no device is pulling on the line, it will float high through the pull-up resistor. 
-    This is the reason why pull-up resistors are important in I²C.
-
-    All the messages are split in two frames:
-    1.  An address frame - The master tells the address of the slave to which the data is to be transmitted.
-    2.  Data frames - The data frames consist of 8 bit messages which are passed from the master to slave or from slave to the master.
-
     When the SCL line goes low, data is placed on the SDA line. 
     When the SCL line goes high, data is then sampled.
 
 START/STOP CONDITIONS
-    Each I²C command initiated by a master device starts with a START condition and ends with a STOP condition. 
-    For both conditions, SCL has to be high. 
-    After the Start condition, the bus is considered busy and can be used by another master only after a Stop condition is detected.
-
-    The master device pulls SDA (serial data) low and leaves SCL (serial clock) high in order to start the address frame. 
-    It alerts all the slave devices that a transmission is going to get started. 
-    If there are two or more master devices, then whichever master device brings the SDA low first will take ownership of the bus.
-    
+    The master device pulls SDA (serial data) low and leaves SCL (serial clock) high in order to start the address frame. It alerts all the slave devices that a transmission is going to get started. If there are two or more master devices, then whichever master device brings the SDA low first will take ownership of the bus.
     Start condition: A high to low transition of SDA.
     Stop condition: A low to high transition of SDA.
-
-I2C ADDRESS FRAME
-    If the address is 7-bit, the MSB (most significant bit) is read first and then an R/W bit indicates that the operation is either a read or a write operation.
-    Each slave connected to the bus is software addressable by a unique 7-bit or 10-bit.
 
 7-bit Device Addressing
     After the Start condition, the first byte sent is known as the control byte. 
@@ -104,27 +39,13 @@ I2C ADDRESS FRAME
     4.  ‘0’ in LSB indicates that the Master will write information to a selected slave
     5.  ‘1’ in LSB indicates that the Master will read data from the slave
     6.  When the receiver gets its address, it has to generate the Acknowledge signal. 
-        During this state the transmitter should release the SDA bus to allow the receiver to derive it. 
-        When the receiver drives the SDA signal low it acknowledges that the address byte has been received. 
-        If the receiver does not drive SDA low, the condition is a no-acknowledge (NACK) and the operation is aborted
-
-    When a control byte is sent, each device/slave in the system compares the first seven receiving bits with its address. 
-    If the address gets matched, the device considers itself addressed by the master. 
-    Now, it will behave as slave-receiver or slave-transmitter depending upon the value of the R/W bit.
-
+        
 10-bit Device Addressing
-    Devices often have multiple built-in addresses that we can select through external configuration pins on the device. 
-    To extend the range of available devices address, the I²C specification deduces a 10-bits addressing scheme.
-
     1.  Instead of one, the two address words are used for device addressing.
     2.  The first address word contains conventional code as “11110” on MSBs to aware the slaves on the bus of 10-bits device address. 
         After that, it contains two MSBs of 10-bit address and R/W bit.
     3.  The second address word contains 8 least significant bits (LSBs) of the 10-bit address. 
         So this addition of bits ensures the backward compatibility with a 7-bit addressing scheme.
-
-STOP CONDITION
-    After the successive transmission of all the data, a stop condition will be generated by the master. 
-    The SCL should transit from low to high and then it should remain high, while the SDA transits from low to high, to define the stop condition. 
 
 I2C Data Transmission Steps
     1.  In order to initiate communication on the I2C bus, the master must first send a start condition. 

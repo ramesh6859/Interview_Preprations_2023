@@ -1,0 +1,18 @@
+OOPs
+    OOPs stands for Object-Oriented Programming System, a paradigm that provides concepts such as objects, classes, and inheritance.
+    
+    Following are the concepts introduced in OOPs:
+    1.  Object
+        A real-world entity having a particular state and behavior. We can define it as an instance of a class.
+    2.  Class
+        A logical entity that defines the blueprint from which an object can be created or instantiated.
+    3.  Inheritance
+        A concept that refers to an object gaining all the properties and behaviors of a parent object. It provides code reusability.
+    4.  Polymorphism
+        A concept that allows a task to be performed in different ways. In Java, we use method overloading and method overriding to achieve polymorphism.
+    5.  Abstraction
+        A concept that hides the internal details of an application and only shows the functionality. In Java, we use abstract class and interface to achieve abstraction.
+    6.  Encapsulation
+        A concept that refers to the wrapping of code and data together into a single unit.
+
+    

@@ -1,4 +1,13 @@
 #include <stdio.h>
+void ascDecFunc(int [], int);
+int main()
+{
+    system("cls");
+    int arr[] = {3, 2, 4, 1, 10, 30, 40, 20};
+    int len = sizeof(arr) / sizeof(arr[0]);
+    ascDecFunc(arr, len);
+    return 0;
+}
 void ascDecFunc(int a[], int n)
 {
     int temp;
@@ -25,12 +34,4 @@ void ascDecFunc(int a[], int n)
     }
     for (int i = 0; i < n; i++)
         printf("%d ", a[i]);
-}
-int main()
-{
-    system("cls");
-    int arr[] = {3, 2, 4, 1, 10, 30, 40, 20};
-    int len = sizeof(arr) / sizeof(arr[0]);
-    ascDecFunc(arr, len);
-    return 0;
 }

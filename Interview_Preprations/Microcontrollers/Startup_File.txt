@@ -17,5 +17,40 @@ Startup Sequence
 Startup Code
     A startup code is that piece of code that is called before the execution of the main function. 
     This is used for creating a basic platform for the application and it is written in assembly language.
-    
+    There are the following parts of the start-up code.
+		Declaration of the Stack area.
+		Declaration of the Heap area.
+		Vector table.
+		Reset handler code.
+		Other exception handler code.
+
+    Start-up code steps
+	    Start-up code for C programs usually consists of the following actions, performed in the order described:
+            Disable all interrupts.
+            Copy any initialized data from ROM to RAM.
+            Zero the uninitialized data area.
+            Allocate space for and initialize the stack.
+            Initialize the processor’s stack pointer.
+            Create and initialize the heap.
+            Enable interrupts.
+            Call the main.
+
+Reset handler function
+  Reset vector or reset handler function  performs hardware initialization such as :
+  1.  Disable all interrupts
+      Firstly, it disables all interrupts so that microcontroller cannot be able to execute any other interrupt service routine such as watchdog time, etc. When you upload your code to a microcontroller, the binary image of code gets stored in flash memory. Because flash is a non-volatile memory. Therefore, code stores there permanently even without power. During the microcontroller booting process, some data which is stored in flash memory is moved to the RAM. This is because RAM works faster than flash memory and hence it helps to reduce the latency of data accesses from memory. Another important reason is that the read and write operations to flash memory are limited unlike RAM. Therefore, it is preferred to perform all operations in RAM.
+  2.  Initialize data segment
+      If you remember the layout of a running C program then you must remember that the initialized global, static global and static local variables store in the .data section of memory. Reset handler assign memory region to .data section and moves the content of the initialized data section from flash to RAM memory region of the microcontroller.
+  3.  Initialize the .Bss segment
+      In our embedded program, we use both initialized and uninitialized static and global variables. The uninitialized static, global static, and local static variables store in the .bss segment of memory. The .bss section also copies from flash to RAM and zero all uninitialized variables. 
+  4.  Initialize stack segment
+      The stack segment is a sub-segment of RAM memory. Reset handler reserves the stack space in data memory according to pre-compiled instructions given in the linker file.  The stack memory region is used to hold temporary variables, input arguments, and return addresses of functions.
+  5.  Enable interrupts
+  6.  Call the main function
+
+    Note: You can also move interrupt vector tables from flash to RAM. Because it will reduce the interrupt latency and interrupt service routines will execute faster. But for this, we will have to change the linker script file. It also depends if the microcontroller has sufficient RAM available. Because microcontroller usually comes with higher flash memory than RAM. Flash memory is used to store code and RAM is also known as data memory. 
+
+
+
+
 
