@@ -1,0 +1,21 @@
+Exceptions and Context Switching
+    Exceptions are events that disrupt the normal execution flow of the program. When an exception occurs the processor handles it by executing a dedicated piece of code called an exception handler (a.k.a interrupt service routine ISR). Once this exception handler code is executed, the CPU must return to the regular program that was being executed at the time the exception occurred. This switching between the regular program code and the exception handling code requires the implementation of context switching.
+
+    Context switching is the process of saving the state of a processor or a task (e.g in real-time operating systems) with the intention for it to be restored at a later point in time. The context switching is between the main program and the exception handler code that has to be executed when an exception occurs ( if nested exceptions are allowed we can have further context switching between exception handlers). The state of the processor includes all relevant resources used by the interrupted program, that can be used also by the exception handler routine.
+
+ARM Cortex-M Specifics
+	The context switching when an exception occurs in the ARM Cortex-M CPU is handled using a hardware and software component. The hardware is the CPU and the NVIC that automatically saves some resources when an exception occurs. The software handling is done by the compiler
+	
+	The processor has the following operating modes:
+	1.	Thread mode
+		Used to execute application code. It is the processor’s default operating mode after reset.
+	2.	Handler mode
+		Used to handle exceptions. After the exceptions are finished, the processor returns to Thread mode.
+	
+	ARM Cortex-M architecture has two stacks pointers- Main Stack Pointer (MSP) and Processor Stack Pointer (PSP). At any point in time, only one can be the active stack. The MSP is the default stack pointer and it is the one that is always used in Handler Mode. The availability of two stacks accommodates the use of “multitasking” real-time operating systems. The usual use case is that the processor stack is used by the application tasks, and the main stack is used by exception handlers and the RTOS kernel.
+
+Exception Entry
+	On exception entry, the NVIC automatically saves a specific set of registers called the exception frame onto the current stack (this is the stack that the processor is using when the exception request is accepted). For regular C function calling, the compiler generates code to save the caller save registers. By having these registers automatically saved when an exception is entered it is possible to use regular C functions as interrupt service routines (ISR). The processor execution mode is switched to Handler mode (if the current mode was Thread mode). By entering Handler mode, the stack pointer is switched to MSP. Next, the address of the exception handler is retrieved from the vector table and loaded into the PC, thus jumping to the handler code is performed. The compilator will push the callee-save registers into the stack as it does with all regular C functions, upon their entry.
+	
+Exception Exit
+	The EXC_RETURN values are special values (not a regular memory addresses) that are recognized by the CPU. They indicate that the exception is complete and the exception exit sequence should be started. Based on the EXC_RETURN value, the CPU retrieves information on which stack pointer is used (MSP or PSP), the type of saved exception frame and the current execution mode (thread or handler). All registers (part of the exception frame) that were saved by being pushed onto the stack upon exception entry are now restored automatically by the hardware. The compilator generated code will take care of restoring the callee-save registers. The exception is exited and the execution of the application program continues where it was interrupted.

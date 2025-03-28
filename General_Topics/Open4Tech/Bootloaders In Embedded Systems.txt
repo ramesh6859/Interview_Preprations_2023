@@ -1,0 +1,23 @@
+Overview
+    Bootloader is any piece of code that is executed before the main application code starts.  A particular type of a bootloader  – one that is used to erase the code of the main application from the flash memory and program it with a new version.
+
+Firmware Bootloader
+    The bootloader allows the update of the application code (firmware) in the field, without the need for a dedicated programming interface pins (JTAG, SWD etc) to be available. The bootloader uses an existing interface that is already used by the microcontroller to communicate with the world. This interface may be a standard protocol such as SPI, CAN, USB, UART, I2C etc. or a custom one.
+
+    Bootloaders must be very efficient and occupy as little flash memory as possible. They may even be coded using assembly language. It is a good practice for the bootloader to be placed in a protected part of the flash memory. This will prevent its accidental corruption or erasure. The bootloader and the user application code should be two separate entities independent one of another.
+
+Starting The Bootloader
+    There are two general approaches for starting a bootloader:
+    1.  After reset:
+        The bootloader is started and it either proceeds directly to the user application or starts the bootloading process. This decision can be made based on some external signal (e.g if after reset a certain digital input is high then proceed with the bootloading, else jump directly to the user application code)
+    2.  Called by the user application:
+        The user code calls the bootloader entry point address in the flash
+
+Flow Of Execution
+    Below is an example flow of execution of a bootloader program:
+    1.  Initialization of bootloader’s .data and .bss sections
+    2.  Configuration of the clocks
+    3.  Initialization of the peripherals
+    4.  The bootloader waits for communication to begin on a peripheral:
+        1.  If  there is no command received during a certain time window, the bootloader jumps to the user application in flash
+        2.  If communication is detected the bootloader proceeds with execution of commands received through the communication interface

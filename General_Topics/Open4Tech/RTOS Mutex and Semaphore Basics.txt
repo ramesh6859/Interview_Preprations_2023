@@ -1,0 +1,60 @@
+Mutex
+    A mutex (MUTual EXclusion) is a locking mechanism. It is used for protecting critical sections of the code. In the context of a task, we can define a critical section as a piece of code that accesses shared resources of the embedded system.
+
+    A situation can arise where critical sections from different RTOS tasks try to access the same shared resource at the same time (enabled by the preemptive scheduling algorithm). In simple applications that do not employ multitasking behavior, we can guard critical sections by simply disabling the interrupts. This approach, however, is not suitable for real-time applications, because allowing tasks to disable the interrupts will severely deteriorate the response time to events. As an example, If a low priority task disables the interrupts while executing a critical section code, other higher priority tasks that do not need to use the same shared resource will not be able to execute. A solution to this situation is a mutex. It can be used to protect critical sections while maintaining the multitasking behavior of the program.
+
+    Functionality
+        The mutex behaves like a token (key) and it restricts access to a resource. If a task wants to access the protected resource it must first acquire the token. If it is already taken, the task could wait for it to become available. Once obtained, the token is owned by the task and is released once the task is finished using the protected resource. As embedded system designers, it is our job to identify the critical sections of the program and use mutexes to protect them.
+
+        Mutexes are available in every RTOS and can be accessed through an API. The ISO/IEC standard for the C programming language provides such an API (threads.h) since C11. These are the common operations that an RTOS task can perform with a mutex:
+        1.  Create\Delete a mutex
+        2.  Get Ownership (acquire a lock on a shared resource)
+        3.  Release Ownership (release a lock on a shared resource)
+
+    Mutexes and Priority Inversion
+        Mutexes have build-in protection for minimizing the effects of priority inversion. Priority inversion is a situation in which a lower priority task prevents a higher priority task from running (“inverting” their priorities). The occurrence of this priority inversion is undesirable and can cause serious problems in real-time applications.
+
+        Example: Priority inversion in a real-time operating system
+        A higher priority task is trying to obtain a mutex that is owned by a lower priority task. The higher priority task is blocked waiting for the mutex to be freed. Meanwhile, other tasks that have an intermediate priority level and do not need to use the shared resource locked by the mutex can interrupt (preempt) the low priority task that is holding it. This may significantly delay the execution of the higher priority task waiting for the mutex.
+
+        The built-in protection is activated when a higher priority task is trying to obtain a mutex that is owned by a lower priority task. The protection allows the RTOS kernel to temporarily increase the priority of the lower priority task. It can be implemented in two ways:
+        1.  Priority inheritance mechanism
+            The priority level of a task owning a mutex is increased only when another higher priority task tries to obtain the same mutex. The new priority level is set higher than that of the requesting task.
+        2.  Priority ceiling mechanism
+            Each resource has a priority ceiling value assigned. The priority level of a task that acquires the mutex protecting the resource is increased to match its ceiling value.
+        
+        These protection mechanisms can be applied only from a task. This makes the mutex unsuitable for use from interrupt service routines.
+
+Semaphore
+    A semaphore is a signaling mechanism. It is available in all real-time operating systems with some subtle differences in its implementation. Semaphores are used for synchronization (between tasks or between tasks and interrupts) and managing allocation and access to shared resources. Semaphores are usually accessed through an API. Here are the main operations that a task can perform with a semaphore:
+    1.  Create\Delete a semaphore
+    2.  Acquire (take) a semaphore
+        The task takes hold of the token to a particular resource or indicates that an event has been processed.
+    3.  Release (give) a semaphore
+        Depending on the usage context this operation can mean that a task is done using a shared resource or an event has occurred.
+
+    There are two main types of semaphores – counting semaphores and binary semaphores.
+
+    Counting Semaphore
+        A counting semaphore has two main applications:
+        1.  Managing resources
+            The count value of the semaphore indicates the number of available resources. A separate semaphore can be used for each different type of shared resource.
+        2.  Counting events
+            An occurrence of an event will increase the count value of the semaphore, the processing of the event will decrease the count value of the semaphore.
+
+    Binary Semaphore
+        A binary semaphore is a simple signaling mechanism and it can take only two values: 0 and 1. It is most commonly used as a flag for synchronization between tasks or interrupts and tasks.
+
+        Example: Synchronization between a task and an interrupt service routine
+        We have an interrupt service routine that stores every new ADC conversion result and we have a task that takes this result and displays it on an LCD. A binary semaphore with an initial value of 0 is created. When a new ADC conversion result is available the ISR will release (give) the binary semaphore (the value of the semaphore becomes 1). The task will check the value of this semaphore. If a new conversion result is not available the semaphore will be 0. If the value is 1, this means a new result is available and the task can display it on the LCD. The task acquires (takes) the semaphore (setting it to 0). In this example, the semaphore is used as a flag.
+
+Mutex vs Binary Semaphore
+    It is important to remember that the binary semaphore is a signaling mechanism, while the mutex is a locking mechanism. Here is a list of the most common differences between binary semaphores and mutexes:
+    1.  Mutexes have the concept of ownership. The task that acquires the mutex (locks a resource) is the only one that can unlock it (release the resource).
+    2.  Mutexes have built-in protection (e.g priority inheritance) for minimizing the effects of priority inversion.
+    3.  Mutexes are not recommended to be used by interrupt service routines.
+
+Summary
+    The most important thing to remember is proper usage:
+    1.  We use semaphores for synchronization and managing the allocation of shared resources.
+    2.  We use mutexes when we want to restrict access to shared resources.

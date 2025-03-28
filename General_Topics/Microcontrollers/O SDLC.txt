@@ -1,0 +1,62 @@
+4 Steps of the Embedded (or IoT) Product Development Life Cycle
+    
+Step 1. Planning and Analysis
+    1.  Idea
+    2.  The Need
+    3.  Target Audience
+    4.  Requirements
+    5.  Competitors
+    6.  Concept
+
+Step 2. Designing
+    1.  Architecture
+        Should reflect hardware and software components that in combination will ensure the performance of target functions.
+    2.  Technical Resources
+        1.  Development Kits
+        2.  Software Development Tools
+    3.  Development Team
+        1.  Embedded software engineer
+        2.  Hardware engineer
+        3.  PCB layout engineer
+        4.  Mechanical engineer
+        
+Step 3. Implementation
+    1.  Alpha Prototype
+        A raw product that reveals functional issues and requires certain adjustments.
+    2.  Beta Prototype
+        A version that is ready for production.
+
+Step 4. Commercial Launch
+    1.  Procurement of components and setting up the manufacturing.
+    2.  Production
+    3.  Post manufacturing testing
+    4.  Assembling.
+    5.  Shipping
+    6.  Post-production support and maintenance.
+    
+There are five main stages of the software development life cycle:
+	1.	Requirement: 
+		In this phase, the customer fills a requirement form to write what they actually need from the product.
+	2.	Analysis: 
+		In this phase, the requirements are converted into documents and cover all the functional requirement specifications.
+	3.	Design: 
+		In this phase, the design of the product is prepared. The requirements are converted into architecture design. This phase includes:
+		1.	Low-Level Design Documentation (LLD) 
+		2.	High-Level Design Documentation (HLD) 
+	4.	Coding:
+		In this phase, the requirements are converted into a coded form.
+	5.	Testing:
+		In this phase, the software under development is tested for product quality. This includes 2 types:
+		1.	Static testing 
+		2.	Dynamic testing 
+	6.	Maintenance:
+		In this phase, the maintenance of the product is implemented. 
+		
+Levels of testing in embedded systems
+	There are four levels of testing in embedded systems: 
+	1.	Unit testing 
+	2.	Integration testing 
+	3.	System testing 
+	4.	User acceptance testing
+
+    

@@ -1,0 +1,18 @@
+Polled Drivers vs Interrupt-driven Drivers
+    Based on the method used for getting information on events (e.g errors, operation completion, etc.) from the peripheral unit, low-level drivers can be placed into two categories: polled drivers and interrupt-driven drivers. Both types can perform the same job, the difference is in their performance.
+
+    Polled Drivers
+        Polled drivers are the simplest way to implement a driver. This comes at the cost of reduced efficiency which could negatively impact the power consumption and the real-time responsiveness of the system.
+
+        In a polled driver, a loop is used for implementing a wait for the occurrence of an event (e.g completion of a transfer, error detection, etc.). The event occurrence is usually indicated by the setting of a flag(bit) in a status register of the peripheral. The polled-based approach is not necessarily a bad design practice, there may be scenarios where using it may fit the requirements of the system. Polling a status flag is wasting CPU cycles and in the context of an RTOS can prevent other lower-priority tasks from executing.
+
+    Interrupt-driven Drivers
+        In an interrupt-driven driver, instead of waiting for an event flag (register bit) to change its value, the hardware peripheral is configured to generate interrupts when specific events occur(e.g completion of a transfer, error detection, etc.). This approach does not waste cycles and allows the CPU to do some other work or go into sleep mode and return to servicing the driver when the configured interrupt is generated.
+
+Example FreeRTOS Driver Usage
+	MCU vendors usually provide low-level drivers for all hardware peripheral units. These drivers are almost exclusively interrupt-driven. They usually follow one of the following paths:
+    1.  Interrupt-driven drivers that provide a mechanism for registering callback functions. In this case, the user has to add the semaphore synchronization mechanism needed for the RTOS.
+    2.  Interrupt-driven drivers that have callback and blocking API functions. The blocking API functions integrate semaphore taking and giving using an abstraction layer independent of any RTOS distribution. In this case, the user only needs to map the actual functions from the chosen RTOS to this abstraction layer.
+
+Summary
+    At the most basic level, integrating MCU peripheral functionality with an RTOS requires the use of a semaphore and an interrupt-driven driver. More advanced driver integration may use some additional RTOS mechanism for transferring data such as buffers, queues, etc. A good approach is to also involve a DMA peripheral for managing data transfers within the memory.
