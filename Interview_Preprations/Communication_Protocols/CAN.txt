@@ -33,11 +33,3 @@ CAN
     3.  Set up the data length code.
     4.  Data before requesting the transmission.
 
-
-
-
-
-
-
-
-

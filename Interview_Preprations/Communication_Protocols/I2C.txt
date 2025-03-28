@@ -7,7 +7,7 @@ All these I2C modules supports four data transmission speeds.
 I2C Communication Protocol Basics
     It is only used for short-distance communications. 
     It is advantageous in terms of usage of wires, as it requires only 2 wires but 1008 devices can be supported by these 2 wires only.
-     It is used for attaching lower-speed peripheral ICs to microcontrollers in short-distance communication. 
+    It is used for attaching lower-speed peripheral ICs to microcontrollers in short-distance communication. 
     Low-speed peripherals include external EEPROMs, digital sensors, I2C LCD, and temperature sensors.
 
     Three additional modes have been specified in this IC:
