@@ -1,0 +1,125 @@
+UART Communication Introduction
+    UART stands for a universal asynchronous receiver and transmitter. 
+    It is one of the simplest wired serial communication protocol used to transfer data serially between two devices in embedded systems applications. 
+    As its name suggests, it is an asynchronous communication protocol. 
+    Therefore, no clock signal is required for synchronization between two devices.
+
+UART Port Pins
+    Only two pins are used to transfer and receive data such as a transmit pin (Tx) and a receiver pin (Rx). 
+    Other two pins are just power supply pins such as ground and Vcc ( usually a power source of the device). 
+    But one important point to consider here is that the ground terminal or reference point of both devices should be common.
+
+Hardware Connections
+    Transmission line of one device connects with the receiver line of other device and vice versa. 
+
+UART Communication Introduction, Working, Frame Format, Applications
+    UART Communication stands for Universal asynchronous receiver-transmitter. 
+    A driver circuit handles electric signaling levels between two circuits. 
+    The main advantage of this communication protocol is that its not necessary for both the devices to have the same operating frequency. 
+    A predefined bit rate that is referred to as baud rate usually set in the flash memory of both microcontrollers for the instruction to be understood by both the devices.
+
+Transmitting and receiving serial data
+    The transmitting UART takes bytes of data and transmits the bits in a sequential form. 
+    Communication between two UART devices may be simplex, full-duplex or half-duplex. 
+        Simplex communication is a one-direction type of communication where the signal moves from one UART to another. 
+        It doesn’t have provision for the receiving UART to send back signals.  
+        A full-duplex is when both devices can transmit and receive communications at the same time. 
+        A half-duplex is when devices take turns to transmit and receive.
+
+Structure of a UART Protocol
+    A UART contains a clock generator. This allows the sampling in a bit period.
+    It also contains input and output shift registers.
+    Transmitting and receiving control.
+    A read or write control logic.
+    Other optional components of a UART are: transmit or receive buffers, FIFO buffer memory, and a DMA controller.
+
+How two Device Communicate through UART
+    Instead of cloak signals the transmitting and receiving bit use start and stop bit signals for the data packages. 
+    The specific frequency used to read the incoming bits is known as the baud rate. 
+    The baud rate is a measure used for the speed of data transfer. 
+    The unit used for baud rate is bits per second (bps). 
+    The UART communication starts by detecting the transition from logic 1 to logic 0.
+
+Transmission of data through UART
+    1.  Firstly, the data bus sends the data to the transmitting UART. 
+        The transmitting UART receives data from a data bus. 
+        A data bus is used to send data from another device such as a microcontroller, memory or CPU.
+    2.  When the transmitting UART receives the data it processes the data by adding a start bit and a stop bit. 
+        This, in turn, creates a data package.
+    3.  The next step is the transmission of the data from the transmitting UART to the receiving UART. 
+        The whole data packet including the data packet, start and stop bits is sent to the receiving UART serially. 
+        The data line is sampled at the pre-configured baud rate by the receiving UART.
+        Bit by bit the data packet is serially output at the Tx pin. 
+        UART will then read the data packet bit by bit through its Rx pin.
+    4.  At the receiving side, the receiving UART gets rid of the start bit, parity bit, and stop bit from the data frame. 
+        This is to convert the data back to its original form.
+    5.  Receiver will finally transfer the data packet in parallel to the data bus.
+
+Explanation of Timing Diagram
+    It is organized into packets that have one start bit, 5 to 9 data bits. A parity bit is optional, and 2 stop bits.
+    1.  Start Bit:
+        When not transmitting data the UART data transmission line is usually high voltage. 
+        In order to start the transfer process the transmitting UART switches from high voltage to low voltage for one clock cycle. 
+        The receiving UART will detect the high to low voltage transition and start reading the bits at the accurate baud rate.
+    2.  Parity: 
+        Parity is the oddness or evenness of a number. 
+        The parity bit functions to tell the receiving UART if the data has changed during transmission. 
+        Bits can change due to electromagnetism, different baud rates or long-distance transmission of data. 
+        The UART reads the data frame after receiving the data. 
+        It then counts the number of bits and checks if they are even or odd. 
+        If the parity bit is a 0 then it is even parity. 
+        If the bit is a 1 then it is an odd parity. 
+        For the UART to know that the transmission is free of errors the parity bit has to match the data.
+    3.  Stop bits: 
+        For at least two-bit duration the transmitting UART drives the transmission line from a low to a high voltage.
+
+Baud Rate
+    The time interval between two bits is called the baud rate or bit rate. 
+    Although other baud rates are also used, but the higher the bit rate, the more chances there are of data corruption. 
+    Lower bit rates are used when there is greater physical distance between two devices because the length of the wire increases resistance and thus deteriorates the signal.
+
+Timing Diagram of UART
+    The data in Serial communication is sent by transmitting data packets. Each data packet consists of starting bit, data byte (8 bits), a parity bit (sometimes optional) and a stop bit.
+    1.  Start bit is sent before sending the data byte to inform the receiver device to start logging the data. 
+        This bit is active low, meaning that the bit goes low when it has to notify the receiver.
+    2.  After the starting bit, data byte is sent. 8 consecutive bits are transmitted and their time is dependent on the baud rate.
+
+Timing diagram Working
+    1.  After the data byte, parity bit is sent. 
+        This bit is optional and is used to check for data corruption during transmission. 
+        When the data byte is being transmitted, number of high bits are counted from the total 8 bits of the data byte. 
+        Now two types of parity checks can be implemented, Odd or Even.
+    2.  If, for example the number of high bits were 3 in the data byte which is an odd number, the parity bit in case of odd parity will be set to 1 and it will be set to zero in case of even parity check. 
+        This parity bit is encoded by the transmitter device into the data packet.
+    3.  Now when the receiver receives the data packet, it also counts the number of high bits in the data byte and compares it with the parity bit. 
+        If the parity bit confirms the data, it is further processed and if the parity bit and number of high bits in the data byte don’t match, the data is discarded as it is corrupt and error counter is incremented. 
+        If this error counter exceeds a certain value, it is advised to reduce the baud rate which will increase the data quality at cost of reduced speed.
+    4.  After Parity bit, stop bit is issued which is used to notify receiver about end of data packet. 
+        We can also choose to send 2 stop bits to the receiver to slower the communication speed and give it enough time in between receiving consecutive data packets to decrease the error rate.
+
+Errors in UART
+    1.  Overrun error:
+        When the receiving UART cannot process the incoming characters before the next characters, this is known as an overrun error. 
+        Devices have a different amount of space to hold incoming characters. 
+        The CPU or controller must service the UART quickly so that the buffer does not become full. 
+        If the buffer becomes full an Overrun error will happen, this will lead to the loss of incoming characters.
+    2.  Underrun error: 
+        When the UART transmitter has finished sending a character and the transmit buffer is empty then an underrun error has occurred. 
+        This is due to the fact that in asynchronous modes this is treated as a sign that no data remains transmitted. 
+        This error is common in USARTs. 
+        This is due to the serious levels of underrun errors in synchronous systems.
+    3.  Framing error: 
+        When there is no stop bit at the expected interval A UART will detect an error. 
+        The start bit is used to identify the beginning of an incoming data packet. 
+        If the data packet does not arrive at the expected state at the expected time the UART will signal a framing error. 
+        If the data line experiences a break condition it will also be signaled as a framing error.
+    4.  Parity error: 
+        A parity error happens when the parity of the number of one-bits does not match the one specified by the parity bit. 
+        Since the use of parity bits is optional, this error will occur if you enable the parity-checking.
+
+Applications of UART
+    1.  Transmitting and receiving UARTs must be set to the same bit, parity and stop bits in order for them to function properly.
+    2.  Serial ports used in personal computers and embedded systems use UARTs. 
+        These devices use the CPU to sample the state of data transmissions. 
+        However, the UART chip can be omitted to save money and space in the devices.
+    

@@ -1,0 +1,16 @@
+Macro Function
+    1.  Macro functions are expanded by the preprocessor at the compile time.
+    2.  Expressions passed to the Macro functions might get evaluated more than once.
+    3.  Macro functions do not follow strict parameter data type checking.
+    4.  Macro functions are hard to debug because it is replaced by the pre-processor as a textual representation which is not visible in the source code.
+
+Inline Function
+    1.  Inline functions are expanded by the compiler.
+    2.  Expressions passed to Inline functions get evaluated once.
+    3.  Inline functions follow strict data type checking of the parameters.
+    4.  Easier to debug inline functions which is why it is recommended to be used over macro functions.
+
+Reentrant Function
+    1.  A function is called reentrant if the function can be interrupted in the middle of the execution and be safely called again (re-entered) to complete the execution. 
+    2.  The interruption can be in the form of external events or signals or internal signals like call or jump. 
+    3.  The reentrant function resumes at the point where the execution was left off and proceeds to completion.

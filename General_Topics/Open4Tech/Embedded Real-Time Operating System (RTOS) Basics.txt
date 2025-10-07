@@ -1,0 +1,32 @@
+An RTOS task usually has the following main states:
+1.  Running State:
+    The task’s code is currently being executed by the CPU.
+2.  Ready State:
+    The task is ready to be put into the running state. In the ready state, the task does not consume any CPU cycles.
+3.  Blocked State:
+    The task is in this state when it waits for the occurrence of some event. In this state, the task does not consume any CPU cycles.
+
+Scheduler
+    The scheduler is an integral part of every RTOS. It controls which task should be executed at any given point in time. The scheduler may use various types of algorithms for performing the scheduling of the tasks. Almost all of these algorithms can be classified into two main types:
+    1.  Preemptive Scheduling:
+        This algorithm allows the interruption of a currently running task, so another one with higher priority can be run.
+    2.  Non-preemptive Scheduling (a.k.a Co-operative Scheduling):
+        Once a task is started it can’t be interrupted, it will run until it decides that it should release the CPU to another task.
+
+Advantages:
+1.  Better Structure and Scalability:
+    Using an RTOS gives you a well-defined mechanism for adding and removing software modules.
+2.  Timing Constraints:
+    Using RTOS makes it easier to fulfill the timing requirements of the many modules used in complex embedded systems.
+3.  Better Focus:
+    RTOS allows you to focus on the actual application by offloading the development of components such as memory management, exception handling, power management, etc.
+4.  Functional Safety:
+    There are RTOS distributions that are pre-certified for standards such as IEC 61508 and ISO 26262. This can greatly reduce the development effort in systems that must comply with such standards.
+
+Disadvantages:
+1.  Learning Curve:
+    Even the simpler real-time operating systems will require time for learning their specifics and how to properly use them.
+2.  Price and Licensing:
+    Although there are many free RTOS, their licenses may differ a lot. If you want to use a free RTOS for commercial products there may be some limitations or fees.
+    
+Popular real-time operating systems are FreeRTOS, mBed, TinyOS, Riot, Zephyr, etc.

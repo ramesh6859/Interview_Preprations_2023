@@ -1,0 +1,68 @@
+Modbus
+    Modbus is a popular communication protocol used in industrial control systems for exchanging data between devices. 
+    There are three main variants of Modbus: 
+        Modbus TCP, 
+        Modbus RTU, and 
+        Modbus ASCII. 
+        
+    Modbus TCP:
+        Modbus TCP is a protocol that uses TCP/IP as its transport layer, and it is used for communication over Ethernet networks. 
+        Modbus TCP uses a simple and efficient binary data format, and it supports high-speed data exchange, making it suitable for real-time applications.
+    Modbus RTU:
+        Modbus RTU is a protocol that uses serial communication, and it is used for communication over RS-485 and RS-232 networks. 
+        Modbus RTU uses a compact binary data format, which makes it suitable for communication over low-speed networks. 
+        It also supports error detection using CRC.
+    Modbus ASCII:
+        Modbus ASCII is another protocol that uses serial communication, and it is used for communication over RS-485 and RS-232 networks. 
+        Modbus ASCII uses a human-readable format, which makes it suitable for debugging and troubleshooting purposes. 
+        However, it is slower and less efficient than Modbus RTU due to the use of ASCII characters.
+    
+    Modbus TCP is the fastest and most efficient variant of Modbus, and it is suitable for communication over Ethernet networks. 
+    Modbus RTU and Modbus ASCII are suitable for communication over serial networks, with Modbus RTU being more efficient than Modbus ASCII. 
+    The choice of protocol depends on the specific requirements of the application and the network infrastructure available.
+
+Modbus TCP
+    Modbus TCP is a protocol that uses a client-server architecture to communicate between devices over a TCP/IP network. 
+    It defines a specific format for data frames that are transmitted over the network.
+    
+    The format of a Modbus TCP data frame is as follows:
+    1.  Transaction Identifier (2 bytes) - A unique identifier assigned by the client that is echoed back by the server to match requests and responses.
+    2.  Protocol Identifier (2 bytes) - A fixed value of 0x0000 that identifies the Modbus TCP protocol.
+    3.  Length (2 bytes) - The number of bytes in the following fields (Unit Identifier, Function Code, Data).
+    4.  Unit Identifier (1 byte) - A unique identifier that specifies the slave device being addressed.
+    5.  Function Code (1 byte) - A code that specifies the type of request or response being sent.
+    6.  Data (variable length) - The actual data being sent, which can include information such as register addresses, values, and error codes.
+    
+    The exact format and length of the data field will depend on the specific function code being used. 
+    Some examples of function codes used in Modbus TCP include 
+        read coils (0x01), 
+        read holding registers (0x03), 
+        write single coil (0x05), and 
+        write multiple registers (0x10).
+
+Modbus RTU
+    Modbus RTU (Remote Terminal Unit) is a serial communication protocol commonly used in industrial control systems. 
+    Data Frame: A Modbus RTU message consists of a data frame that contains the following fields:
+    1.  Address: A 1-byte field that specifies the address of the device being accessed.
+    2.  Function Code: A 1-byte field that specifies the type of operation to be performed on the device.
+    3.  Data: A variable-length field that contains the data associated with the operation.
+    4.  CRC: A 2-byte field that contains the cyclic redundancy check (CRC) code for error detection.
+    5.  Character Format: The character format for Modbus RTU is 8 data bits, no parity, and 1 stop bit (8N1).
+    6.  Baud Rate: The baud rate for Modbus RTU can be configured from 1200 to 115200 bits per second (bps).
+    7.  Frame Format: Each frame in Modbus RTU protocol is a series of bits with a start bit, data bits, optional parity bit, and one or two stop bits.
+    8.  Byte Order: The byte order used in Modbus RTU is big-endian, which means that the most significant byte is sent first.
+
+Modbus ASCII
+    Modbus ASCII (American Standard Code for Information Interchange) is another serial communication protocol used in industrial control systems. 
+    Data Frame: A Modbus ASCII message consists of a data frame that contains the following fields:
+    1.  Start of Frame (SOH): A 1-byte field that indicates the start of the message.
+    2.  Address: A 2-byte field that specifies the address of the device being accessed.
+    3.  Function Code: A 2-byte field that specifies the type of operation to be performed on the device.
+    4.  Data: A variable-length field that contains the data associated with the operation.
+    5.  LRC (Longitudinal Redundancy Check): A 2-byte field that contains a checksum value for error detection.
+    6.  End of Frame (EOF): A 1-byte field that indicates the end of the message.
+    7.  Character Format: The character format for Modbus ASCII is 7 data bits, even parity, and 1 stop bit (7E1).
+    8.  Baud Rate: The baud rate for Modbus ASCII is typically set to 9600 bits per second (bps).
+    9.  Frame Format: Each frame in Modbus ASCII protocol is a series of ASCII characters transmitted as 7-bit bytes with a start bit, data bits, parity bit, and one stop bit.
+    10. Byte Order: The byte order used in Modbus ASCII is big-endian, which means that the most significant byte is sent first.
+

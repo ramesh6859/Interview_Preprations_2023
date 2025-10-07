@@ -1,0 +1,7 @@
+1.  The Watchdog Timer on the ATmega328P is a crucial tool for helping the system recover from instances where the system hangs or freezes 
+    due to faults in the code or conditions caused by hardware difficulties.
+2.  The ATmega328P chip features a useful watchdog timer that helps in the prevention of system failures by resetting the system or 
+    calling an assigned function to the watchdog.
+3.  The watchdog can be triggered as a reset or as an interrupt.
+4.  In case of a watchdog interrupt, it can also work as a system timer.
+5.  The watchdog reset timer may be configured from 16ms to 8s using a Prescaler.

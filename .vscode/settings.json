@@ -1,6 +1,31 @@
 {
+<<<<<<< HEAD
     "files.associations": {
         "stdio.h": "c",
         "stdlib.h": "c"
     }
 }
+=======
+  "cSpell.words": [
+    "Baremetal",
+    "Bootloader",
+    "Bootloaders",
+    "bootloading",
+    "managable",
+    "microcontroller",
+    "Microcontrollers",
+    "MODBUS",
+    "MQTT",
+    "parallely",
+    "Pinouts",
+    "Zigbee"
+  ],
+  "files.associations": {
+    "conio.h": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "string.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
+}
+>>>>>>> 04e7c904f2682bc810d70a6bc8d22463d5e9f636

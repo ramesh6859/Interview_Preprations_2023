@@ -1,0 +1,72 @@
+List of Pointers
+1.  Null Pointer
+    1.  Points the base address of segment.
+    2.  float *ptr = (float *)0;
+
+2.  Dangling Pointer
+    1.  Pointer pointing to a non existing memory location.
+
+3.  Generic Pointer
+    1.  Void Pointer
+    2.  Void pointers are those pointers that point to a variable of any type. 
+    3.  It is a generic pointer as it is not dependent on any of the inbuilt or user-defined data types while referencing. 
+    4.  During dereferencing of the pointer, we require the correct data type to which the data needs to be dereferenced.
+    5.  Void pointers are used mainly because of their nature of re-usability. 
+    6.  It is reusable because any type of data can be stored.
+
+    Example:
+    int num1 = 20;          //variable of int datatype
+    void *ptr;              //Void Pointer
+    *ptr = &num1;           //Point the pointer to int data
+    print("%d",(*(int*)ptr));   //Dereferencing requires specific data type
+
+    char c = 'a';
+    *ptr = &c;              //Same void pointer can be used to point to data of different type -> reusability
+    print("%c",(*(char*)ptr));
+
+4.  Wild Pointer
+    1.  Pointer that has not been initialized.
+
+5.  Complex Pointer
+
+6.  Near Pointer
+    1.  Pointer that points only 64 KB data segment or segment number 8.
+    2.  Size - 2 bytes.
+
+7.  Far Pointer
+    1.  Pointer that point or access whole the residence memory of RAM.
+    2.  Access all 16 segments.
+    3.  Size - 4 bytes.
+
+8.  Huge Pointer
+    1.  Pointer that point or access whole the residence memory of RAM.
+    2.  Access all 16 segments.
+    3.  Size - 4 bytes.
+
+Segmentation Fault
+    Following are the reasons for the segmentation fault to occur:
+    1.  While trying to dereference NULL pointers.
+    2.  While trying to write or update the read-only memory or non-existent memory not accessible by the program such as code segment, kernel structures, etc.
+    3.  While trying to dereference an uninitialized pointer that might have been pointing to invalid memory.
+    4.  While trying to dereference a pointer that was recently freed using the free function.
+    5.  While accessing the array beyond the boundary.
+
+    Some of the ways where we can avoid Segmentation fault are:
+    1.  Initializing Pointer Properly: 
+        1.  Assign addresses to the pointers properly.
+        2.  We can also assign the address of the matrix, vectors or using functions like calloc, malloc etc.
+        3.  Only important thing is to assign value to the pointer before accessing it.
+    2.  Minimize using pointers: 
+        1.  Most of the functions in Embedded C such as scanf, require that address should be sent as a parameter to them. 
+        2.  In cases like these, as best practices, we declare a variable and send the address of that variable to that function.
+        3.  In the same way, while sending the address of variables to custom-defined functions, we can use the & parameter instead of using pointer variables to access the address.
+    3.  Troubleshooting: 
+        1.  Make sure that every component of the program like pointers, array subscripts, & operator, * operator, array accessing, etc as they can be likely candidates for segmentation error. 
+        2.  Debug the statements line by line to identify the line that causes the error and investigate them.
+
+Segmentation Fault:     Trying to read and write to an illegal memory location.
+                        Error occurs while returning the address of a local variable.
+Dangling Pointer:        Pointer which points to some non existing memory location.
+Null Pointer:           Pointer that does not point to any memory location.
+                        It represents an invalid memory location.
+                        When a NULL value is assigned to a pointer then the pointer is considered as NULL pointer.

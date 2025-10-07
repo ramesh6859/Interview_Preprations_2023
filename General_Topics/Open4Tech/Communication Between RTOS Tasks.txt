@@ -1,0 +1,46 @@
+The inter-task communication implemented in real-time embedded systems is based on one or a combination of the following mechanisms:
+1.  memory sharing
+2.  signaling mechanism
+3.  message passing
+
+Memory Sharing
+    Mechanism for passing information between different tasks is using a shared memory location. It is important that the shared memory is protected either by a mutex or semaphore. A very basic example of using shared memory location is a global variable.
+
+Signaling Mechanisms
+    Indicate the occurrence of an event and can be used for synchronization purposes. Two additional signaling mechanisms that have wide use in real-time operating systems – event flags and task flags.
+
+    Event Flags
+        Event flags are bits used to encode specific information. They are used for synchronizing tasks and communication. The grouping of individual event flags is called an event group or a signal. Events flags can be used by tasks and by interrupt service routines (ISR). A single event flag (or a group) can be accessed by many different tasks. The most common operations that can be performed on event flags are: 
+        1.  Create/delete event flags
+        2.  Set/clear event flags
+        3.  Read a flag’s value
+        4.  Wait on a flag to take a specific value
+
+    Task Flags
+        Task flags are a special form of event flags. While event flags can be accessed by all tasks, the task flags are used for notifications to a single receiving task. The most common operations that can be performed on task flags are:
+        1.  Set/clear flags of a specific task
+        2.  Wait on a flag to take a specific value
+        Task flags are also known as thread flags. In FreeRTOS these types of flags are defined as task notifications.
+
+Message Passing
+    We can generally define two types of message passing
+    Direct message passing
+        The sender and the receiver of the messages are explicitly defined. As an example, the popular FreeRTOS has Stream & Message Buffers as primitives for direct message passing between a single writer task and a single reader task.
+    Indirect message passing
+        The messages are placed in structures such as message queues or mailboxes and multiple tasks have read/write access.
+
+Message Queues
+    Message queues are data buffers with a finite amount of entries. Each entry can contain data of a certain size (e.g 32bits). Message queues can be used for passing data between tasks and between interrupt service routines and tasks. They are implemented as thread-safe FIFO buffers. Specific actions are defined in the RTOS in case a task tries to write to a full message queue or tries to read an empty one. The most common operations that can be performed on message queues are:
+    1.  Create/delete a message queue
+    2.  Get the number of messages currently stored in the queue
+    3.  Put a message into the queue
+    4.  Get a message from the queue
+
+    Example: Using a message queue for buffering data
+        Let’s have two tasks that are operating at different speeds. We can use a message queue as a buffer if one of the tasks produces a burst of data samples and the other task has to process each data sample individually at a fixed rate.
+
+Mailboxes
+    A mailbox can store a single data of specific size (e.g 32-bit variable) and can be implemented as a single-entry queue. A single mailbox can be accessed by many tasks. In some RTOS distributions, mailboxes can have more than one entry, which makes them very similar to what we described as a message queue in the previous chapter. Typical operation that can be performed on mailbox are: 
+    1.  Create/delete a mailbox
+    2.  Write to a mailbox
+    3.  Read a mailbox

@@ -1,0 +1,47 @@
+Scope of C Variables
+    Determines the region of the program where a variable can be accessed.  The scope of a variable depends primarily on its place of declaration. There are three types of scope a variable can have:
+    1.  Global (Program) Scope – Variables with global scope are visible(accessible) within all source files, functions and blocks(code enclosed by curly brackets {})  of the program. These type of variables are declared outside of blocks and functions (including main()) and are called global variables.
+    2.  Block Scope – Variables with block scope are visible only within the block they are declared. These variables are called local variables.
+    Example:
+    #include <stdio.h>
+    void main()
+    {
+        int i = 34 ; //This variable is local to this block (Block Scope)
+        {
+            int i = 43 ; //this variable is local to this block (Block Scope)
+            printf("\nValue of i : %d",i); //Will print value 43
+        }
+        printf("\nValue of i : %d",i);  //Will print value 34
+    }
+    3.  File Scope –   Variables with file scope are visible from the point of their declaration to the end of the source file they are declared in. These variables are global variables declared with the static specifier.
+
+    The scope of C variables is an important concept because it supports the creation of large embedded programs where more than one person is writing the source code. Limiting the scope of the variables prevents eventual conflicts with variables of the same name used in different parts of the program. 
+
+Storage Duration of C Variables 
+    Determines when a variable is created and destroyed (lifetime of the variable).There are four types of Storage Class Specifiers:
+    1.  auto – This is the default storage class of local variables and is usually not explicitly declared. The storage duration of auto local variables is equal to the duration of the block they are declared in. For example local auto variable declared inside a function (C function is in fact a block) is created when the function is entered and is destroyed when the function is exited.
+    2.  static - 
+        1.  Local variable declared as static retains its value between different function calls and its storage duration is equal to the program duration. In other words the static local variable exists during the program life-time and not only during the function lifetime. It however keeps its block scope (accessible only by the function/block it is declared in).
+        2.  When a global variable is declared as static its scope is limited to the file it is declared in (file scope).
+    3.  register – This specifier requests that the compiler stores the variable in a CPU register instead of the RAM memory. The compiler can ignore the request depending on register availability or other hardware implementation restrictions. 
+    4.  extern – This specifier tells the compiler that the variable exist and is declared somewhere else (e.g in different source file). Its practical usage is for accessing the same global variable across different source files.
+
+Summary
+    1.  Global variables are declared outside of all functions and blocks of a program. They are accessible from the whole program (global scope), unless they are declared with the static specifier which limits their accessibility only to the file they are declared in (file scope).
+    2.  Local variables are declared inside blocks. They are accessible only from the block they are declared in (block scope). They are created on block/function entry and destroyed on block/function exit, unless they are declared with the static specifier.
+
+Example:
+    #include <stdio.h>
+    int var_1; //Global variable with Global Scope
+    static int var_2; //Global variable with File Scope
+    extern int var_3;  //Global variable that is declared/defined in other source file
+    void main()
+    {
+        static int var_4 = 34 ; //Local variable with lifetime until the end of the program
+        {
+            int var_5 = 43 ; //Local variable with lifetime until the end of this block
+            auto int var_6 = 46; //Same as the above
+            printf("\nValue of var_5 : %d",var_5); //Will print value 43
+        }
+
+    }
