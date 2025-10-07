@@ -1,4 +1,11 @@
 {
+<<<<<<< HEAD
+    "files.associations": {
+        "stdio.h": "c",
+        "stdlib.h": "c"
+    }
+}
+=======
   "cSpell.words": [
     "Baremetal",
     "Bootloader",
@@ -21,3 +28,4 @@
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
+>>>>>>> 04e7c904f2682bc810d70a6bc8d22463d5e9f636
