@@ -1,0 +1,385 @@
+Volatile Keyword
+	The volatile keyword tells the compiler that a variable’s value can change at any time outside of the program’s direct control (through hardware, interrupts, or concurrent threads). This prevents the compiler from applying optimizations that assume the value does not change. Normally, compiler assumes variables won’t change unless the code changes them. With volatile, you force the compiler to always re-read/write the variable from memory, so it won’t optimize away repeated accesses. This is essential when the value can change due to hardware, interrupts, or concurrency.
+	Example
+		volatile int data_ready = 0;
+		void ISR() {
+			data_ready = 1;   // interrupt sets flag
+		}
+		int main() {
+			while (data_ready == 0) {
+			// wait until ISR sets it
+            }
+		}
+		// now safe to process data
+	Without volatile, compiler could optimize away the loop, thinking data_ready is always 0.
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+Volatile with Const
+	It is possible for a variable to be both const and volatile. const means the program cannot modify it directly. volatile means the compiler must always reload it before use, as it may change externally.
+	Example
+		const volatile int sensorValue = 0;  // read-only to the program, but hardware may update it.
+	Here, sensorValue can't be modified by the program, but hardware (like a memory-mapped I/O device) may update it in the background.
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+Const-Volatile Qualifiers
+    This guide summarizes how const and volatile qualifiers interact with pointers, arrays, double pointers, and function pointers.
+
+CONST WITH POINTERS
+-------------------
+1. Pointer to Const Int
+   int const *ptr;  // same as: const int *ptr;
+   - You can re-point ptr.
+   - You cannot modify the int via ptr.
+   Example:
+       int x = 10, y = 20;
+       const int *ptr = &x;
+       // *ptr = 15; // not allowed
+       ptr = &y;     // allowed
+
+2. Const Pointer to Int
+   int *const ptr;
+   - Pointer is fixed.
+   - Pointee int can be modified via ptr.
+   Example:
+       int x = 10, y = 20;
+       int *const ptr = &x;
+       *ptr = 15;  // allowed
+       // ptr = &y; // not allowed
+
+3. Const Pointer to Const Int
+   const int *const ptr;
+   - Neither the pointer nor the pointee can be modified through ptr.
+   Example:
+       const int cx = 10;
+       const int *const ptr = &cx;
+       // *ptr = 15; // not allowed
+       // ptr = &cx; // not allowed
+
+VOLATILE WITH POINTERS
+----------------------
+4. Pointer to Volatile Int
+   volatile int *p;
+   - Can re-point p.
+   - Reads/writes through p are volatile.
+   Example:
+       volatile int hw1=0, hw2=0;
+       volatile int *p = &hw1;
+       int v = *p;   // volatile read
+       *p = v+1;     // volatile write
+       p = &hw2;     // allowed
+
+5. Pointer to Read-Only Volatile Int
+   const volatile int *p;
+   - Cannot modify the int via p.
+   - Can re-point.
+   Example:
+       const volatile int status1=0, status2=0;
+       const volatile int *p = &status1;
+       int v = *p;   // volatile read OK
+       // *p = 1;    // not allowed
+       p = &status2; // allowed
+
+6. Const Pointer to Volatile Int
+   volatile int *const p;
+   - Pointer fixed.
+   - Volatile reads/writes allowed.
+   Example:
+       volatile int ctrl=0;
+       volatile int *const p = &ctrl;
+       *p = 5;       // volatile write OK
+       // p = &ctrl2; // not allowed
+
+7. Const Pointer to Const Volatile Int
+   const volatile int *const p;
+   - Pointer fixed.
+   - Pointee read-only in code, but may change externally.
+   Example:
+       const volatile int status=123;
+       const volatile int *const p = &status;
+       int v = *p; // volatile read
+       // *p = 1;  // not allowed
+       // p = &x;  // not allowed
+
+DOUBLE POINTERS
+---------------
+8. Pointer to Pointer to Const Int
+   const int **pp;
+   - Can change pp and *pp.
+   - Cannot modify **pp.
+   Example:
+       int x=10, y=20;
+       const int *p = &x;
+       const int **pp = &p;
+       int v = **pp; // OK
+       // **pp = 99; // not allowed
+       *pp = &y;     // allowed
+
+9. Pointer to Const Pointer to Int
+   int *const *pp;
+   - *pp is const pointer, cannot change it via pp.
+   - **pp (the int) can be modified.
+   - pp itself can change to another pointer variable.
+   Example:
+       int x=10, y=20;
+       int *pa=&x, *pb=&y;
+       int *const *pp = &pa;
+       **pp = 11;   // modifies x
+       // *pp = &y; // not allowed
+       pp = &pb;     // allowed
+
+10. Const Pointer to Pointer to Int
+    int **const pp;
+    - pp is fixed.
+    - *pp and **pp may change.
+    Example:
+        int x=1, y=2;
+        int *p=&x;
+        int **const pp = &p;
+        *pp = &y;   // change p
+        **pp = 42;  // modifies y
+        // pp = &z; // not allowed
+
+ARRAYS AND POINTERS
+-------------------
+11. Pointer to Array of 3 Const Ints
+    const int (*p)[3];
+    - Points to entire array.
+    - Can re-point, but cannot modify elements.
+    Example:
+        const int a[3]={1,2,3};
+        const int b[3]={4,5,6};
+        const int (*p)[3]=&a;
+        int v = (*p)[0]; // OK
+        // (*p)[1] = 7;  // not allowed
+        p = &b;          // allowed
+
+12. Const Pointer to Array of 3 Ints
+    int (*const q)[3];
+    - Pointer is fixed.
+    - Elements modifiable.
+    Example:
+        int a[3]={1,2,3};
+        int (*const q)[3] = &a;
+        (*q)[1] = 99; // modifies a[1]
+        // q = &b;    // not allowed
+
+13. Array of Pointer to Const Char
+    const char *argv[];
+    - Each element is a pointer to read-only string.
+    - Elements can be re-pointed.
+    Example:
+        const char *argv[] = {"prog", "arg1", "arg2"};
+        argv[1] = "newarg"; // allowed
+        // argv[1][0] = 'N'; // not allowed
+
+14. Array of Const Pointer to Const Char
+    const char *const argv[];
+    - Neither elements nor strings may change.
+    Example:
+        const char *const argv[] = {"prog", "arg1"};
+        // argv[0] = "newprog"; // not allowed
+        // argv[0][0] = 'P';    // not allowed
+
+FUNCTION POINTERS
+-----------------
+15. Pointer to Function
+    int (*fptr)(void);
+    - May re-point and call.
+    Example:
+        int f1(void){return 1;}
+        int f2(void){return 2;}
+        int (*fptr)(void) = f1;
+        int r1 = fptr(); // calls f1
+        fptr = f2;       // re-point
+        int r2 = fptr(); // calls f2
+
+16. Const Pointer to Function
+    int (*const fptr)(void);
+    - Pointer is fixed.
+    - Can be called.
+    Example:
+        int f1(void){return 1;}
+        int (*const fptr)(void) = f1;
+        int r = fptr(); // OK
+        // fptr = NULL; // not allowed
+
+17. Functions and Qualifiers
+    - Functions themselves cannot be const/volatile.
+    - Only pointers to functions can be qualified.
+    - A scalar return type may be const, but rarely useful.
+
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+Storage Classes
+1.	Local (Automatic) Variable
+	1.	Declared: Inside a function/block (optionally with auto; implied by default).
+	2.	Scope: Only within that function/block.
+	3.	Storage duration: Automatic (created on block entry, destroyed on exit).
+	4.	Lifetime: Exists only while that block is executing.
+	5.	Default initialization: Indeterminate; reading before writing is undefined behavior (UB).
+	6.	Keyword: auto (rarely written).
+	7.	Where stored: Typically stack; compilers may put them in registers or optimize them away.
+	Example:
+		#include <stdio.h>
+		void func(void) {
+			int a = 0; // always initialize locals
+			printf("Local variable: %d\n", a); // 0
+		}
+		int main(void) {
+			func();
+			// printf("%d", a); // ? Error: 'a' not visible here
+			return 0;
+		}
+
+2.	Static Variable
+	1.	Declared: With static (inside or outside functions).
+	2.	Scope:
+		1.	If inside a function ? visible only in that function (block scope).
+		2.	If outside all functions ? visible only in that file (internal linkage).
+	3.	Storage duration: Static (retains value across calls).
+	4.	Lifetime: Entire program execution.
+	5.	Default initialization: 0 if not explicitly initialized.
+	6.	Initializer rule: Must use a constant expression (e.g., integer constants, addresses of static objects/functions).
+	7.	Where stored: Typically Data Segment (.data if initialized) or .bss (if zero-initialized). Toolchain detail, not mandated by C.
+	Example:
+		#include <stdio.h>
+		void counter(void) {
+			static int count = 0; // initialized once, retains value
+			count++;
+			printf("Count = %d\n", count);
+		}
+		int main(void) {
+			counter(); // 1
+			counter(); // 2
+			counter(); // 3
+			return 0;
+		}
+		
+3.	Global Variable (file-scope, external linkage by default)
+	1.	Declared: Outside all functions, without static.
+	2.	Scope: File scope; name visible from its point of declaration to the end of the translation unit.
+	3.	Linkage: External by default (visible to other translation units; they refer with extern).
+	4.	Storage duration: Static.
+	5.	Lifetime: Entire program execution.
+	6.	Default initialization: 0 if not explicitly initialized.
+	7.	Where stored: Typically Data Segment (.data/.bss).
+	8.	Tentative definition: A file-scope declaration like int x; (without extern or initializer) is a tentative definition; if no other definition appears in the same translation unit, it behaves as int x = 0;.
+	Example:
+		#include <stdio.h>
+		int globalVar;  // external linkage, default 0 (tentative definition)
+		void bump(void) {
+			globalVar += 5;
+			printf("globalVar = %d\n", globalVar);
+		}
+		int main(void) {
+			bump(); // 5
+			bump(); // 10
+			return 0;
+		}
+		
+4.	Static Global Variable (file-scope static ? internal linkage)
+	1.	Declared: Outside functions with static.
+	2.	Scope: Visible only in that file (file scope).
+	3.	Linkage: Internal (hidden from other translation units).
+	4.	Storage duration: Static.
+	5.	Lifetime: Entire program execution.
+	6.	Default initialization: 0 if not initialized.
+	Example:
+		file1.c
+			#include <stdio.h>
+			static int x = 5;   // file-local symbol
+			void func(void) {
+				x++;
+				printf("x = %d\n", x);
+			}
+		file2.c
+			extern void func(void);
+			int main(void) {
+				func();  // OK
+				// printf("%d", x); // ? ERROR: x not visible here
+				return 0;
+			}
+			
+5.	Extern Variable (declaration vs definition)
+	1.	Declared: With extern keyword.
+	2.	Meaning: Refers to a global defined elsewhere; the extern declaration itself does not allocate storage.
+	3.	Scope/Linkage: Refers to an object with external linkage (usually defined in another file).
+	4.	Storage duration: Static (from its definition).
+	5.	Lifetime: Entire program execution.
+	6.	Default initialization: Depends on the actual definition.
+	7.	Gotchas:
+		1.	extern int x; ? declaration (no storage).
+		2.	extern int x = 1; ? definition (allocates storage).
+		3.	int x; at file scope (no extern) ? tentative definition.
+	Example:
+		file1.c
+			int sharedVar = 10; // definition (allocates storage)
+			
+		file2.c
+			#include <stdio.h>
+			extern int sharedVar; // declaration (no storage)
+			int main(void) {
+				printf("sharedVar = %d\n", sharedVar); // 10
+				return 0;
+			}
+			
+6.	Register Variable
+	1.	Declared: With register (block scope or as a parameter; not at file scope).
+	2.	Scope: Inside the block/function where declared.
+	3.	Storage duration: Automatic (like other locals).
+	4.	Lifetime: Exists only until block/function ends.
+	5.	Default initialization: Indeterminate; reading before writing is UB.
+	6.	Special rule: You cannot apply & to a register-declared object.
+	7.	Reality: Modern compilers largely ignore register; it’s removed in C23.
+	Example:
+		#include <stdio.h>
+		int main(void) {
+			register int i; // hint only
+			for (i = 0; i < 5; i++) {
+				printf("%d ", i);
+			}
+			return 0;
+		}
+		
+7.	Volatile Variable
+	1.	Declared: With volatile (can be combined with const).
+	2.	Meaning: Every read/write is an actual memory access; prevents certain optimizations. Use for memory-mapped I/O, data changed by signal handlers, etc.
+	3.	Not for: Thread synchronization/atomicity or memory ordering. Use C11 atomics for inter-thread communication.
+	4.	Can combine: const volatile int status; (read-only hardware register).
+	Example:
+		volatile int status;
+		const volatile unsigned int *UART_SR = (const volatile unsigned int*)0x4000'0000; // example MMIO
+
+8.	Const Variable
+	1.	Declared: With const (type qualifier).
+	2.	Meaning: You cannot modify the object through a const lvalue.
+	3.	Linkage (C, not C++): File-scope const has external linkage by default; use static const to give it internal linkage.
+	4.	Not a compile-time constant by itself in C: cannot be used where an integer constant expression is required (e.g., case labels). Use #define or enum for true compile-time constants.
+	5.	Storage: If it has static storage duration, default-initialized to 0; toolchains may place const objects in read-only sections.
+	Example:
+		file1.c
+			const int K = 42;        // external linkage in C
+			static const int Ki = 7; // internal linkage
+		file2.c
+			extern const int K;      // OK in C
+
+9.	Dynamic (Heap) Allocation
+	1.	Obtained: Via malloc/calloc/realloc; freed with free.
+	2.	Scope: The pointer’s scope follows normal rules; the allocated object has no name.
+	3.	Storage duration: Dynamic.
+	4.	Lifetime: From allocation until free (or program end if leaked).
+	5.	Initialization: malloc ? indeterminate; calloc ? zero-initialized.
+	Example:
+		#include <stdlib.h>
+		#include <stdio.h>
+		int main(void) {
+			int *p = malloc(sizeof *p);
+			if (p) {
+				*p = 42;
+				printf("%d\n", *p);
+				free(p);
+			}
+			return 0;
+		}
+
+	

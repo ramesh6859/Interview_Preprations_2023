@@ -1,0 +1,29 @@
+CAN Frame
+1.	CAN frames (data structures) are prioritized by ID, enabling efficient communication.
+2.	The 8 CAN data frame fields
+	1.	SOF: The Start of Frame is a 'dominant 0' to tell the other nodes that a CAN node intends to talk
+	2.	ID: The ID is the frame identifier - lower values have higher priority
+	3.	RTR: The Remote Transmission Request indicates whether a node sends data or requests dedicated data from another node
+	4.	Control: The Control contains the Identifier Extension Bit (IDE) which is a 'dominant 0' for 11-bit. It also contains the 4 bit Data Length Code (DLC) that specifies the length of the data bytes to be transmitted (0 to 8 bytes)
+	5.	Data: The Data contains the data bytes aka payload, which includes CAN signals that can be decoded for information
+	6.	CRC: The Cyclic Redundancy Check is used to ensure data integrity
+	7.	ACK: The ACK slot indicates if the node has acknowledged and received the data correctly
+	8.	EOF: The EOF marks the end of the CAN frame
+
+CAN bus frame types
+1.	Data frame: As illustrated above, this carries data from a sender CAN node to one or more receiver nodes. We provide details on each field above. In practice, 99%+ of use cases focus on CAN data frames only
+2.	Error frame: This is used by a CAN node to indicate the detection of a communication error and contains an error flag and error delimiter - for details see our intro to CAN errors. We have some users that focus on recording CAN error frames - this can e.g. be relevant when diagnosing ECU communication problems
+3.	Remote frame: This can be used to request certain data from a CAN node and is similar to the data frame, except it lacks a Data field and the RTR field is 1 (recessive). Remote frames are used rarely - across thousands of use cases, we have seen the need for them 1-2 times. Instead, most higher-layer protocols rely on CAN data frames for requesting data where needed (e.g. in OBD2/J1939)
+4.	Overload frame: This can be used to provide additional delay between other CAN frames if some CAN nodes require additional time for processing. In practice, overload frames are almost never used - and across the last 10 years, we have never encountered a use case where they were relevant
+
+How to decode raw CAN data to 'physical values'
+1.	Understand CAN signal extraction
+	To extract the physical value of a CAN signal, the following information is required:
+	1.	Byte order: Whether data is encoded Intel or Motorola
+	2.	Bit start: Which bit the signal starts at
+	3.	Bit length: The length of the signal in bits
+	4.	Offset: Value to offset the signal value by
+	5.	Scale: Value to multiply the signal value by
+2.	Get the relevant DBC file
+	1.	A CAN DBC file (CAN database) is a text file that contains information for decoding raw CAN data.
+	2.	Generally, DBC files are application-specific and proprietary and available only to the Original Equipment Manufacturer (OEM).

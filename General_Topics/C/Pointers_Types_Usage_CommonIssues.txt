@@ -1,0 +1,157 @@
+1.	Null Pointer
+	1.	A null pointer is one that points to nothing — specifically, the address 0 in C (written as NULL). The point is to signal “this doesn’t point to valid data yet.”
+	2.	Why use?
+		1.	Safety marker — you can check if (ptr != NULL) before accessing.
+		2.	Often used to indicate "no result" or "resource not found".
+	3.	Danger: Dereferencing a null pointer causes a segmentation fault.
+	Example:
+		float *ptr = (float *)0; // or simply float *ptr = NULL;
+
+2.	Wild Pointer
+	1.	A wild pointer hasn’t been initialized at all. It has an unpredictable (garbage) address.
+	2.	Prevention: Always initialize: int *ptr = NULL;.
+	Example:
+		int *ptr; // no initialization
+		*ptr = 10; // Dangerous — ptr holds arbitrary address
+	
+3.	Dangling Pointer
+	1.	A dangling pointer is a pointer that once pointed to valid memory but now points to memory that’s been freed or is out of scope.
+	2.	Common case: returning the address of a local variable.
+	3.	Accessing memory through a dangling pointer leads to undefined behavior, which is often hard to debug or causes crashes.
+	4.	Prevention: Set the pointer to NULL after freeing: free(ptr); ptr = NULL;
+	Example:
+		int *ptr = malloc(sizeof(int));
+		*ptr = 42;
+		free(ptr);    // Memory released
+		// ptr still holds the old address ? dangling pointer
+		printf("%d", *ptr); // Undefined behavior!
+
+4.	Generic Pointer (Void Pointer)
+	1.	void * pointers can point to any data type, but you must cast them back before dereferencing because they have no type info.
+	2.	Uses:
+		1.	For creating APIs that handle multiple data types.
+		2.	Memory allocators (malloc) return void *.
+	3.	Pointer arithmetic is not allowed on void pointers because they have no associated data size.
+	4.	They must be cast to another pointer type before pointer arithmetic or dereferencing.
+	5.	Risk: Forgetting to cast or casting wrongly ? incorrect reads/writes.
+	Example:
+		int num1 = 20;
+		void *ptr;
+		ptr = &num1; // Generic pointer to int
+		printf("%d\n", *(int*)ptr); // Cast before dereference
+		char c = 'a';
+		ptr = &c; // Now points to char
+		printf("%c\n", *(char*)ptr);
+		
+5.	Pointer to Constant
+	1.	A pointer pointing to data that cannot be modified through that pointer.
+	2.	Pointer to constant data — data cannot be changed through ptr, but ptr can point elsewhere.
+	3.	Syntax: const type *ptr.
+	Example:
+		const int x = 10;
+		const int *ptr = &x;
+		// *ptr = 15; // ERROR — cannot change value via pointer
+
+6.	Constant Pointer
+	1.	A pointer that cannot change the address it holds after initialization.
+	2.	Constant pointer — ptr always points to the same address but data can be changed.
+	3.	Syntax: type * const ptr.
+	Example:
+		int x = 10, y = 20;
+		int * const ptr = &x;
+		*ptr = 15; // OK — value changes
+		ptr = &y; // ERROR — address change not allowed
+
+7.	Pointer to Pointer (Double Pointer)
+	1.	A pointer that points to another pointer.
+	2.	Used when you need to change the actual pointer’s value inside a function, or with dynamic arrays/multidimensional arrays.
+	Example:
+		int val = 5;
+		int *p = &val;
+		int **pp = &p;
+		printf("%d", **pp); // prints 5	
+
+8.	Null-terminated Pointer/Array Pointer
+	1.	In context of strings in C, pointers that point to a \0 terminated sequence.
+	2.	Essential for functions like printf, strlen, etc.
+	Example:
+		char *str = "Hello";
+		while(*str != '\0') {
+			putchar(*str);
+			str++;
+		}		
+		
+9.	Complex Pointer
+	1.	A “complex” pointer often refers to pointers with multiple indirections or mixed with arrays/functions.
+	2.	These require careful mental tracing of what’s pointed to and how to dereference.
+	3.	Pointers to arrays, pointers in structs, and arrays of function pointers are examples of complex pointers needing careful dereferencing.
+	Example:
+		int **ptr; // pointer to pointer
+		int *arr[5]; // array of pointers
+
+10.	Function Pointer
+	1.	Pointer that stores the address of a function instead of a variable.
+	2.	Used for callback mechanisms, dynamic function calls, and creating tables of functions.
+	Example:
+		void sayHello() {
+			printf("Hello!\n");
+		}
+		void (*funcPtr)(); // function pointer declaration
+		funcPtr = sayHello; // assign address of function
+		funcPtr(); // call via pointer		
+
+11.	Memory-mapped Pointer
+	1.	Pointer used for accessing hardware registers or specific memory addresses directly.
+	2.	Common in embedded systems.
+	3.	volatile keyword is essential for pointers to hardware registers to prevent compiler optimizations that might skip necessary reads or writes.
+	Example:
+		#define REG_ADDR 0xFF00
+		volatile int *regPtr = (volatile int *)REG_ADDR;
+		*regPtr = 1; // write to hardware register
+
+12.	Restrict Pointer (restrict)
+	1.	C99 keyword for optimization hints that the pointer is the only means to access the data it points to within its scope.
+	2.	Helps compiler optimize.
+	3.	Misuse of restrict can cause undefined behavior if pointers alias unexpectedly.
+	4.	It must be used carefully to guarantee exclusive access to the pointed data within the scope.
+	Example:
+		void copyArray(int * restrict dst, const int * restrict src, int n) {
+			for(int i = 0; i < n; i++)
+				dst[i] = src[i];
+		}
+		
+13.	Near Pointer
+	1.	Specific to older 16-bit DOS systems (not C in modern OS). Points to data within a single 64 KB segment. Size: 2 bytes.
+	2.	Not used in modern architectures.
+	Example:
+		int near *ptr;
+		
+14.	Far Pointer
+	1.	Also from older DOS. Can access memory outside the current segment (up to 1 MB). Size: 4 bytes.
+	Example:
+		int far *ptr;
+		
+15.	Huge Pointer
+	1.	Similar to far pointer but can be normalized (arithmetic allowed to cross segment boundaries correctly).
+	Example:
+		int huge *ptr;
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+Segmentation Fault
+1.	Occurs when the program tries to access memory it shouldn’t.
+2.	Segmentation fault is a specific form of access violation signal raised by the operating system when invalid memory is accessed.
+3.	Common in low-level languages like C due to unsafe memory access patterns.
+4.	Causes:
+	1.	Dereferencing NULL.
+	2.	Writing to read-only memory.
+	3.	Wild pointers.
+	4.	Dangling pointers.
+	5.	Array index out of bounds.
+5.	Avoidance:
+	1.	Initialize all pointers.
+	2.	Validate indices.
+	3.	Set pointer to NULL after free.
+	4.	Debugging step-by-step.
+Example:
+	int arr[5];
+	arr[10] = 3; // out of bounds ? may trigger segmentation fault

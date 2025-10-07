@@ -105,3 +105,17 @@ Troubleshoot I2C communication
     4.  Check for any hardware issues, such as damaged connectors or broken wires.
     5.  Check for any software issues, such as incorrect driver or library configurations.
     6.  Check for any external factors that may be causing interference, such as electromagnetic interference or power supply issues.
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Start Condition : A HIGH to LOW transition on the SDA line while SCL is HIGH.
+Stop Condition : A LOW to HIGH transition on the SDA line while SCL is HIGH. After STOP condition both the SDA and SCL go to HIGH state. 
+ACK : SDA is LOW.
+NACK : SDA is HIGH.
+
+
+
+
+
+
