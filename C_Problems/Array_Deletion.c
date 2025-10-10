@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 void deleteElement(int [], int *, int);
 int main()
@@ -32,3 +33,40 @@ void deleteElement(int array[], int *size, int position)
         printf("%d ", array[i]);
     printf("\n");
 }
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void deleteElement(int *arr, int *size, int position) {
+    if (position < 0 || position >= *size) {
+        printf("Invalid position to delete element.\n");
+        return;
+    }
+    for (int *p = arr + position; p < arr + *size - 1; p++)
+        *p = *(p + 1);
+    (*size)--;
+    printf("Element at position %d deleted successfully.\n", position);
+    printf("Updated array: ");
+    for (int i = 0; i < *size; i++)
+        printf("%d ", *(arr + i));
+    printf("\n");
+}
+
+int main()
+{
+    int array[] = {1, 2, 3, 4, 5};
+    int size = sizeof(array) / sizeof(array[0]);
+    int position;
+    printf("Enter the position: ");
+    scanf("%d", &position);
+    printf("Initial array: ");
+    for (int i = 0; i < size; i++)
+        printf("%d ", *(array + i));
+    printf("\n");
+    deleteElement(array, &size, position);
+    return 0;
+}
+
+
+

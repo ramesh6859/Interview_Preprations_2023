@@ -1,0 +1,49 @@
+1.  Let us take a simple file, 1.c. How do you compile with GCC?
+    1.  simplest and most traditional way - gcc <file_name>
+
+2.  Let us specify the output file name. Means, executable file name. You can use any name here.
+    1.  gcc -o <executable_file_name> <c_file_name.c>
+    2.  -o is for the options.
+
+3.  The next one now! - Can we enable all the warnings to be displayed after compilation?
+    1.  Command to be used: gcc -Wall <file_name.c> -o <executable_file_name>
+
+4.  Can you imagine? We can produce the output only for the preprocessing stage? Fun right?
+    1.  use -E.
+    2.  Command: gcc -E <file_name.c> Redirect to .i file.
+
+5.  Well, the question can be weird now! Can we produce only the assembly code?
+    1.  Command: gcc -S <file_name.c> Redirect to .s file.
+
+6.  Can we get better? Can we get only the object files !!
+    1.  Command: gcc -c <file_name.c>
+    2.  Output would be file_name.o
+    3.  You can't read and understand though!
+
+7.  Well, you want all the files?? at one shot??
+    1.  Command: gcc -save-temps <file_name.c>
+
+8.  Do you want to know what happened and what commands are all run during this process?
+    1.  command: gcc -v <file_name.c>
+
+9.  Final one! You want all the quality code without any warning - Convert them to error.
+    1.  Command: gcc -o -Wall -Werror <file_name.c> <executable_file>
+
+10  Command Description
+    1.  r               :   Start running program until a breakpoint or end of program
+    2.  b   fun         :   Set a breakpoint at the beginning of function "fun"
+    3.  b   N           :   Set a breakpoint at line number N of source file currently executing
+    4.  b   file.c:N    :   Set a breakpoint at line number N of file "file.c"
+    5.  d   N           :   Remove breakpoint number N
+    6.  info    break   :   List all breakpoints
+    7.  c               :   Continues/Resumes running the program until the next breakpoint or end of program
+    8.  f               :   Runs until the current function is finished
+    9.  s               :   Runs the next line of the program
+    10. s   N           :   Runs the next N lines of program
+    11. n               :   Like s, but it does not step into functions
+    12. p   var         :   Prints the current value of the variable "var"
+    13. set var=val     :   Assign "val" value to the variable "var"
+    14. bt              :   Prints a stack trace
+    15. q               :   Quit from gdb
+
+

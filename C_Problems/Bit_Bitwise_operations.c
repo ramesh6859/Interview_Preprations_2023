@@ -30,7 +30,7 @@ void MSB_Check(int number)
     if (number & MSB)
         printf("MSB of %d is set (1).\n", number);
     else
-        printf("LSB of %d is unset (0).\n", number);
+        printf("MSB of %d is unset (0).\n", number);
 }
 void GET_nth_bit(int number, int bit)
 {
@@ -111,7 +111,7 @@ void flip_all(int number)
     flippedNumber = ~number;
 
     printf("Original number = %d (in decimal)\n", number);
-    printf("Number after bits are flipped = %d (in decimal)", flippedNumber);
+    printf("Number after bits are flipped = %u (in unsigned decimal)\n", (unsigned int)flippedNumber);
 }
 void count_zeros_and_ones(int number)
 {
@@ -144,31 +144,30 @@ void check_even_or_odd(int number)
 }
 void main()
 {
-    system("cls");
     int *array, input = 0;
     printf("Enter the Number: ");
     scanf("%d", &input);
     printf("The input number is: %d\n", input);
     array = decimal_to_binary(input);
-    // for (int j = 15; j >= 0; j--)
-    // {
-    //     printf("%d", array[j]);
-    // }
-
+    for (int j = 15; j >= 0; j--)
+    {
+        printf("%d", array[j]);
+    }
+    printf("\n");
     // LSB_Check(input);
     // MSB_Check(input);
-    // GET_nth_bit(input, 3);
-    // SET_nth_bit(input, 3);
-    // CLEAR_nth_bit(input, 1);
-    // TOGGLE_nth_bit(input, 1);
+    // GET_nth_bit(input, 2);
+    // SET_nth_bit(input, 2);
+    // CLEAR_nth_bit(input, 3);
+    // TOGGLE_nth_bit(input, 3);
     // GET_highest_order_set_bit(input);
     // GET_lowest_order_set_bit(input);
     // count_trailing_zeros(input);
     // count_leading_zeros(input);
     // flip_all(input);
-    // count_zeros_and_ones(input);
+    count_zeros_and_ones(input);
     // rotate_bits(input, 2);
     // swap_two_numbers(input, 10);
-    check_even_or_odd(input);
+    // check_even_or_odd(input);
     printf("\n");
 }
