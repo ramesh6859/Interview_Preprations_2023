@@ -1,0 +1,424 @@
+#ifndef COMMANDHELPER_H
+#define COMMANDHELPER_H
+
+#ifndef GET_USER_NAME
+#define GET_USER_NAME 0
+#endif
+
+#ifndef GET_USER_PASSWORD
+#define GET_USER_PASSWORD 7
+#endif
+
+#ifndef GET_PROFILE_1
+#define GET_PROFILE_1 14
+#endif
+
+#ifndef GET_PROFILE_2
+#define GET_PROFILE_2 21
+#endif
+
+#ifndef GET_PROFILE_3
+#define GET_PROFILE_3 28
+#endif
+
+#ifndef GET_PROFILE_4
+#define GET_PROFILE_4 35
+#endif
+
+#ifndef GET_PROFILE_5
+#define GET_PROFILE_5 42
+#endif
+
+#ifndef GET_PROFILE_6
+#define GET_PROFILE_6 49
+#endif
+
+#ifndef GET_PROFILE_7
+#define GET_PROFILE_7 56
+#endif
+
+#ifndef GET_PROFILE_8
+#define GET_PROFILE_8 63
+#endif
+
+#ifndef GET_PROFILE_9
+#define GET_PROFILE_9 70
+#endif
+
+#ifndef GET_PROFILE_10
+#define GET_PROFILE_10 77
+#endif
+
+#ifndef GET_PROFILE_11
+#define GET_PROFILE_11 84
+#endif
+
+#ifndef GET_PROFILE_12
+#define GET_PROFILE_12 91
+#endif
+
+#ifndef GET_PROFILE_13
+#define GET_PROFILE_13 98
+#endif
+
+#ifndef GET_PROFILE_14
+#define GET_PROFILE_14 105
+#endif
+
+#ifndef GET_PROFILE_15
+#define GET_PROFILE_15 112
+#endif
+
+#ifndef GET_PROFILE_16
+#define GET_PROFILE_16 119
+#endif
+
+#ifndef GET_PROFILE_17
+#define GET_PROFILE_17 126
+#endif
+
+#ifndef GET_PROFILE_18
+#define GET_PROFILE_18 133
+#endif
+
+#ifndef GET_PROFILE_19
+#define GET_PROFILE_19 140
+#endif
+
+#ifndef GET_PROFILE_20
+#define GET_PROFILE_20 147
+#endif
+
+#ifndef STEP1_COLOUR_BLUE
+#define STEP1_COLOUR_BLUE 154
+#endif
+
+#ifndef STEP2_COLOUR_BLUE
+#define STEP2_COLOUR_BLUE 162
+#endif
+
+#ifndef STEP3_COLOUR_BLUE
+#define STEP3_COLOUR_BLUE 170
+#endif
+
+#ifndef STEP4_COLOUR_BLUE
+#define STEP4_COLOUR_BLUE 178
+#endif
+
+#ifndef STEP5_COLOUR_BLUE
+#define STEP5_COLOUR_BLUE 186
+#endif
+
+#ifndef STEP6_COLOUR_BLUE
+#define STEP6_COLOUR_BLUE 194
+#endif
+
+#ifndef STEP7_COLOUR_BLUE
+#define STEP7_COLOUR_BLUE 202
+#endif
+
+#ifndef STEP8_COLOUR_BLUE
+#define STEP8_COLOUR_BLUE 210
+#endif
+
+#ifndef STEP9_COLOUR_BLUE
+#define STEP9_COLOUR_BLUE 218
+#endif
+
+#ifndef STEP10_COLOUR_BLUE
+#define STEP10_COLOUR_BLUE 226
+#endif
+
+#ifndef STEP1_COLOUR_GREEN
+#define STEP1_COLOUR_GREEN 234
+#endif
+
+#ifndef STEP2_COLOUR_GREEN
+#define STEP2_COLOUR_GREEN 242
+#endif
+
+#ifndef STEP3_COLOUR_GREEN
+#define STEP3_COLOUR_GREEN 250
+#endif
+
+#ifndef STEP4_COLOUR_GREEN
+#define STEP4_COLOUR_GREEN 258
+#endif
+
+#ifndef STEP5_COLOUR_GREEN
+#define STEP5_COLOUR_GREEN 266
+#endif
+
+#ifndef STEP6_COLOUR_GREEN
+#define STEP6_COLOUR_GREEN 274
+#endif
+
+#ifndef STEP7_COLOUR_GREEN
+#define STEP7_COLOUR_GREEN 282
+#endif
+
+#ifndef STEP8_COLOUR_GREEN
+#define STEP8_COLOUR_GREEN 290
+#endif
+
+#ifndef STEP9_COLOUR_GREEN
+#define STEP9_COLOUR_GREEN 298
+#endif
+
+#ifndef STEP10_COLOUR_GREEN
+#define STEP10_COLOUR_GREEN 306
+#endif
+
+#ifndef STEP1_COLOUR_YELLOW
+#define STEP1_COLOUR_YELLOW 314
+#endif
+
+#ifndef STEP2_COLOUR_YELLOW
+#define STEP2_COLOUR_YELLOW 322
+#endif
+
+#ifndef STEP3_COLOUR_YELLOW
+#define STEP3_COLOUR_YELLOW 330
+#endif
+
+#ifndef STEP4_COLOUR_YELLOW
+#define STEP4_COLOUR_YELLOW 338
+#endif
+
+#ifndef STEP5_COLOUR_YELLOW
+#define STEP5_COLOUR_YELLOW 346
+#endif
+
+#ifndef STEP6_COLOUR_YELLOW
+#define STEP6_COLOUR_YELLOW 354
+#endif
+
+#ifndef STEP7_COLOUR_YELLOW
+#define STEP7_COLOUR_YELLOW 362
+#endif
+
+#ifndef STEP8_COLOUR_YELLOW
+#define STEP8_COLOUR_YELLOW 370
+#endif
+
+#ifndef STEP9_COLOUR_YELLOW
+#define STEP9_COLOUR_YELLOW 378
+#endif
+
+#ifndef STEP10_COLOUR_YELLOW
+#define STEP10_COLOUR_YELLOW 386
+#endif
+
+#ifndef ERROR_MESSAGE_COLOR_RED
+#define ERROR_MESSAGE_COLOR_RED 394
+#endif
+
+#ifndef GOTO_ADMIN_PAGE
+#define GOTO_ADMIN_PAGE 402
+#endif
+
+#ifndef GOTO_USER_PAGE
+#define GOTO_USER_PAGE 412
+#endif
+
+#ifndef POWER_RECYCLE
+#define POWER_RECYCLE 422
+#endif
+
+#ifndef SWITCH_ADMIN_PAGE_1
+#define SWITCH_ADMIN_PAGE_1 432
+#endif
+
+#ifndef SWITCH_ADMIN_PAGE_2
+#define SWITCH_ADMIN_PAGE_2 442
+#endif
+
+#ifndef SWITCH_ADMIN_PAGE_3
+#define SWITCH_ADMIN_PAGE_3 452
+#endif
+
+#ifndef SWITCH_ADMIN_PAGE_4
+#define SWITCH_ADMIN_PAGE_4 462
+#endif
+
+#ifndef SWITCH_USER_PAGE_1
+#define SWITCH_USER_PAGE_1 472
+#endif
+
+#ifndef SWITCH_USER_PAGE_2
+#define SWITCH_USER_PAGE_2 482
+#endif
+
+#ifndef SWITCH_USER_PAGE_3
+#define SWITCH_USER_PAGE_3 492
+#endif
+
+#ifndef SWITCH_USER_PAGE_4
+#define SWITCH_USER_PAGE_4 502
+#endif
+
+#ifndef STEP1_TEXT_PENDING
+#define STEP1_TEXT_PENDING 512
+#endif
+
+#ifndef STEP2_TEXT_PENDING
+#define STEP2_TEXT_PENDING 525
+#endif
+
+#ifndef STEP3_TEXT_PENDING
+#define STEP3_TEXT_PENDING 538
+#endif
+
+#ifndef STEP4_TEXT_PENDING
+#define STEP4_TEXT_PENDING 551
+#endif
+
+#ifndef STEP5_TEXT_PENDING
+#define STEP5_TEXT_PENDING 564
+#endif
+
+#ifndef STEP6_TEXT_PENDING
+#define STEP6_TEXT_PENDING 577
+#endif
+
+#ifndef STEP7_TEXT_PENDING
+#define STEP7_TEXT_PENDING 590
+#endif
+
+#ifndef STEP8_TEXT_PENDING
+#define STEP8_TEXT_PENDING 603
+#endif
+
+#ifndef STEP9_TEXT_PENDING
+#define STEP9_TEXT_PENDING 616
+#endif
+
+#ifndef STEP10_TEXT_PENDING
+#define STEP10_TEXT_PENDING 629
+#endif
+
+#ifndef STEP1_TEXT_RUNNING
+#define STEP1_TEXT_RUNNING 642
+#endif
+
+#ifndef STEP2_TEXT_RUNNING
+#define STEP2_TEXT_RUNNING 655
+#endif
+
+#ifndef STEP3_TEXT_RUNNING
+#define STEP3_TEXT_RUNNING 668
+#endif
+
+#ifndef STEP4_TEXT_RUNNING
+#define STEP4_TEXT_RUNNING 681
+#endif
+
+#ifndef STEP5_TEXT_RUNNING
+#define STEP5_TEXT_RUNNING 694
+#endif
+
+#ifndef STEP6_TEXT_RUNNING
+#define STEP6_TEXT_RUNNING 707
+#endif
+
+#ifndef STEP7_TEXT_RUNNING
+#define STEP7_TEXT_RUNNING 720
+#endif
+
+#ifndef STEP8_TEXT_RUNNING
+#define STEP8_TEXT_RUNNING 733
+#endif
+
+#ifndef STEP9_TEXT_RUNNING
+#define STEP9_TEXT_RUNNING 746
+#endif
+
+#ifndef STEP10_TEXT_RUNNING
+#define STEP10_TEXT_RUNNING 759
+#endif
+
+#ifndef STEP1_TEXT_COMPLETED
+#define STEP1_TEXT_COMPLETED 772
+#endif
+
+#ifndef STEP2_TEXT_COMPLETED
+#define STEP2_TEXT_COMPLETED 787
+#endif
+
+#ifndef STEP3_TEXT_COMPLETED
+#define STEP3_TEXT_COMPLETED 802
+#endif
+
+#ifndef STEP4_TEXT_COMPLETED
+#define STEP4_TEXT_COMPLETED 817
+#endif
+
+#ifndef STEP5_TEXT_COMPLETED
+#define STEP5_TEXT_COMPLETED 832
+#endif
+
+#ifndef STEP6_TEXT_COMPLETED
+#define STEP6_TEXT_COMPLETED 847
+#endif
+
+#ifndef STEP7_TEXT_COMPLETED
+#define STEP7_TEXT_COMPLETED 862
+#endif
+
+#ifndef STEP8_TEXT_COMPLETED
+#define STEP8_TEXT_COMPLETED 877
+#endif
+
+#ifndef STEP9_TEXT_COMPLETED
+#define STEP9_TEXT_COMPLETED 892
+#endif
+
+#ifndef STEP10_TEXT_COMPLETED
+#define STEP10_TEXT_COMPLETED 907
+#endif
+
+#ifndef STEP1_CLEAR_FIELD
+#define STEP1_CLEAR_FIELD 922
+#endif
+
+#ifndef STEP2_CLEAR_FIELD
+#define STEP2_CLEAR_FIELD 938
+#endif
+
+#ifndef STEP3_CLEAR_FIELD
+#define STEP3_CLEAR_FIELD 954
+#endif
+
+#ifndef STEP4_CLEAR_FIELD
+#define STEP4_CLEAR_FIELD 970
+#endif
+
+#ifndef STEP5_CLEAR_FIELD
+#define STEP5_CLEAR_FIELD 986
+#endif
+
+#ifndef STEP6_CLEAR_FIELD
+#define STEP6_CLEAR_FIELD 1002
+#endif
+
+#ifndef STEP7_CLEAR_FIELD
+#define STEP7_CLEAR_FIELD 1018
+#endif
+
+#ifndef STEP8_CLEAR_FIELD
+#define STEP8_CLEAR_FIELD 1034
+#endif
+
+#ifndef STEP9_CLEAR_FIELD
+#define STEP9_CLEAR_FIELD 1050
+#endif
+
+#ifndef STEP10_CLEAR_FIELD
+#define STEP10_CLEAR_FIELD 1066
+#endif
+
+#ifndef LOGIN_ERROR_MESSAGE
+#define LOGIN_ERROR_MESSAGE 1082
+#endif
+
+#endif

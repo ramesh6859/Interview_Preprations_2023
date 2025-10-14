@@ -1,0 +1,58 @@
+01.	What is the purpose of the ‘git status’ command?
+	It shows which files are staged, modified, or untracked. I use it to check what’s going on before committing. It helps avoid missing changes or committing the wrong files.
+	
+02.	What does ‘git add’ do?
+	It stages your changes. In simple terms, ‘git add’ selects the files you want to include in your next commit. Now that file is ready to be committed.
+	
+03.	What is a commit in Git?
+	A commit is a saved snapshot of your code at a point in time. It records what changed and when. You also write a message to describe the change. Commits are the heart of Git’s version history.
+	
+04.	How do you check the history of commits in a repository?
+	git log
+		It shows a list of past commits, including who made them, when, and what was changed. You can also use git log –oneline for a cleaner view.
+		
+05.	What is the difference between ‘git pull’ and ‘git fetch’?
+	git pull downloads new changes and merges them into your current branch.
+	git fetch only downloads the changes. It doesn’t merge them automatically. I use fetch when I want to review updates before merging.
+
+06.	What is the use of the ‘.gitignore’ file?
+	It tells Git to skip certain files or folders. For example, I often add node_modules/ or .env to .gitignore so they don’t get tracked or pushed.
+	
+07.	What happens when you run ‘git diff’?
+	It shows the changes made to files that haven’t been staged yet. You can see what lines were added or removed before you commit. I often use it to double-check edits.
+	
+08.	What is the purpose of ‘git log’?
+	It shows the commit history. You can see commit IDs, authors, and messages. This helps track who made changes and why. I sometimes use git log –oneline to get a short summary.
+	
+09.	What is the difference between ‘rebase’ and ‘merge’?
+	Both combine changes from different branches. merge keeps the full history and adds a merge commit. rebase moves your changes on top of another branch, creating a cleaner history. I use rebase to tidy up local commits before pushing.
+	
+10.	How do you revert a specific commit without deleting commit history?
+	git revert <commit_hash>
+		This creates a new commit that undoes the changes from the selected commit. It keeps the full history and is safe for shared branches.
+		
+11.	What does ‘git cherry-pick’ do?
+	It copies a specific commit from one branch to another. If I only need one change from a feature branch, I use git cherry-pick <commit_hash>. This adds that commit to my current branch without merging everything else.
+	
+12.	How do you squash multiple commits into one?
+	Use interactive rebase:
+	git rebase -i HEAD~N (replace N with number of commits)
+		Mark the commits you want to squash with s. Then edit the commit message. I do this before pushing to keep history clean.
+		
+13.	What is Git stash and when would you use it?
+	Git stash temporarily saves your uncommitted changes. I use it when I need to switch branches quickly but don’t want to commit yet. Run git stash to save, and git stash pop to restore the changes later.
+	
+14.	
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1.	What does the ‘git init’ command do?
+2.	How do you stage changes for commit?
+3.	What does ‘git reset’ do and how is it used?
+4.	How do you delete a Git branch?
+5.	How do you push changes to a remote repository?
+6.	How does Git differ from centralized version control systems?
+7.	Why is distributed version control important?
+8.	What are the advantages of using Git for version control?
+9.	How does Git manage file versions internally?
+10.	What is the role of SHA-1 hash in Git version control?
+11.	How is Git used in CI/CD pipelines?
+

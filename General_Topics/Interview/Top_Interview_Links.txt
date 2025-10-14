@@ -2,50 +2,44 @@ Imp links to check
 1.	https://www.hirist.tech/blog/top-25-python-oops-interview-question-2024/
 2.	https://www.hirist.tech/blog/top-20-python-interview-questions-for-data-analyst/
 3.	https://www.hirist.tech/blog/top-15-python-automation-interview-questions-and-answers/
-4.	
+4.	https://www.hirist.tech/blog/top-35-iot-interview-questions-and-answers/
+5.	https://www.hirist.tech/blog/top-55-docker-interview-questions-and-answers/
+6.	https://www.hirist.tech/blog/top-20-c-oops-interview-questions-and-answers/
+7.	https://www.hirist.tech/blog/top-35-cucumber-interview-questions-and-answers/
+8.	https://www.hirist.tech/blog/top-20-sdlc-interview-questions-and-answers/
+9.	https://www.hirist.tech/blog/top-25-ci-cd-interview-questions-and-answers/
+10.	https://www.hirist.tech/blog/top-50-c-interview-questions-and-answers/
+11.	https://www.hirist.tech/blog/top-30-c-interview-questions-and-answers-2/
+12.	https://www.hirist.tech/blog/top-70-linux-interview-questions-and-answers/
+13.	https://www.hirist.tech/blog/top-30-shell-scripting-interview-questions-and-answers/
+14.	https://www.hirist.tech/blog/top-25-unix-interview-questions-and-answers/
+15.	https://www.hirist.tech/blog/top-30-embedded-c-interview-questions-and-answers/
+16.	https://www.hirist.tech/blog/top-30-embedded-systems-interview-questions-and-answers/
 
+1.	https://www.mygreatlearning.com/blog/cpp-interview-questions/
+2.	https://www.mygreatlearning.com/blog/oops-interview-questions/
+3.	https://www.mygreatlearning.com/blog/shell-scripting-interview-questions/
+4.	https://www.mygreatlearning.com/blog/python-interview-questions/
+5.	https://www.mygreatlearning.com/blog/powershell-interview-question-and-answers/
+6.	https://www.mygreatlearning.com/blog/docker-interview-question-and-answers/
+7.	https://www.mygreatlearning.com/blog/linked-list-interview-questions/
+8.	https://www.mygreatlearning.com/blog/linux-interview-questions/
+9.	https://www.mygreatlearning.com/blog/top-data-structure-interview-question-and-answers/
+10.	https://www.mygreatlearning.com/blog/c-exercise/ --- Imp
 
-https://www.hirist.tech/blog/top-35-iot-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-55-docker-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-20-c-oops-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-35-cucumber-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-20-sdlc-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-25-ci-cd-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-50-c-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-30-c-interview-questions-and-answers-2/
-https://www.hirist.tech/blog/top-70-linux-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-30-shell-scripting-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-25-unix-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-30-embedded-c-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-30-embedded-systems-interview-questions-and-answers/
-https://www.hirist.tech/blog/top-25-git-interview-questions-and-answers/
+1.	https://www.geeksforgeeks.org/c/c-interview-questions/
+2.	https://www.geeksforgeeks.org/c/c-coding-interview-questions/
+3.	https://www.geeksforgeeks.org/python/python-interview-questions/
+4.	https://www.geeksforgeeks.org/explore?page=9&category=CPP&sortBy=submissions&itm_source=geeksforgeeks&itm_medium=main_header&itm_campaign=practice_header
+5.	https://www.geeksforgeeks.org/explore?page=1&category=python&sortBy=submissions&itm_source=geeksforgeeks&itm_medium=main_header&itm_campaign=practice_header
 
-https://www.mygreatlearning.com/blog/cpp-interview-questions/
-https://www.mygreatlearning.com/blog/embedded-c-interview-questions/
-https://www.mygreatlearning.com/blog/oops-interview-questions/
-https://www.mygreatlearning.com/blog/c-interview-questions/
-https://www.mygreatlearning.com/blog/shell-scripting-interview-questions/
-https://www.mygreatlearning.com/blog/python-interview-questions/
-https://www.mygreatlearning.com/blog/powershell-interview-question-and-answers/
-https://www.mygreatlearning.com/blog/docker-interview-question-and-answers/
-https://www.mygreatlearning.com/blog/linked-list-interview-questions/
-https://www.mygreatlearning.com/blog/linux-interview-questions/
-https://www.mygreatlearning.com/blog/top-data-structure-interview-question-and-answers/
-
-https://www.geeksforgeeks.org/c/c-interview-questions/
-https://www.geeksforgeeks.org/c/c-coding-interview-questions/
-https://www.geeksforgeeks.org/python/python-interview-questions/
-https://www.geeksforgeeks.org/explore?page=9&category=CPP&sortBy=submissions&itm_source=geeksforgeeks&itm_medium=main_header&itm_campaign=practice_header
-https://www.geeksforgeeks.org/explore?page=1&category=python&sortBy=submissions&itm_source=geeksforgeeks&itm_medium=main_header&itm_campaign=practice_header
-
-https://www.wecreateproblems.com/interview-questions/operating-system-interview-questions
-https://www.wecreateproblems.com/interview-questions/linux-commands-interview-questions
-https://www.wecreateproblems.com/interview-questions/docker-interview-questions
-https://www.wecreateproblems.com/interview-questions/cpp-interview-questions
-https://www.wecreateproblems.com/interview-questions/git-interview-questions
-https://www.wecreateproblems.com/interview-questions/python-oops-interview-questions
-https://www.wecreateproblems.com/interview-questions/linux-troubleshooting-interview-questions
-https://www.wecreateproblems.com/interview-questions/embedded-c-interview-questions
+1.	https://www.wecreateproblems.com/interview-questions/operating-system-interview-questions
+2.	https://www.wecreateproblems.com/interview-questions/linux-commands-interview-questions
+3.	https://www.wecreateproblems.com/interview-questions/docker-interview-questions
+4.	https://www.wecreateproblems.com/interview-questions/cpp-interview-questions
+5.	https://www.wecreateproblems.com/interview-questions/git-interview-questions
+6.	https://www.wecreateproblems.com/interview-questions/python-oops-interview-questions
+7.	https://www.wecreateproblems.com/interview-questions/linux-troubleshooting-interview-questions
 
 https://embeddedwala.com/EmbeddedSystems/interview-questions
 https://www.naukri.com/code360/library/embedded-c-interview-questions
