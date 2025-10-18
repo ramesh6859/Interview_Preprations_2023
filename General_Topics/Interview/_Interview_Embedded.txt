@@ -213,3 +213,14 @@
 		1.	Define the ISR to handle the event (e.g., reading data from a sensor).
 	3.	Enable Global Interrupts:
 		1.	Ensure that global interrupts are enabled so that the system can respond to interrupts.                
+
+22.	What are bootloaders, and how are they related to .bin/.hex files? 
+	1.	A bootloader is a small program loaded at startup that initializes hardware and loads main firmware. 
+	2.	Bootloader code and main firmware are often stored as .bin or .hex files for flashing. 
+	3.	The bootloader may load additional .bin or .hex firmware files from storage or over network.
+
+23.	What’s the role of a startup file in microcontroller programming? 
+	1.	Startup files set up the initial stack, initialize memory and hardware, define interrupt vectors, and jump to main(). 
+	2.	Written in assembly or C. 
+	3.	Critical for proper system initialization before main firmware executes.
+
