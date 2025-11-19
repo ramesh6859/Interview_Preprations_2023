@@ -12,15 +12,15 @@ Volatile Keyword
 		}
 		// now safe to process data
 	Without volatile, compiler could optimize away the loop, thinking data_ready is always 0.
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 Volatile with Const
 	It is possible for a variable to be both const and volatile. const means the program cannot modify it directly. volatile means the compiler must always reload it before use, as it may change externally.
 	Example
 		const volatile int sensorValue = 0;  // read-only to the program, but hardware may update it.
 	Here, sensorValue can't be modified by the program, but hardware (like a memory-mapped I/O device) may update it in the background.
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 Const-Volatile Qualifiers
     This guide summarizes how const and volatile qualifiers interact with pointers, arrays, double pointers, and function pointers.
 
@@ -208,8 +208,8 @@ FUNCTION POINTERS
     - Only pointers to functions can be qualified.
     - A scalar return type may be const, but rarely useful.
 
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
 Storage Classes
 1.	Local (Automatic) Variable
 	1.	Declared: Inside a function/block (optionally with auto; implied by default).
@@ -381,5 +381,3 @@ Storage Classes
 			}
 			return 0;
 		}
-
-	

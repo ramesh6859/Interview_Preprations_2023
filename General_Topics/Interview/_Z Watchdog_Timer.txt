@@ -1,0 +1,29 @@
+01.	What is a Watchdog Timer (WDT), why is it used, and what happens if it expires?
+	1.	It is a hardware timer that automatically resets the microcontroller if the software fails to "kick" (refresh) it periodically. 
+	2.	It is used to recover from system lockups (infinite loops, deadlocks) and ensure reliability.
+	3.	Upon expiration, the system triggers a hardware reset.
+
+02.	How is a WDT refreshed and configured?
+	It is refreshed by writing a specific value to a register or calling a function. The timeout period (ranging from milliseconds to seconds) is set using configuration registers and prescalers (dividers that adjust counting speed).
+	
+03.	What is a Windowed Watchdog Timer (WWDT)?
+	A stricter version of a WDT that requires the refresh to occur within a specific time window (not too late, but also not too early). Refreshing too early indicates a logic error and will trigger a system reset.
+	
+04.	Where should WDT refresh code be placed, and where should it be avoided?
+	It should be placed in the main loop or task scheduler. It should generally be avoided inside Interrupt Service Routines (ISRs), because interrupts might keep running even if the main program has crashed, rendering the WDT useless.
+	
+05.	How do you distinguish a WDT reset from a normal power-on reset?
+	By checking the specific "Reset Cause" flags in the microcontroller's status register immediately after startup.
+	
+06.	How does WDT interact with debugging and Sleep modes?
+	1.	Debugging: WDTs often need to be disabled or paused during debugging, otherwise, hitting a breakpoint will cause the timer to expire and reset the chip.
+	2.	Sleep: Some WDTs can run during sleep mode to wake the MCU, while others are automatically paused to save power.
+	
+07.	How is WDT used in RTOS and Safety-Critical Systems (e.g., ISO 26262)?
+	1.	RTOS: Often used with a "task monitor" where every task must report in before the hardware WDT is refreshed.
+	2.	Safety: It is a critical component for Functional Safety compliance, ensuring the system enters a known fail-safe state if faults occur.
+	
+08.	What is the difference between an Internal and External Watchdog?
+	1.	Internal: Built into the microcontroller (easy to use, but shares the same power/clock domains).
+	2.	External: A separate hardware chip (more robust against total MCU power/clock failures).
+	

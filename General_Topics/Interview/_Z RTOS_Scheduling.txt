@@ -1,0 +1,41 @@
+01.	How do you implement real-time scheduling in an embedded system?
+	Real-time scheduling ensures tasks meet deadlines.
+	1.	Preemptive Scheduling: RTOS interrupts running tasks for higher-priority ones.
+	2.	Non-Preemptive Scheduling: Tasks run to completion.
+	3.	Algorithms: Priority-Based, Round-Robin, Earliest Deadline First (EDF).
+	4.	RTOS: Use existing solutions like FreeRTOS or CMSIS RTOS.
+	
+02.	Explain the role of an RTOS in embedded systems.
+	1.	Task Scheduling: Manages concurrent tasks based on priority/deadlines.
+	2.	Multitasking: Allows CPU to switch between tasks (sensor, display, comms).
+	3.	Interrupt Handling: Manages ISR execution and high-priority events.
+	4.	Resource Management: Allocates memory, I/O, and CPU time.
+	5.	Timing Services: Provides delays, periodic execution, and timeouts.
+	6.	Synchronization: Mutexes, semaphores, queues for safe communication.
+	
+03.	What is a real-time operating system (RTOS) and when is it necessary in Embedded C?
+	An RTOS guarantees tasks complete within a specific time frame.
+	1.	Necessary when:
+		1.	Time-Critical Applications: Missed deadlines cause failure (industrial, medical).
+		2.	Multitasking: Need to run multiple tasks concurrently.
+		3.	Complex Interrupts/IO: Requires efficient handling.
+		
+04.	What is a context switch in Embedded C programming?
+	The process of saving/restoring the state of a task to switch between them.
+	1.	Saving State: Saves registers/stack of preempted task.
+	2.	Loading State: Restores state of the next task.
+	3.	Trigger: Usually triggered by interrupts or scheduler.
+	
+05.	How do you handle concurrency and synchronization in Embedded C programming?
+	1.	Concurrency: Achieved via Multitasking (RTOS) and Interrupts.
+	2.	Synchronization:
+		1.	Mutexes: Ensure exclusive access to shared resources.
+		2.	Semaphores: Manage access or signaling between tasks.
+		3.	Critical Sections: Disable interrupts to protect code/resources.
+		
+06.	Explain the concept of RTOS scheduling algorithms and their implementation in Embedded C.
+	1.	Round-Robin: Circular order, fixed time slice.
+	2.	Priority-based: Highest priority runs first; preemptive allows interruption.
+	3.	Earliest Deadline First (EDF): Earliest deadline runs first.
+	4.	Rate-Monotonic Scheduling (RMS): Tasks with shorter periods get higher priority.
+	

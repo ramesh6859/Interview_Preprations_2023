@@ -1,0 +1,13 @@
+01.	Can you tell me how to check whether a linked list is circular?
+	1.	Store the header node into some other variable and then transverse the list.
+	2.	A linked list is not circular, if we get null at the next part of any node and if the next node is the same as the stored node, then it is a circular linked list.
+	3.	An empty linked list is also considered a circular linked list.
+	
+02.	What is dynamic data structure?
+	1.	While performing operations, the size of the structure is not fixed and can vary according to the requirement in the dynamic data structure.
+	2.	This data structure is designed to facilitate the change of data structures in the run time.
+	3.	The data in memory has the flexibility to grow or shrink in size.
+	4.	This data structure can “overflow” if it exceeds its limit.
+	
+	
+	

@@ -1,0 +1,20 @@
+01.	How do you handle communication between different devices in Embedded C (e.g., I2C, SPI)?
+	1.	I2C (Inter-Integrated Circuit): A serial protocol using two wires (SDA, SCL). Slower than SPI but requires fewer pins; good for multi-device connections.
+	2.	SPI (Serial Peripheral Interface): High-speed serial protocol using multiple lines (MISO, MOSI, SCK, SS). Faster than I2C; good for point-to-point (SD cards, displays).
+	
+02.	How do you configure an SPI interface in Embedded C?
+	1.	Set SPI Pins: Configure MISO, MOSI, SCK, and SS as inputs/outputs.
+	2.	Configure SPI Control Register: Define clock polarity, phase, data order, clock rate, and enable SPI.
+	3.	Enable SPI: Set the enable bit (e.g., SPE) in the control register.
+	
+03.	How does bit-banging work for communication protocols like I2C or SPI?
+	Bit-banging uses software to manually toggle I/O pins to emulate protocols instead of using dedicated hardware.
+	1.	I2C Bit-Banging: Software drives SCL and SDA lines, toggling clock and sampling data bit-by-bit.
+	2.	SPI Bit-Banging: Software toggles MOSI, MISO, SCK, and SS lines.
+	3.	Trade-off: More flexible but slower and consumes more CPU than hardware peripherals.
+	
+04.	What is the importance of I2C communication in Embedded C applications?
+	1.	Simplicity: Uses only two wires (SDA, SCL).
+	2.	Multi-Master/Slave: Supports complex systems with multiple peripherals sharing the bus.
+	3.	Addressing: Devices have unique addresses, simplifying communication.
+	

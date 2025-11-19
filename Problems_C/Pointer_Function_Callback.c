@@ -1,9 +1,14 @@
 #include <stdio.h>
-int sum(int, int);
-int subtract(int, int);
-int display(int (*ptr)(int, int), int, int);
-int main()
-{
+int sum(int first, int second) {
+    return first + second;
+}
+int subtract(int first, int second) {
+    return first - second;
+}
+int display(int (*ptr)(int, int), int a, int b) {
+    return ptr(a, b);
+}
+int main() {
     system("cls");
     int first_no, second_no, add, minus;
     printf("Enter the first number: ");
@@ -14,16 +19,4 @@ int main()
     minus = display(subtract, first_no, second_no);
     printf("Addition: %d\n", add);
     printf("Subtraction: %d\n", minus);
-}
-int sum(int first, int second)
-{
-    return first + second;
-}
-int subtract(int first, int second)
-{
-    return first - second;
-}
-int display(int (*ptr)(int, int), int a, int b)
-{
-    return ptr(a, b);
 }

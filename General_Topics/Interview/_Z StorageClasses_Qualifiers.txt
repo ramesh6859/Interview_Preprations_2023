@@ -1,0 +1,88 @@
+01. What are local static variables? What is their use?
+    1.  A local static variable is a variable whose lifetime doesn't end with a function call where it is declared.
+    2.  It extends for the lifetime of complete program.
+    3.  All calls to the function share the same copy of local static variables.
+    4.  Static variables can be used to count the number of times a function is called.
+    5.  Static variables get the default value as 0.
+    6.  Stored in the static data area (not on the stack).
+
+02. What happens if you use an uninitialized variable in C?
+    1.  Global and static variables are initialized to 0 (or NULL for pointers) automatically if not explicitly initialized.
+    2.  Local (automatic) variables are not initialized and contain indeterminate (garbage) values.
+    3.  Local non-static variables without initialization leads to undefined behavior and should never done. Their value can be random, depending on leftover data in memory.
+
+03. What are static functions? What is their use?
+    1.  In C, functions are global by default.
+    2.  The "static" keyword before a function name makes it static.
+    3.  Unlike global functions in C, access to static functions is restricted to the file where they are declared.
+    4.  When we want to restrict access to functions, we make them static.
+    5.  Another reason for making functions static can be reuse of the same function name in other files.
+
+04. What is an extern keyword?
+    1.  The extern keyword in C is used to declare a variable or function that is defined in another file or later in the same file.
+    2.  It tells the compiler that the actual memory allocation or definition exists elsewhere.
+    3.  Commonly used in multi-file programs, extern helps share global variables or functions across files without redefining them.
+    4.  It does not allocate memory, only the definition does.
+
+05. What are storage classes in C?
+    A storage class represents information about variable such as variable scope, location, value, lifetime etc. There are four types of Storage classes.
+    1.  Auto (default storage class)
+    2.  Extern (global variable)
+    3.  Static
+    4.  Register
+
+06. What are the advantages of using volatile in Embedded C programming?
+    The volatile keyword tells the compiler that a variable may change at any time, often outside the scope of the program (e.g., by an interrupt or hardware peripheral). Advantages:
+    1.  Prevents Optimization: Without volatile, the compiler might optimize away accesses to variables it assumes don’t change, leading to incorrect behavior in embedded systems (e.g., variable values read from hardware registers).
+    2.  Interrupts: Ensures that variables modified by an interrupt handler are not cached by the compiler, which is important for correct interrupt-driven behavior.
+    3.  Hardware Registers: When dealing with memory-mapped hardware registers, volatile ensures that every read/write operation is executed, preventing the compiler from optimizing or caching it.
+
+07. Explain the use of volatile and const in Embedded C with examples.
+    1.  volatile:
+        1.  The volatile keyword tells the compiler that the value of a variable can be changed unexpectedly, typically by hardware (e.g., a peripheral register) or an interrupt service routine (ISR). This prevents the compiler from optimizing the variable, ensuring that every read or write operation accesses the variable directly, as expected.
+        2.  Use Case: If a variable is modified by hardware or external factors, and you need the most current value during each read, volatile ensures that the compiler does not optimize out necessary reads and writes.
+    2.  const:
+        1.  The const keyword ensures that the value of a variable cannot be modified after initialization. It is commonly used for defining constants, read-only memory regions, or immutable data.
+        2.  Use Case: Prevent accidental modification of critical configuration parameters or constant values that should remain unchanged.
+
+08. Where do const variables get stored?
+    1.  The storage location of a const variable depends on its scope, type, and how it is initialized. There is no single location.
+    2.  Read-Only Data Section (.rodata): Global or static const variables with initializers known at compile time are typically stored in the .rodata section of the program's memory. This memory is marked as read-only by the operating system, and any attempt to write to it will cause a segmentation fault.
+    3.  On the Stack: Local const variables (defined inside a function) are usually stored on the stack, just like regular local variables. In this case, the const keyword is a compile-time directive that prevents the programmer from modifying the variable. The memory itself is not necessarily hardware-protected read-only memory.
+    4.  Optimized Away: For simple const variables (e.g., const int size = 10;), the compiler may optimize the variable out entirely. Instead of allocating storage, it will directly substitute the value 10 into the machine code wherever the variable is used.
+    5.  Summary: The location is context-dependent. It's in the read-only data section for global/static constants, on the stack for local constants, or potentially optimized away by the compiler.
+
+09. Explain the concept of "bitwise operators" with examples.
+    Bitwise operators operate on individual bits of integer data types. These operators are used to manipulate data at the bit level and are essential for embedded systems programming, where control over specific bits is often necessary (e.g., for configuring hardware registers or setting flags). Common Bitwise Operators:
+    1.  AND (&): Performs a bitwise AND operation. Only bits set in both operands are set in the result.
+    2.  OR (|): Performs a bitwise OR operation. If a bit is set in either operand, it is set in the result.
+    3.  XOR (^): Performs a bitwise exclusive OR operation. Bits are set in the result only if they are set in one operand but not both.
+    4.  NOT (~): Inverts all the bits of the operand.
+    5.  Shift Left (<<): Shifts bits to the left, effectively multiplying the value by powers of 2.
+    6.  Shift Right (>>): Shifts bits to the right, effectively dividing the value by powers of 2.
+
+10. What are the common data types used in Embedded C?
+    1.  int: Typically used for integer values. In embedded systems, int is usually 16-bit or 32-bit, depending on the architecture.
+    2.  char: Represents a single byte, often used for ASCII characters or small integers.
+    3.  float and double: Used for floating-point arithmetic. However, these are avoided in highly resource-constrained systems due to their higher computational cost and limited precision.
+    4.  long: An extended version of int, used for larger integer values.
+    5.  Modifiers:
+        1.  signed: Indicates that the variable can hold both positive and negative values.
+        2.  unsigned: Indicates that the variable can only hold non-negative values, which is often used for flags or counters in embedded systems.
+    6.  Pointer Types: Pointers are heavily used in Embedded C to reference memory locations and hardware registers.
+    7.  Structures (struct): Structures are used to group different data types together, often for representing a complex peripheral (e.g., a UART register structure).
+    8.  Volatile: Used to declare variables that may be modified by hardware or an interrupt, which ensures that the compiler doesn’t optimize them out.
+    9.  Fixed-Size Types: Libraries like stdint.h provide fixed-width integer types, such as int8_t, uint16_t, and uint32_t, to ensure the data types have predictable sizes, especially on platforms with varying word sizes.
+
+11. What are inline functions and why are they used in Embedded C?
+    Inline functions are functions that are expanded in place where they are called, rather than being invoked through a traditional function call mechanism. This is achieved by the inline keyword in C.
+    1.  Performance:
+        1.  Inline functions eliminate the overhead of a function call, as the code is directly inserted where the function is called. This can be beneficial in time-critical embedded systems where minimizing overhead is essential.
+    2.  Code Optimization:
+        1.  By using inline functions, compilers can optimize code by eliminating unnecessary function calls, especially in tight loops or frequently called functions.
+    3.  Memory Efficiency:
+        1.  Although inline functions increase code size by duplicating the function body at each call site, in some cases, they may help optimize the use of memory by eliminating stack operations involved in function calls.
+    4.  Simplicity and Readability:
+        1.  Inline functions make the code more readable and reusable while avoiding code duplication for small utility functions.
+    5.  However, the compiler may ignore the inline keyword if it determines that inlining is not beneficial (e.g., for large functions).
+

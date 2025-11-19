@@ -1,0 +1,144 @@
+01. How the malloc internally work? How do you implement malloc?
+    1.  The heap memory is represented as a list of memory blocks, each having metadata about its size and whether it is free or allocated.
+    2.  On a malloc request, the allocator searches this free list for a block large enough to satisfy the request.
+    3.  If a suitable free block is found, it may be split into two parts: one that exactly fits the requested size and the other kept free.
+    4.  If no suitable block exists, malloc requests more memory from the operating system (using system calls like brk() or sbrk()).
+    5.  The allocated block's address is returned to the caller.
+    6.  When memory is freed, adjacent free blocks are merged to reduce fragmentation.
+
+02. What is malloc in C?
+    1.  Malloc is used for dynamic memory allocation. Malloc, refers to memory allocation, which reserves a block of memory for specific bytes. It initializes each block with default garbage value and returns a pointer of type void.
+    2.  Example: ptr = (int*) malloc(10 * sizeof(int));
+    3.  The size of int is 4 bytes so this statement will allocate 40 bytes of memory. The pointer ptr will hold the address of the first byte in the allocated memory.
+
+03. How to know size of memory allocated by malloc using pointer?
+    1.  In standard C, there is no built-in, portable way to know the size of memory allocated by malloc just from the pointer it returns. The pointer only points to the usable memory, and the size information is kept internally by the allocator, not accessible to the program directly.​
+    2.  malloc manages allocation metadata (like block size) hidden before or after the returned pointer internally.
+    3.  The C standard library doesn't expose any API to query this size from a pointer.
+    4.  Track size yourself: When you call malloc, store the requested size in a variable or data structure alongside the pointer for later use.
+    5.  Platform-specific functions: Some OS or C library implementations provide non-standard extensions to get the usable size of a malloc block.
+    6.  The portable and recommended way is to always keep track of the size separately.
+    7.  Using platform-specific querying functions can help with debugging or diagnostics but should not be relied on for core logic.​
+    8.  If you need a practical solution, managing the size alongside your pointers is the safest and most portable approach.
+
+04. What are the differences between malloc() and calloc() in C?
+	Both malloc() and calloc() are used for dynamic memory allocation in C, but they differ in the way memory is allocated and initialized.
+	1.	malloc() (Memory Allocation):
+		1.	Allocates a specified number of bytes of memory.
+		2.	Does not initialize the allocated memory (it contains garbage values).
+		3.	Example: int* arr = (int*)malloc(10 * sizeof(int)); // Allocates memory for 10 integers
+	2.	calloc() (Contiguous Allocation):
+		1.	Allocates memory for a specified number of elements, each of a specified size.
+		2.	Initializes the allocated memory to zero.
+		3.	Example: int* arr = (int*)calloc(10, sizeof(int)); // Allocates and initializes an array of 10 integers to 0
+	3.	Key Difference:
+		1.	malloc() allocates uninitialized memory, while calloc() allocates and initializes memory to zero.
+		
+05.	What is the difference between static and dynamic memory allocation?
+	Memory allocation in embedded systems can be categorized into static and dynamic types, each with its own advantages and limitations.
+	1.	Static Memory Allocation:
+		1.	Definition: Memory is allocated at compile time. The size and structure of memory allocation are determined before the program runs, and the memory is reserved throughout the program's execution.
+		2.	Examples: Global variables, static variables, and constants.
+		3.	Advantages:
+			1.	Fast access since memory is already allocated.
+			2.	No fragmentation.
+			3.	Predictable memory usage, ideal for real-time and embedded systems.
+		4.	Disadvantages:
+			1.	Limited flexibility; you cannot change memory allocation dynamically during runtime.
+			2.	Can lead to memory wastage if not optimized.
+	2.	Dynamic Memory Allocation:
+		1.	Definition: Memory is allocated during runtime using functions like malloc(), calloc(), or realloc(). The size of the memory can be decided dynamically based on runtime conditions.
+		2.	Examples: malloc(), calloc(), and free().
+		3.	Advantages:
+			1.	Flexible memory usage; can allocate or deallocate memory as needed.
+			2.	Suitable for complex data structures like linked lists, trees, etc.
+		4.	Disadvantages:
+			1.	Slower than static allocation due to runtime allocation.
+			2.	Risk of memory fragmentation and leaks, which is especially problematic in embedded systems with limited memory.
+	3.	In embedded systems, static memory allocation is preferred due to its predictability and the constraints of limited resources. Dynamic allocation is used cautiously, as it may lead to unpredictable behavior, especially in resource-constrained environments.
+	
+06. How memory leak is detected and various ways of handling
+	1.	Memory leak detection
+		1.	Memory leaks occur when dynamically allocated memory is not properly deallocated, causing the program to lose reference to it and resulting in gradual memory consumption growth.
+		2.	Manual Code Review and Best Practices: Carefully verify that every allocation (malloc, calloc, realloc) has a corresponding free. However, this can be error-prone and difficult in large codebases.
+		3.	Using Debugging Tools:
+			1.	Valgrind: A powerful tool that detects memory leaks and invalid memory access. It runs the program in a monitored environment and reports leaks with contextual source code information.
+			2.	AddressSanitizer (ASan): Integrated into compilers (GCC/Clang), offering faster, runtime leak detection with detailed reports.
+		4.	Custom Allocator Tracking: Intercept allocation and deallocation calls in your program to log memory usage and identify leaks.
+		5.	CRT Debugging on Windows: Using debug heap functions like _CrtDumpMemoryLeaks to report leaks.
+	2.	Ways to Handle and Prevent Memory Leaks:
+		1.	Consistent Pairing of Allocations and Deallocation: Adopt programming patterns ensuring that allocated memory is always freed, such as allocating and freeing in the same module or scope.
+		2.	Use Smart Pointers or Automatic Memory Management: In C++, use RAII principles and smart pointers (unique_ptr, shared_ptr) to manage memory automatically.
+		3.	Avoid Memory Ownership Confusion: Clearly document and design who owns the allocated memory and is responsible for freeing it.
+		4.	Periodic Leak Checks During Development: Integrate tools like Valgrind or ASan into regular testing to detect leaks early.
+		5.	Implement Custom Debugging Wrappers: Write wrapper functions around malloc/free with logging to track allocations and frees.
+		
+07.	How do you handle memory fragmentation in Embedded C systems?
+	Memory fragmentation occurs when free memory is split into small, non-contiguous blocks, making it difficult to allocate large chunks of memory. In embedded systems, this can lead to inefficient memory usage and crashes. Here’s how to handle it:
+	1.	Avoid Dynamic Memory Allocation:
+		1.	Minimize or avoid the use of functions like malloc() and free(), as they are prone to causing fragmentation. Instead, prefer static memory allocation, where memory is allocated at compile time.
+	2.	Memory Pooling:
+		1.	Use a memory pool (or block allocator), where memory is allocated in fixed-size chunks. This reduces fragmentation since the memory is allocated and freed in predictable patterns.
+	3.	Compaction:
+		1.	In systems with dynamic memory allocation, compaction techniques can be used to move data around and free up contiguous blocks. This, however, adds overhead and complexity.
+	4.	Stack Allocation:
+		1.	Allocate memory on the stack for local variables when possible, as stack memory is automatically freed when a function exits, reducing the risk of fragmentation.
+	5.	Memory Management Techniques:
+		1.	Use memory management algorithms like first-fit, best-fit, or buddy systems to reduce fragmentation and efficiently allocate memory blocks.
+	6.	Real-Time Operating Systems (RTOS):
+		1.	Some RTOSs offer efficient memory management techniques to minimize fragmentation, including fixed-size memory blocks or garbage collection features.
+		
+08.	What is the stack and heap memory in embedded systems?
+	Memory in embedded systems can generally be divided into stack and heap:
+	1.	Stack:
+		1.	Used for function call management, local variables, and return addresses.
+		2.	Memory is allocated and deallocated automatically as functions are called and return.
+		3.	Limited size, typically managed by the system's hardware, and grows and shrinks as needed.
+		4.	Overflowing the stack (e.g., deep recursion or large local variables) can cause a stack overflow, which may crash the system.
+	2.	Heap:
+		1.	Used for dynamic memory allocation at runtime (using functions like malloc() or calloc).
+		2.	Memory must be manually managed (allocated and freed).
+		3.	Larger than the stack but slower and prone to fragmentation.
+	3.	In embedded systems, stack memory is more predictable, and heap usage should be limited or avoided due to potential fragmentation and unpredictable behavior.
+	
+09.	In a Process Address Space what if stack or heap collide?
+	1.	In a typical process virtual address space, the stack and the heap are placed at opposite ends and grow towards each other. The stack grows downwards (from high addresses to low), while the heap grows upwards (from low addresses to high).
+	2.	A direct "collision" where they silently overwrite each other is generally prevented by the operating system's memory management. Before they can collide, the process will run out of its allocated virtual address space.
+	3.	Stack Overflow: If the stack grows excessively (e.g., due to infinite recursion or very large local variables), it will cross its designated boundary. The OS detects this attempt to access an invalid memory page and raises an exception, which usually results in a segmentation fault (SIGSEGV), terminating the program.
+	4.	Heap Exhaustion: If the heap grows excessively, calls to malloc() will eventually fail. The allocator will ask the OS for more memory, and the OS will refuse because there is no more contiguous virtual address space available. malloc() will then return NULL. If the program does not check for this NULL return and tries to use the pointer, it will likely cause a segmentation fault.
+	5.	Therefore, a stack/heap collision doesn't happen as a silent corruption. Instead, it manifests as a fatal, unrecoverable runtime error—either a stack overflow crash or a heap allocation failure.
+	6.	In modern 64-bit systems with vast virtual address spaces, a true collision is extremely rare. Stack overflow due to recursion remains a more common programming error.
+	
+10.	Tell me the logic how can you find depth of a stack?
+	1.	Finding the exact depth of the stack in terms of function calls is complex, but you can estimate the current stack usage in bytes with a simple, though non-portable, trick.
+	2.	Establish a Baseline: In the main() function (or early in the program's execution), declare a local variable and take its address. This address serves as a rough approximation of the stack's starting point.
+	3.	Get the Current Position: In the function where you want to measure the depth, declare another local variable and take its address. This represents the current position of the stack pointer.
+	4.	Calculate the Difference: Calculate the absolute difference between the baseline address and the current address. Since the stack typically grows downwards, this would be (baseline_address - current_address). This difference gives you the number of bytes the stack has grown since the program started.
+	5.	Important Caveats (Why this is a "hack"):
+		1.	Non-Portable: The C standard does not guarantee the direction of stack growth. This logic only works on architectures where the stack grows downwards.
+		2.	Compiler Optimizations: Compilers can reorder variables, store them in registers instead of on the stack, or add padding, making the byte count an approximation, not an exact measurement.
+	6.	The Proper Way (for Debugging): The reliable method is to use a debugger (like GDB). The backtrace (or bt) command in GDB walks the stack frames, showing you the exact function call chain and thus the true "depth" in terms of nested calls. This is the standard approach for debugging stack-related issues.
+	
+11.	How do you manage stack overflow and buffer overflow in Embedded Systems?
+	Stack Overflow and Buffer Overflow are two common issues that can lead to system crashes, unpredictable behavior, and data corruption, especially in embedded systems with limited memory resources.
+	1.	Managing Stack Overflow:
+		1.	Stack Size Allocation:
+			1.	Ensure that the stack size is adequate for your application’s worst-case scenario. Many embedded systems have a default stack size that might not be enough for complex or recursive functions.
+			2.	Static Allocation: In embedded systems, it's common to statically allocate the stack size at compile-time, and this value should be calculated based on the expected function calls and recursion depth.
+		2.	Monitor Stack Usage:
+			1.	Use debugging tools to monitor stack usage during development. Some microcontrollers provide stack-checking hardware features that allow you to detect stack overflows.
+		3.	Compiler/Linker Options:
+			1.	Use the appropriate compiler flags or linker scripts to set the stack size and detect stack overflows during runtime.
+		4.	Guard against Recursive Function Calls:
+			1.	Minimize the depth of recursive functions or consider converting them into iterative processes to prevent stack overflow due to excessive recursion.
+	2.	Managing Buffer Overflow:
+		1.	Bounds Checking:
+			1.	Always check the bounds of arrays and buffers before accessing or modifying them. For instance, if using strings or buffers, ensure that you don’t write more data than the buffer can hold.
+		2.	Safe Functions:
+			1.	Use safer alternatives to unsafe functions that don’t perform bounds checking, such as snprintf() instead of sprintf() in C, or strncpy() instead of strcpy().
+		3.	Static Analysis Tools:
+			1.	Use static analysis tools to detect buffer overflow vulnerabilities during development.
+		4.	Stack Canaries/Guard Variables:
+			1.	Implement stack canaries (special values placed between variables on the stack) to detect and prevent buffer overflow attacks.
+
+

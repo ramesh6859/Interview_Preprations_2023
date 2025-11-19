@@ -1,0 +1,47 @@
+01.	What is the role of a compiler in Embedded C programming?
+	The compiler in Embedded C programming serves as a tool that translates the C source code into machine-readable code (binary or object code) that can be executed by the target microcontroller. The process typically involves several stages:
+	1.	Preprocessing: The preprocessor handles macros (#define), includes header files (#include), and other preprocessor directives.
+	2.	Compilation: The compiler translates the source code into an intermediate assembly or object code. The compiler optimizes the code for the target architecture to improve performance or reduce size.
+	3.	Assembly: The assembly code is converted into machine code, which is the low-level code that the microcontroller understands.
+	4.	Linking: The linker combines the object code with other libraries or files (such as system libraries) to create the final executable. It also resolves references to variables or functions.
+	5.	Optimization: In Embedded C, optimization is crucial. The compiler often has various options to optimize for speed, size, or power consumption, depending on the embedded system’s requirements.
+	
+02.	What is a build system and why is it important for compilation?
+	1.	A build system automates the process of compiling source code, linking, and generating executables or libraries. It manages dependencies and only recompiles files that have changed, saving time and avoiding redundant work.
+	2.	Example: make is a popular build system using Makefile scripts to define build rules and dependencies.
+	
+03.	How do static and dynamic linking differ?
+	1.	Static linking: All necessary library code is copied into the final executable during linking. Resulting binary is self-contained but larger.
+	2.	Dynamic linking: Libraries are loaded at runtime. Executable contains references but not the library code, resulting in smaller files and sharing libraries across programs.
+	3.	Example: Windows .exe often uses dynamic linking for DLLs; embedded systems typically prefer static linking.
+	
+04.	What is a linking error and how can it be resolved?
+	1.	Linking errors occur when the linker can’t find references to external symbols (functions or variables).
+	2.	Example: Missing definition for a function declared in a header causes: undefined reference to 'myFunc'
+	3.	Resolved by ensuring the object file or library implementing the symbol is included in the link command.
+	
+05.	How do linker scripts work, and how do they help place code and data in memory regions?
+	1.	Linker scripts define memory layout and control placement of code and data sections.
+	2.	They assign sections like .text, .data, .bss to specific addresses or memory banks.
+	3.	Crucial for embedded to optimize limited memory and define vector tables, RAM, and peripheral mappings.
+	
+06.	What is a symbol table and where is it stored?
+	1.	A symbol table stores names of variables/functions with memory addresses and scope info, typically embedded in object or executable files to enable linking and debugging.
+	
+07.	Can object files contain debug information, and how is it utilized?
+	1.	Yes, object files can include debug symbols mapping compiled code to source code lines, used by debuggers (e.g., GDB) for source-level debugging.
+	
+08.	What are ELF sections .text, .data, and .bss used for?
+	1.	.text: Executable code
+	2.	.data: Initialized global/static variables
+	3.	.bss: Uninitialized global / static variables (initialized to zero at runtime)
+	
+09.	How can conditional preprocessing directives impact firmware builds?
+	1.	Enable/disable features or debugging code.
+	2.	Produce different firmware variants from the same source.
+	3.	Manage hardware differences across target boards.
+	4.	Example:
+		#ifdef DEBUG
+			printf("Debug info\n");
+		#endif
+		

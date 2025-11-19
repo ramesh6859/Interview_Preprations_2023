@@ -1,0 +1,41 @@
+01. What do you mean by dangling pointers and how are dangling pointers different from memory leaks in C programming?
+    1.  Pointers pointing to deallocated memory blocks in C Programming are known as dangling pointers i.e, whenever a pointer is pointing to a memory location and In case the variable is freed or goes out of scope.
+    2.  Accessing it results in undefined behavior.
+
+02. What is near, far, and huge pointers in C?
+    1.  Near Pointers: Near pointers are used to store 16-bit addresses only. Using the near pointer, we can not store the address with a size greater than 16 bits.
+    2.  Far Pointers: A far pointer is a pointer of 32 bits size. However, information outside the computer's memory from the current segment can also be accessed.
+    3.  Huge Pointers: Huge pointer is typically considered a pointer of 32 bits size. But bits located outside or stored outside the segments can also be accessed.
+    4.  Near, far, and huge pointers were used in 16-bit MS-DOS compilers to handle segmented memory. They are not part of modern C or standard C compilers like GCC/Clang.
+
+03. What are NULL pointers in C?
+    1.  NULL is used to indicate that the pointer doesn't point to a valid location.
+    2.  Ideally, should initialize pointers as NULL if we don't know their value at the time of declaration.
+    3.  We should make a pointer NULL when memory pointed by it is deallocated in the middle of a program.
+
+04. What is a function pointer in C? How is it used?
+    1.  A function pointer is a pointer that points to the address of a function.
+    2.  It allows functions to be passed as arguments, enabling callback mechanisms.
+    3.  #include <stdio.h>
+        void greet() { printf("Hello!\n"); }
+        int main() {
+            void (*func_ptr)() = greet;
+            func_ptr(); // Calls greet()
+            return 0;
+        }
+    4.  Pointers and dynamic memory allocation give C helps in handling complex data structures like linked lists, trees, graphs and managing low-level memory.
+
+05. What is the difference between "const int ptr", "int * const ptr", and "const int * const ptr"?
+    1.  const int *ptr;
+        1.  Pointer to a const int (i.e., the value is constant, pointer is not)
+        2.  You cannot change the value pointed to by ptr.
+        3.  You can change ptr to point to another variable.
+    2.  int * const ptr;
+        1.  ptr is a constant pointer to an int (i.e., pointer is constant, value is not)
+        2.  You cannot change the pointer itself (i.e., ptr = &y; is illegal).
+        3.  You can change the value it points to (*ptr = 30; is fine).
+    3.  const int * const ptr;
+        1.  Constant pointer to a constant int (i.e., neither pointer nor value can be changed)
+        2.  Cannot change the pointer -> ptr = &y;
+        3.  Cannot change the value -> *ptr = 10;
+

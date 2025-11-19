@@ -1,0 +1,28 @@
+A watchdog timer (WDT) is a crucial fail-safe mechanism in microcontrollers that helps detect and recover from software malfunctions. A watchdog timer is a hardware timer that resets the microcontroller if the software fails to periodically "kick" or "refresh" it. This mechanism ensures system reliability by recovering from faults like infinite loops, deadlocks, or crashes.
+
+Key Features
+1.	Timeout-based reset: If not refreshed within a set time, it triggers a system reset.
+2.	Configurable timeout: Adjustable based on system needs.
+3.	Internal or external: Can be built into the MCU or implemented as a separate chip.
+4.	Self-monitoring: Detects software hangs or logic errors.
+5.	Windowed operation (optional): Detects early or late refreshes to catch timing faults.
+6.	Independent operation: Must operate independently of the main CPU clock to avoid being disabled by software faults.
+
+How It Works
+1.	The WDT starts counting down from a preset value.
+2.	The software must periodically reset the timer before it expires.
+3.	If the timer reaches zero, it assumes the system is stuck and forces a reset.
+4.	Some WDTs can trigger a non-maskable interrupt before reset for diagnostics.
+5.	Upon reset, the system can check reset cause flags to determine if the reset was watchdog triggered.
+
+Implementation Tips
+1.	Refresh WDT in main loop or task scheduler, not only in interrupt handlers.
+2.	Avoid refreshing in interrupt handlers alone, as this can mask main loop faults.
+3.	Use a timeout long enough to cover the longest expected task but short enough to catch faults quickly.
+4.	Initialize the watchdog early in system startup to protect the system from the beginning.
+5.	Implement conditional watchdog refresh after verifying key system operations passed (sanity checks).
+6.	Consider using a windowed watchdog to detect improper timing of refreshes.
+7.	Handle watchdog properly during low-power/sleep modes to avoid unexpected resets.
+8.	For critical systems, use both internal and external watchdogs for redundancy.
+9.	Consider logging system state or error codes before watchdog reset for post-mortem debugging.
+10.	Thoroughly test watchdog behavior including during normal operations, fault injections, and edge cases.
