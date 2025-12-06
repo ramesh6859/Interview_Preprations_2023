@@ -1,0 +1,423 @@
+01.	What is a Kernel?
+	The core component of the OS that manages resources (CPU, memory, I/O) and allows software to talk to hardware.
+	
+02.	What is the difference between Microkernel and Monolithic Kernel?
+	1.	Monolithic: All OS services (File system, Drivers, Scheduler) run in kernel space. Faster, but a bug in a driver can crash the OS.
+	2.	Microkernel: Only the scheduler and IPC run in kernel space. Drivers run in user space. More stable, but slower due to context switching overhead.
+	
+03.	What is Preemption?
+	The act of temporarily interrupting a task being carried out by a computer system to grab the CPU for a higher-priority task.
+	
+04.	What is Reentrancy?
+	A function is reentrant if it can be interrupted in the middle of its execution, re-called by another task, and still function correctly. It must not use static/global variables unless they are protected.
+	
+05.	What is a TCB?
+	Task Control Block. A data structure used by the kernel to maintain the state of a task (Stack Pointer, Priority, State, Registers).
+	
+06.	What is Context Switching?
+	The process of saving the state (registers, PC, SP) of the current task and restoring the state of the next task.
+	
+07.	What is Round-Robin Scheduling?
+	A scheduling algorithm where time slices are assigned to each task in equal portions and in circular order, handling all tasks without priority (or within the same priority).
+	
+08.	What is Cooperative Scheduling?
+	A scheduler that only switches tasks when the current task voluntarily yields control (calls a yield function). If a task hangs, the system hangs.
+	
+09.	What is Rate Monotonic Scheduling (RMS)?
+	A static priority scheduling algorithm where tasks with shorter periods (higher frequency) are given higher priorities.
+	
+10.	What is Earliest Deadline First (EDF)?
+	A dynamic priority scheduling algorithm where the task with the closest deadline is given the highest priority.
+	
+11.	What is Starvation?
+	A situation where a low-priority task never gets to run because high-priority tasks are constantly utilizing the CPU.
+	
+12.	What is a Race Condition?
+	When two or more tasks try to change shared data at the same time, and the final outcome depends on the timing of their execution.
+	
+13.	What is a Critical Section?
+	A piece of code that accesses a shared resource and must not be interrupted by another task accessing the same resource.
+	
+14.	How do you protect a Critical Section?
+	1.	Disabling Interrupts (fastest, but dangerous).
+	2.	Using a Mutex.
+	3.	Using a Semaphore.
+	4.	Using a Scheduler Lock.
+	
+15.	What is a Binary Semaphore?
+	A synchronization primitive that can have a value of 0 or 1. It is often used for signaling events between tasks.
+
+16.	What is a Counting Semaphore?
+	A semaphore that can count up to a maximum value. It is used to manage a pool of identical resources (e.g., 5 buffer slots).
+	
+17.	What is the MAIN difference between a Binary Semaphore and a Mutex?
+	Ownership. A Mutex has ownership (only the task that locked it can unlock it). A Binary Semaphore has no ownership (Task A can take it, Task B can give it).
+
+18.	What is Priority Inversion?
+	A scenario where a high-priority task is waiting for a resource held by a low-priority task, but a medium-priority task preempts the low-priority task, causing the high-priority task to wait indefinitely.
+	
+19.	How do you solve Priority Inversion?
+	Priority Inheritance. When a high-priority task blocks on a mutex held by a low-priority task, the low-priority task temporarily "inherits" the high priority until it releases the mutex.
+	
+20.	Can a Binary Semaphore solve Priority Inversion?
+	No. Only Mutexes (with priority inheritance enabled) can solve it.
+	
+21.	What is a Recursive Mutex?
+	A mutex that can be "taken" multiple times by the same task without deadlocking. It must be "given" the same number of times to release it.
+	
+22.	What is a Deadlock?
+	A situation where Task A holds Resource 1 and waits for Resource 2, while Task B holds Resource 2 and waits for Resource 1. Neither can proceed.
+	
+23.	How do you prevent Deadlocks?
+	1.	Always acquire resources in the same order.
+	2.	Use timeouts when acquiring resources.
+	3.	Keep critical sections short.
+	
+24.	What is a Spinlock?
+	A lock where the task waits in a loop ("spins") repeatedly checking if the lock is available. Used in Multi-core systems, but wasteful in Single-core.
+	
+25.	What is the advantage of Event Groups over Semaphores?
+	Event groups can unblock multiple tasks at once (broadcasting), whereas a semaphore unblocks only one.
+	
+26.	What is a Zombie Task? 
+	A task that has finished execution but hasn't been cleaned up by the OS.
+	
+27.	What is POSIX? 
+	An IEEE standard for OS compatibility. Some RTOSs (like QNX or VxWorks) are POSIX compliant.
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+01.	What is an RTOS, and how does it differ from a general-purpose operating system (GPOS)?
+	An RTOS (Real-Time Operating System) is an OS intended to serve real-time applications that process data as it comes in, typically without buffer delays.
+	Differences:
+	1.	Determinism: The most critical difference. An RTOS guarantees that a task will complete within a defined time constraint. A GPOS (like Windows or Linux) aims for high throughput and fairness but cannot guarantee exactly when a task will finish.
+	2.	Latency: RTOS has minimal and bounded interrupt latency. GPOS latency varies depending on system load.
+	3.	Scheduling: RTOS uses strict priority-based preemptive scheduling. GPOS often uses "fairness" algorithms (like Completely Fair Scheduler) to ensure user interface smoothness.
+	4.	Size: RTOS kernels are typically very small (kilobytes), whereas GPOS kernels are massive (gigabytes).
+
+02.	What are the key features and characteristics of an RTOS?
+	1.	Determinism: The timing of operations is predictable.
+	2.	Preemptive Kernel: The ability to interrupt a currently running task to run a higher-priority task immediately.
+	3.	Low Footprint: Minimal RAM and Flash usage.
+	4.	Fast Context Switching: Switching between tasks must be extremely fast to minimize overhead.
+	5.	Inter-Task Communication: Efficient mechanisms like queues, semaphores, and mutexes.
+	6.	Reliability: Designed to run for months or years without a reboot.
+	
+03.	Explain priority-based pre-emptive scheduling.
+	1.	Priority: Every task is assigned a priority level (e.g., 0 to 255).
+	2.	Pre-emptive: The scheduler ensures that the CPU is always executing the highest priority task that is in the "Ready" state.
+	3.	Mechanism: If a low-priority task is running and a high-priority task becomes ready (e.g., via an interrupt), the scheduler immediately saves the context of the low-priority task and switches control to the high-priority task. The low-priority task does not have to voluntarily yield.
+	
+04.	What are the different types of real-time systems?
+	1.	Hard Real-Time: Missing a deadline is a total system failure and may cause catastrophic consequences (e.g., Airbag deployment, Pacemaker).
+	2.	Firm Real-Time: Missing a deadline makes the result invalid/useless, but does not destroy the system (e.g., Automated inspection machine).
+	3.	Soft Real-Time: Missing a deadline degrades quality/performance but the system keeps working (e.g., Video streaming—you get lag, but the video doesn't crash).
+	
+05.	How does an RTOS handle hardware interrupts?
+	1.	ISR (Interrupt Service Routine): When an interrupt occurs, the hardware jumps to the ISR.
+	2.	Minimal Processing: In an RTOS, ISRs must be short. The ISR usually acknowledges the hardware, does minimal data copying, and signals a Task (via semaphore or notification) to do the heavy processing.
+	3.	Deferred Interrupt Processing: This technique moves the workload from the ISR context (which blocks other interrupts) to a Task context (which can be prioritized).
+	4.	Context Switch: If the ISR unblocks a high-priority task, the RTOS scheduler triggers a context switch immediately upon exiting the ISR.
+	
+06.	What is a task (or thread) in RTOS?
+	A Task is an independent thread of execution that contains its own code (usually an infinite loop), its own stack memory, and a set of CPU registers (context). It is the smallest unit of processing scheduled by the RTOS kernel. Tasks are usually in one of four states: Running, Ready, Blocked (Waiting), or Suspended.
+
+07.	What is the difference between a task and a process?
+	1.	Memory Protection: In a full OS (Linux), a Process has its own virtual memory address space. If one process crashes, it doesn't corrupt others. A Task (in typical RTOS/microcontroller contexts) usually shares the same flat memory address space with all other tasks.
+	2.	Overhead: Processes are heavy to create and switch; Tasks (Threads) are lightweight.
+	3.	Communication: Tasks communicate easily via global variables (though dangerous) or pointers; Processes need complex IPC (Inter-Process Communication) pipes or sockets.
+	
+08.	What are semaphores and how are they used in RTOS?
+	A semaphore is a signaling mechanism used for synchronization or resource management.
+	1.	Binary Semaphore: Works like a flag (0 or 1). Used for synchronization (e.g., an ISR gives the semaphore, a Task takes it to know an event happened).
+	2.	Counting Semaphore: Contains a counter value. Used to manage a pool of resources (e.g., buffer slots). If the count is 3, three tasks can take it; the fourth will block until one is given back.
+	
+09.	What is a mutex and how does it differ from a semaphore?
+	A Mutex (Mutual Exclusion) is a special type of binary semaphore used specifically for resource locking.
+	1.	Ownership: This is the key difference. A Mutex has the concept of ownership. Only the task that locks (takes) the mutex can unlock (give) it. A semaphore can be given by an ISR and taken by a Task (no ownership).
+	2.	Priority Inheritance: Mutexes in an RTOS usually support Priority Inheritance to solve Priority Inversion, whereas Semaphores do not.
+	
+10.	What is priority inversion and how can it be handled?
+	1.	Scenario: A Low-Priority Task (L) holds a mutex. A High-Priority Task (H) wants that mutex and blocks. A Medium-Priority Task (M) preempts L (because M > L).
+	2.	Result: H is waiting for L, but L cannot run because M is running. H is effectively blocked by M, even though H > M. This is Priority Inversion.
+	3.	Solution: Priority Inheritance. When H blocks on a mutex held by L, the OS temporarily boosts L's priority to equal H's priority. L runs, finishes, releases the mutex, and drops back to its original priority, allowing H to run immediately.
+
+11.	What are the different types of RTOS scheduling algorithms?
+	1.	Preemptive Priority: (Most common) Highest priority ready task runs.
+	2.	Round Robin: Tasks of the same priority take turns running for a specific time slice (time quantum).
+	3.	Cooperative Scheduling: Tasks run until they voluntarily yield control. (Rare in modern RTOS).
+	4.	Earliest Deadline First (EDF): Dynamic priority based on which task has the closest deadline.
+	
+12.	What is a real-time clock (RTC) and its purpose in RTOS?
+	An RTC is usually a hardware peripheral that tracks "Wall Clock" time (Year, Month, Day, Hour, Minute, Second).
+	1.	Purpose: It is used for timestamping logs, scheduled alarms (wake up at 2:00 AM), or file system modification times.
+	2.	Distinction: Do not confuse RTC with the System Tick. The System Tick is a high-speed timer used by the scheduler to measure time slices and timeouts (measured in milliseconds/ticks), while RTC measures human time.
+	
+13.	How do tasks communicate and synchronize in an RTOS?
+	1.	Queues: Thread-safe FIFO buffers to pass data (messages) between tasks.
+	2.	Semaphores/Mutexes: For coordinating access to resources.
+	3.	Event Groups/Flags: To wait for multiple bits/events to happen (e.g., wait for specific bits to be set).
+	4.	Mailboxes: Similar to queues but typically for single messages.
+	5.	Task Notifications: Lightweight signaling directly to a specific task (faster than semaphores in FreeRTOS).
+	
+14.	Explain tick interrupts and their role in an RTOS.
+	The Tick Interrupt is a periodic hardware timer interrupt (e.g., every 1ms).
+	Role:
+	1.	Timekeeping: It increments the system time counter (tick count).
+	2.	Scheduler Trigger: It allows the kernel to check if a blocked task's timeout has expired or if a Round-Robin time slice has ended.
+	3.	Preemption: It gives the scheduler a chance to run periodically to see if a higher priority task needs to run.
+	
+15.	What is the difference between hard and soft real-time systems?
+	1.	Hard Real-Time: The utility of a result is zero (or negative) if late. Strict determinism is required. (Example: Flight control system).
+	2.	Soft Real-Time: The utility of a result degrades if late, but is still useful. The system relies on average performance rather than worst-case performance. (Example: Updating a UI display).
+	
+16.	What is latency in RTOS context?
+	Latency is the time delay between a stimulus and the response. In RTOS, we care about:
+	1.	Interrupt Latency: Time from the physical interrupt signal to the first instruction of the ISR.
+	2.	Scheduling Latency: Time from the ISR finishing to the Task code starting (includes context switching).
+	
+17.	What is the difference between interrupt latency and thread switching latency?
+	1.	Interrupt Latency: The hardware/kernel delay to jump into an ISR (saving minimal context). It is usually very short (microseconds).
+	2.	Thread (Task) Switching Latency: The software delay to save the full context of Task A (registers, stack pointer) and load the full context of Task B. This is longer than interrupt latency.
+	
+18.	What is a watchdog timer?
+	1.	A Watchdog Timer (WDT) is a hardware counter that counts down. If it reaches zero, it resets the microcontroller.
+	2.	Purpose: It detects software faults (like infinite loops or deadlocks). The software must periodically "kick" or "feed" the watchdog (reset the counter) to prove it is still running correctly. In an RTOS, this is often done in a low-priority task (IDLE task) to ensure the scheduler isn't stuck.
+	
+19.	How does an RTOS ensure task deadlines?
+	The RTOS itself does not inherently guarantee deadlines; the developer ensures them through system design, utilizing the RTOS features:
+	1.	Correct Priority Assignment: Using Rate Monotonic Scheduling (shorter deadline = higher priority).
+	2.	Deterministic API calls: Knowing exactly how long a kernel call takes.
+	3.	Memory Locking: Avoiding paging/swapping (not common in embedded anyway).
+	4.	Profiling tools: Measuring worst-case execution time (WCET).
+	
+20.	What are the main types of RTOS architectures?
+	1.	Monolithic: Kernel and services (File system, Network) run in the same space. Faster, but a bug in the network stack can crash the kernel.
+	2.	Microkernel: Only the scheduler, IPC, and basic memory management are in the kernel. File systems and drivers run as separate tasks (user space). More stable, but slightly slower due to messaging overhead.
+	
+21.	What is context switching?
+	Context switching is the process of saving the state of the currently running task and restoring the state of the next task to be run.
+	Steps:
+	1.	Push CPU registers of Current Task to its Stack.
+	2.	Save the Stack Pointer of Current Task to its TCB (Task Control Block).
+	3.	Load the Stack Pointer of the Next Task from its TCB.
+	4.	Pop CPU registers from the New Task's Stack.
+	5.	Resume execution.
+	
+22.	How does memory management differ in RTOS from general-purpose OS?
+	1.	Determinism: GPOS uses malloc/free which can have unpredictable timing (merging blocks). RTOS often uses Block Pools (fixed-size memory blocks) or specific allocators (like FreeRTOS heap_4) that merge memory deterministically.
+	2.	No Virtual Memory: Most small RTOS systems operate on physical addresses without an MMU (Memory Management Unit), meaning no paging to disk.
+	3.	Static Allocation: Critical RTOS systems often prefer static allocation (variables declared at compile time) over dynamic allocation to avoid fragmentation and allocation failures.
+	
+23.	Can you explain interprocess communication (IPC) in RTOS?
+	1.	Since most embedded RTOSs use a single address space, IPC is technically Inter-Task Communication.
+	2.	Message Queues: Data is copied into a buffer. Task A puts data in, Task B waits for data. This decouples the tasks timing-wise.
+	3.	Shared Memory: Both tasks access the same volatile pointer. Must be protected by a Mutex to prevent race conditions.
+	
+24.	What is a task control block (TCB)?
+	A TCB is a data structure in the kernel memory that holds all information about a specific task.
+	Contents:
+	1.	Stack Pointer (where the task left off).
+	2.	Task Priority.
+	3.	Task State (Ready, Blocked, Suspended).
+	4.	Task Name.
+	5.	Pointers to next/previous TCB (for linked lists).
+	
+25.	What is a deadlock? How can it be avoided in RTOS?
+	1.	Deadlock: A situation where two tasks are waiting for resources held by each other, and neither can proceed. (Task A holds Mutex X, wants Mutex Y. Task B holds Mutex Y, wants Mutex X).
+	2.	Avoidance:
+		1.	Lock Ordering: Always take mutexes in the same order (always take X then Y).
+		2.	Timeouts: Never wait forever for a mutex. Use a timeout; if it fails, release your own resources and try again.
+		3.	Avoid Nested Locks: Try to design the system so you don't need two locks at once.
+		
+26.	How do you design an RTOS from scratch?
+	High-level steps
+	1.	Scheduler: Create a timer interrupt (SysTick).
+	2.	TCB Definition: Define a struct to hold stack pointers.
+	3.	Context Switch Assembly: Write the assembly code to push/pop registers (R0-R15, PC, PSR) to/from the stack.
+	4.	Scheduler Algorithm: In the timer interrupt, pick the next TCB (Round robin is easiest to start).
+	5.	Stack Initialization: Create a function to "fake" a stack frame so a new task looks like it was interrupted, so the scheduler can "restore" it to start it.
+	
+27.	What challenges do you face while working with RTOS?
+	1.	Stack Overflow: Determining the right stack size is difficult.
+	2.	Priority Inversion
+	3.	Race Conditions: Hard to reproduce bugs caused by unprotected shared data.
+	4.	Debugging: It is hard to step through code without stopping the motor/communication line, causing hardware errors.
+	5.	Interrupt Jitter: Variations in timing due to higher priority interrupts blocking lower ones.
+	
+28.	What are some typical applications that use RTOS?
+	1.	Automotive: Engine Control Units (ECU), ABS braking systems.
+	2.	Medical: Pacemakers, Infusion pumps.
+	3.	Industrial: Robotic arms, PLC (Programmable Logic Controllers).
+	4.	Consumer: Drones, Digital Cameras (processing image data concurrently with UI).
+	
+29.	Name some popular RTOS families.
+	1.	FreeRTOS: (Most popular, open source, owned by Amazon).
+	2.	VxWorks: (Wind River, used in Mars Rovers, expensive, high reliability).
+	3.	QNX: (BlackBerry, used in automotive infotainment).
+	4.	Zephyr: (Linux Foundation, modern, growing popularity).
+	5.	Azure RTOS (ThreadX): (Microsoft, very fast).
+	6.	μC/OS (Micrium): Known for clean code and documentation.
+	
+30.	How do you debug an application running on an RTOS?
+	1.	RTOS-Aware Debuggers: Tools (like J-Link or Segger Ozone) that can inspect the TCBs to show you the state of every task (Running, Blocked on Queue X) and stack usage.
+	2.	Trace Tools: (e.g., Percepio Tracealyzer, SystemView). These record scheduling events and graph them, allowing you to see "Task A ran for 5ms, then was preempted by ISR."
+	3.	GPIO Toggling: Toggling a physical pin on task entry/exit and viewing it on an oscilloscope to measure exact timing without software overhead.
+	4.	Printf/Logging: (Use sparingly as it blocks execution). Used for logic flow checking.
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+01.	What is "Round-Robin with Time Slicing"?
+	It is a scheduling method where tasks of the same priority take turns executing. Each task runs for a fixed "time slice" (quantum). When the time is up, the scheduler moves to the next task in the list, ensuring fair CPU usage among equals.
+	
+02.	What is Rate Monotonic Scheduling (RMS)?
+	A static priority scheduling algorithm used for periodic tasks. The priority is assigned based on the cycle duration: the shorter the period (frequency is higher), the higher the priority.
+	
+03.	What is Earliest Deadline First (EDF)?
+	A dynamic scheduling algorithm where priority is calculated on the fly. The task with the closest approaching deadline is given the highest priority. It utilizes the CPU more efficiently than RMS but is harder to implement.
+	
+04.	What is the "Idle Task" and what is its specific purpose?
+	A task created automatically by the kernel when the RTOS starts. It runs at the absolute lowest priority (usually 0) and executes only when no other task is Ready. It is used for power management (putting the CPU to sleep), calculating CPU load, or cleaning up deleted task memory.
+	
+05.	What is Cooperative Scheduling?
+	A scheduler where a context switch only happens if the running task voluntarily yields control (calls a yield() function). If the task crashes or loops infinitely, the whole system hangs.
+	
+06.	What is the difference between a "Tick" and a "Machine Cycle"?
+	A machine cycle is the smallest unit of CPU execution (instruction level, usually nanoseconds). A Tick is a software unit of time defined by the RTOS (usually 1ms to 10ms) derived from a hardware timer interrupt.
+	
+07.	What is "Jitter" in an RTOS?
+	The variance in the execution time or response time of a task. For example, if a task is supposed to run every 10ms, but runs at 10.1ms, then 9.9ms, the variance is jitter.
+	
+08.	What is "Tickless Idle"?
+	A power-saving feature. Instead of waking up every 1ms (tick) just to increment a counter and see that nothing needs to run, the RTOS disables the tick interrupt and sets a timer to wake up exactly when the next task is due, allowing the CPU to sleep deeply for longer periods.
+	
+09.	What is "Starvation"?
+	A situation where a low-priority task never gets to run because high-priority tasks are monopolizing the CPU.
+	
+10.	How do you fix Starvation?
+	By designing the system so high-priority tasks sleep often, or by using "Priority Aging" (gradually increasing the priority of a waiting task until it runs).
+	
+11.	What is a "Critical Section"?
+	A segment of code that accesses a shared resource (like a global variable) and must not be interrupted by another task or ISR.
+	
+12.	What are the two main ways to protect a Critical Section?
+	1.	Disabling interrupts (very fast, but increases latency).
+	2.	Using a Mutex/Semaphore (allows other interrupts to fire, but has overhead).
+	
+13.	What is "Reentrancy"?
+	A function is reentrant if it can be safely called by multiple tasks (or a task and an ISR) simultaneously without corrupting data. It must not use static/global variables unless protected, and must only call other reentrant functions.
+	
+14.	Is printf() reentrant?
+	Standard C library printf is usually not reentrant (it uses a global buffer). Calling it from multiple tasks simultaneously results in garbled output or crashes unless protected by a Mutex.
+	
+15.	What is the difference between Stack and Heap in RTOS?
+	1.	Stack: Used for local variables, function calls, and register context. Each Task has its own private stack.
+	2.	Heap: Global memory pool used for dynamic allocation (malloc/pvPortMalloc). Shared by the whole system.
+	
+16.	What is Stack Overflow?
+	When a task pushes more data (variables/function calls) onto its stack than the allocated size, overwriting adjacent memory (often another task's TCB or data), causing hard faults or random crashes.
+	
+17.	How do you detect Stack Overflow?
+	1.	Hardware: Using an MPU (Memory Protection Unit) to set a guard region.
+	2.	Software: Filling the stack with a "watermark" pattern (e.g., 0xA5A5) and checking if the pattern at the end of the stack is overwritten.
+	
+18.	What is Memory Fragmentation?
+	When free memory is broken into small, non-contiguous blocks. The total free memory might be large, but you cannot allocate a large block because no single chunk is big enough.
+	
+19.	How do you avoid Heap Fragmentation in RTOS?
+	By using fixed-size Memory Pools instead of general heaps, or by allocating all necessary memory at initialization time and never freeing it.
+	
+20.	What is a Memory Pool?
+	A pre-allocated set of fixed-size memory blocks. Allocation and deallocation are O(1) (constant time) and fragmentation is impossible.
+	
+21.	What is a "Buffer Overrun"?
+	Writing data past the end of an allocated array. In RTOS, this often corrupts the TCB of the next task in memory.
+	
+22.	What is a "Recursive Mutex"?
+	A mutex that can be locked multiple times by the same task without blocking itself. The task must unlock it the same number of times it locked it to release it.
+	
+23.	What is a "Counting Semaphore" vs "Binary Semaphore"?
+	Binary has max value 1 (locked/unlocked). Counting can go higher (e.g., value 10), used to track available resources (like spaces in a parking garage).
+	
+24.	What is the "Priority Ceiling Protocol"?
+	A solution to Priority Inversion (alternative to Inheritance). The mutex is assigned a priority equal to the highest priority task that might ever lock it. When any task locks it, its priority is immediately raised to that ceiling.
+	
+25.	What is a "Mailbox"?
+	Often a queue of size 1. It holds a single item/pointer.
+	
+26.	What is a "Spinlock"?
+	A lock where the thread waits in a loop ("spins") checking if the lock is available. In single-core RTOS, this is bad (wastes CPU). In multi-core RTOS, it is necessary for inter-core locking.
+	
+27.	Can an ISR take a Mutex?
+	Generally, NO. Mutexes can block (sleep) if unavailable. ISRs must never sleep. ISRs should use Binary Semaphores or Notifications instead.
+	
+28.	What is the difference between QueueSend and QueueOverwrite?
+	QueueSend blocks if the queue is full. QueueOverwrite discards the old data and replaces it with new data (used for latest-status updates).
+	
+29.	What is "Nested Interrupts"?
+	When a higher-priority interrupt preempts a lower-priority interrupt service routine that is currently executing.
+	
+30.	What is the "Top Half" and "Bottom Half" of interrupt processing?
+	1.	Top Half: The actual ISR. Minimal work, clears flags, acknowledges hardware.
+	2.	Bottom Half: A Task or software interrupt triggered by the ISR to do the heavy data processing later.
+	
+31.	What is NMI (Non-Maskable Interrupt)?
+	An interrupt that cannot be disabled by the standard "Disable Interrupts" instruction. Used for critical hardware failures (Brown-out, Watchdog, Flash error).
+	
+32.	What is an Interrupt Vector Table?
+	A specific memory area containing function pointers (addresses) to the ISRs for the various hardware events.
+	
+33.	What is "Interrupt Latency" vs "Interrupt Jitter"?
+	Latency is the delay to start. Jitter is the variation in that delay.
+	
+34.	What happens if an ISR takes too long?
+	It starves all tasks (tasks cannot run while an ISR is running) and may cause other interrupts to be missed (buffer overruns).
+	
+35.	What is SMP (Symmetric Multiprocessing) in RTOS?
+	An RTOS running on a multi-core processor where one OS instance manages all cores. Tasks can migrate between cores.
+	
+36.	What is AMP (Asymmetric Multiprocessing)?
+	Running separate OS instances (or different OSs entirely, like Linux on Core 0 and RTOS on Core 1) on each core.
+	
+37.	What is "Core Affinity"?
+	Forcing a specific task to run only on a specific CPU core in an SMP system (to utilize cache better or access specific hardware).
+	
+38.	What is an MPU (Memory Protection Unit)?
+	A hardware unit less complex than an MMU. It enforces permissions (Read/Write/Execute) on memory regions. If a task tries to write to kernel memory, the MPU triggers a fault.
+	
+39.	What is the difference between Virtual Memory (MMU) and MPU?
+	MPU protects physical memory. MMU maps virtual addresses to physical addresses (allowing paging/swapping). Most small RTOSs use MPU; Linux uses MMU.
+	
+40.	What is "Priority Aging"?
+	A technique where the priority of a task waiting for a long time is gradually increased to prevent starvation.
+	
+50.	What is a "Race Condition"?
+	When the output of a system depends on the sequence or timing of uncontrollable events (like which thread runs first).
+	
+51.	What is "Priority Inversion"?
+	Unbounded priority inversion is when the medium priority task runs for a very long time, indefinitely blocking the high priority task.
+	
+52.	What is a "Window Watchdog"?
+	A watchdog that must be fed within a specific time window (e.g., between 50ms and 60ms). Feeding it too early or too late resets the system. This prevents a stuck loop from simply feeding the watchdog as fast as possible.
+	
+53.	How do you debug a Hard Fault in RTOS?
+	Look at the Stack Frame saved when the fault exception occurred. Inspect the PC (Program Counter) and LR (Link Register) to see exactly which instruction caused the crash.
+	
+54.	What is "SystemView" or "Tracealyzer"?
+	Software tools that record RTOS events (context switches, ISRs, API calls) and visualize them on a timeline to analyze timing and logical errors.
+	
+55.	How do you implement a "Soft Timer"?
+	The RTOS kernel maintains a linked list of timer structs. The Tick Interrupt checks the head of the list. When a timer expires, a callback is executed.
+	
+56.	What is a "Daemon Task"?
+	A background task that performs system services, like handling the TCP/IP stack or managing the file system.
+	
+57.	How would you update a variable shared between an ISR and a Task?
+	Declare it volatile. If it is larger than the CPU word size (e.g., a 64-bit long long on a 32-bit CPU), you must disable interrupts while reading/writing it to ensure atomicity.
+	
+58.	What is "Atomic Operation"?
+	An operation that cannot be interrupted halfway. It either happens completely or not at all.
+	
+59.	When should you choose a GPOS (Linux) over an RTOS?
+	When you need complex UI (Qt/Graphics), advanced networking (Web servers), broad driver support (USB devices, Cameras), and strict real-time timing is not critical.
+	
+60.	What is "Priority Inheritance" downsides?
+	It is complex to implement. It does not prevent Deadlock, only Priority Inversion.

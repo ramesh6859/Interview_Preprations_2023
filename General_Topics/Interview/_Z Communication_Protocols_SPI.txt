@@ -1,0 +1,104 @@
+01.	How do you configure an SPI interface in Embedded C?
+	1.	Set SPI Pins: Configure MISO, MOSI, SCK, and SS as inputs/outputs.
+	2.	Configure SPI Control Register: Define clock polarity, phase, data order, clock rate, and enable SPI.
+	3.	Enable SPI: Set the enable bit (e.g., SPE) in the control register.
+	
+02.	How many wires are typically used in SPI? What are their names and functions?
+	Four wires.
+	1.	SCLK (Serial Clock): The clock signal, always driven by the master.
+	2.	MOSI (Master Out, Slave In): The data line from the master to the slave.
+	3.	MISO (Master In, Slave Out): The data line from the slave to the master.
+	4.	SS/CS (Slave Select / Chip Select): An active-low signal used by the master to select which slave device it wants to communicate with.
+	
+03.	What are the main advantages of SPI over I2C?
+	1.	Speed: SPI is generally much faster than I2C, easily reaching tens of MHz.
+	2.	Full-Duplex: It allows for simultaneous two-way communication.
+	3.	Simplicity: The protocol itself is very simple, with no addresses, START/STOP conditions, or arbitration, leading to simpler hardware and software overhead.
+	
+04.	What are the main disadvantages of SPI compared to I2C?
+	1.	Pin Count: It requires more wires. For each additional slave, it requires an extra CS pin on the master.
+	2.	No Multi-Master: Standard SPI does not support a multi-master configuration.
+	3.	No Slave Acknowledgment: The master has no way of knowing if a slave is present or has received the data correctly (no ACK/NACK mechanism).
+	
+05.	What are CPOL and CPHA?
+	They are two configuration bits that define the SPI mode.
+	1.	CPOL (Clock Polarity): Defines the idle state of the clock.
+		1.	CPOL=0: Clock is idle low.
+		2.	CPOL=1: Clock is idle high.
+	2.	CPHA (Clock Phase): Defines on which clock edge the data is sampled.
+		1.	CPHA=0: Data is sampled on the first clock edge of the cycle.
+		2.	CPHA=1: Data is sampled on the second clock edge of the cycle.
+		
+06.	How many SPI modes are there? Describe them.
+	There are four modes, derived from the combinations of CPOL and CPHA.
+	1.	Mode 0
+		1.	CPOL = 0
+		2.	CPHA = 0
+		3.	Clock Idle State = Low
+		4.	Data Sampled On = Rising Edge
+	2.	Mode 1
+		1.	CPOL = 0
+		2.	CPHA = 1
+		3.	Clock Idle State = Low
+		4.	Data Sampled On = Falling Edge
+	3.	Mode 2
+		1.	CPOL = 1
+		2.	CPHA = 0
+		3.	Clock Idle State = High
+		4.	Data Sampled On = Falling Edge
+	2.	Mode 1
+		1.	CPOL = 1
+		2.	CPHA = 1
+		3.	Clock Idle State = High
+		4.	Data Sampled On = Rising Edge
+		
+07.	What is the role of the Chip Select (CS) line?
+	It has two primary roles:
+	1.	Slave Selection: In a multi-slave system, it allows the master to select a single slave to communicate with.
+	2.	Framing: It "frames" the SPI transaction. The communication packet starts when CS goes low and ends when CS goes high. This is crucial for synchronizing the slave's internal logic.
+	
+08.	How does data transfer actually work in SPI?
+	Conceptually, it works like two interconnected shift registers. One is in the master, and one is in the slave. When the master generates clock pulses:
+	1.	The master shifts a bit out on the MOSI line into the slave's register.
+	2.	Simultaneously, the slave shifts a bit out on the MISO line into the master's register. After 8 clock pulses, the contents of the master's and slave's registers have been exchanged.
+	
+09.	What is Dual SPI?
+	An enhancement where the MOSI and MISO lines become bidirectional data lines (IO0 and IO1) during the data transfer phase. This allows two bits to be transferred per clock cycle, effectively doubling the data rate.
+	
+10.	What is Quad SPI (QSPI)?
+	A further enhancement that uses four bidirectional data lines (IO0, IO1, IO2, IO3). This allows four bits to be transferred per clock cycle, quadrupling the data rate compared to standard SPI.
+	
+11.	How do you implement an SPI driver in embedded C?
+	1.	Configure GPIO pins for SCLK, MOSI, MISO, and CS (alternate function modes for the first three, GPIO output for CS).
+	2.	Enable the clock for the SPI peripheral.
+	3.	Configure the SPI control registers: set the mode (CPOL/CPHA), master/slave mode, data size (e.g., 8-bit), MSB/LSB first, and baud rate prescaler.
+	4.	Enable the SPI peripheral.
+	5.	To transfer data, you assert CS, write to the data register, wait for the transfer complete flag, and then read the received data from the data register. Finally, de-assert CS.
+	
+12.	Differentiate between a blocking (polling), interrupt-driven, and DMA-based SPI driver.
+	1.	Blocking: The SPI_Transfer() function waits in a loop, polling a status flag until the transfer is complete. Simple to write, but it stalls the CPU.
+	2.	Interrupt-driven: The function starts a transfer and returns immediately. An ISR handles the completion event, loading the next byte if necessary. More efficient, as the CPU can do other work.
+	3.	DMA-based: The most efficient method. The CPU configures the DMA controller to transfer a whole block of data from memory to the SPI data register. The CPU is completely free until the DMA signals that the entire block transfer is complete.
+	
+13.	What is a "dummy byte" or "dummy write" in SPI?
+	Because SPI is full-duplex, a transfer always involves both sending and receiving. If you only want to read a byte from a slave, you still have to write something to generate the 8 clock pulses. This "something" is a dummy byte (often 0x00 or 0xFF). The master writes the dummy byte, and the data it receives back on MISO during that transfer is the actual data it wanted.
+	
+14.	How would you bit-bang an SPI master?
+	By manually controlling four GPIO pins.
+	1.	Set CS pin low.
+	2.	Loop 8 times for each bit:
+		1.	Set the MOSI pin to the value of the current bit.
+		2.	Set SCLK low.
+		3.	(Wait a short time)
+		4.	Set SCLK high.
+		5.	Read the value of the MISO pin.
+	3.	Set CS pin high.
+		1.	This is slow and CPU-intensive but useful if the MCU has no hardware SPI or for debugging.
+		
+15.	Compare SPI and UART.
+	1.	Clock: SPI is synchronous; UART is asynchronous.
+	2.	Speed: SPI is generally much faster.
+	3.	Wires: SPI needs 3-4; UART needs 2.
+	4.	Topology: SPI is master-slave; UART is point-to-point.	
+	
+

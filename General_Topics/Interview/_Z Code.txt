@@ -1,0 +1,389 @@
+Part 1: Bit Manipulation (The Foundation)
+How do you set a specific bit (e.g., bit 3) in a variable?
+
+C
+
+int a = 0;
+a |= (1 << 3); // Sets bit 3
+How do you clear a specific bit (e.g., change 0x03 to 0x01)? (Your Example)
+
+C
+
+uint8_t val = 0x03; // Binary 0000 0011
+val &= ~(1 << 1);   // Clears bit 1. Result: 0000 0001 (0x01)
+How do you toggle a specific bit?
+
+C
+
+a ^= (1 << 3); // Toggles bit 3
+How do you check if a specific bit is set?
+
+C
+
+if (a & (1 << 3)) { /* Bit is set */ }
+Write a macro to set a bit.
+
+C
+
+#define SET_BIT(REG, BIT) ((REG) |= (1 << (BIT)))
+Write a macro to clear a bit.
+
+C
+
+#define CLEAR_BIT(REG, BIT) ((REG) &= ~(1 << (BIT)))
+How do you clear the lower 4 bits of a byte?
+
+C
+
+val &= 0xF0;
+How do you swap two variables without a temporary variable?
+
+C
+
+a ^= b; b ^= a; a ^= b;
+How do you check if a number is a power of 2?
+
+C
+
+// If (x & (x-1)) is 0, it is a power of 2 (assuming x > 0)
+if (x && !(x & (x - 1))) { /* It is power of 2 */ }
+How do you swap nibbles in a byte (e.g., 0x3F to 0xF3)?
+
+C
+
+unsigned char a = 0x3F;
+a = ((a & 0x0F) << 4) | ((a & 0xF0) >> 4);
+How do you count set bits in a 32-bit integer?
+
+C
+
+int count = 0;
+while (n > 0) {
+    n &= (n - 1);
+    count++;
+}
+How do you extract the upper byte of a 16-bit integer?
+
+C
+
+uint16_t val = 0x1234;
+uint8_t upper = (val >> 8) & 0xFF;
+How do you combine two 8-bit variables into one 16-bit variable?
+
+C
+
+uint16_t combined = ((uint16_t)high_byte << 8) | low_byte;
+How do you reverse the bits in a byte (0x80 becomes 0x01)?
+
+C
+
+// Basic loop method
+uint8_t b = 0x80;
+uint8_t r = 0;
+for (int i = 0; i < 8; i++) {
+    if ((b & (1 << i)))
+        r |= (1 << (7 - i));
+}
+Write code to test if the 7th bit is set in 0xff000000.
+
+C
+
+if (*(volatile uint32_t *)0xff000000 & (1 << 7)) { /* Set */ }
+Part 2: Pointers and Memory Access
+Assign a specific value to a specific address (e.g., 0x31 to 0xff000000). (Your Example)
+
+C
+
+uint8_t *ptr = (uint8_t *)0xff000000;
+*ptr = 0x31;
+// OR One-liner for registers
+*(volatile uint8_t *)0xff000000 = 0x31;
+What is a void pointer?
+
+C
+
+void *ptr; // Generic pointer, can point to any data type.
+// Must be cast before dereferencing: *(int *)ptr;
+What is a NULL pointer?
+
+C
+
+int *ptr = NULL; // Points to address 0 (safeguard).
+What is a dangling pointer?
+
+C
+
+int *ptr = (int *)malloc(sizeof(int));
+free(ptr);
+// ptr is now dangling. Ideally: ptr = NULL;
+Difference between char *p and char a[]?
+
+char *p = "Hello": Pointer to a string literal (often read-only memory).
+char a[] = "Hello": An array in stack/RAM containing a copy of the string.
+How do you increase a pointer by 1 address unit?
+
+C
+
+ptr++; // Address increases by sizeof(type)
+Write code to find the size of a structure without sizeof.
+
+C
+
+struct MyStruct s;
+struct MyStruct *p = &s;
+int size = (char *)(p + 1) - (char *)p;
+Explain const int *p, int * const p, and const int * const p.
+
+const int *p: Pointer to a constant integer (value can't change).
+int * const p: Constant pointer to an integer (address can't change).
+const int * const p: Constant pointer to constant integer (neither can change).
+What is a memory leak?
+
+Allocating memory (malloc) but failing to free it.
+How do you access a fixed memory location in C safely?
+
+C
+
+#define REG_CONTROL (*(volatile uint32_t *)0x40021000)
+REG_CONTROL = 0x01;
+Part 3: Function Pointers & Callbacks
+Define a function pointer.
+
+C
+
+int (*func_ptr)(int, int);
+Write a callback function example (Calculator). (Your Example)
+
+C
+
+#include <stdio.h>
+
+// Define the function pointer type
+typedef int (*operation_t)(int, int);
+
+int add(int a, int b) { return a + b; }
+int sub(int a, int b) { return a - b; }
+
+// Function accepting a callback
+int calculate(int a, int b, operation_t op) {
+    return op(a, b); // Executing callback
+}
+
+int main() {
+    int result = calculate(10, 5, add); // Pass 'add' as callback
+    // result is 15
+    return 0;
+}
+Why use function pointers in embedded?
+
+Interrupt Vector Tables, State Machines, and HAL (Hardware Abstraction Layers).
+Define an array of function pointers.
+
+C
+
+void (*func_array[3])(void) = {funcA, funcB, funcC};
+How do you jump to a specific code address (e.g., Reset Handler)?
+
+C
+
+void (*reset_handler)(void) = (void (*)(void))0x00000000;
+reset_handler();
+Part 4: The volatile keyword
+What does volatile mean?
+
+It tells the compiler not to optimize the variable because its value can change unexpectedly (by hardware, ISR, or another thread).
+Why is volatile used for memory-mapped peripherals?
+
+Without it, the compiler might assume the value never changes and read it only once, ignoring hardware status updates.
+Can a pointer be volatile?
+
+C
+
+int * volatile ptr; // The pointer itself is volatile
+volatile int * ptr; // The value pointed to is volatile (typical for registers)
+Can a variable be both const and volatile?
+
+Yes. Example: A read-only hardware status register. The program shouldn't change it (const), but hardware changes it (volatile).
+Write a delay loop that won't be optimized away.
+
+C
+
+void delay(int count) {
+    volatile int i;
+    for (i = 0; i < count; i++);
+}
+Part 5: static and Storage Classes
+What is static inside a function?
+
+The variable retains its value between function calls.
+What is static outside a function (global)?
+
+Limits the scope of the variable/function to that specific file (private to the file).
+What is extern?
+
+Declares a variable/function that is defined in another file.
+What is the register keyword?
+
+Hints to the compiler to store the variable in a CPU register for faster access.
+Where are local variables stored?
+
+Stack.
+Where are global initialized variables stored?
+
+.data section.
+Where are global uninitialized variables stored?
+
+.bss section (initialized to zero by startup code).
+Part 6: Structures and Unions
+What is the difference between Struct and Union?
+
+Struct: Size is sum of members (plus padding). All members exist simultaneously.
+Union: Size is size of largest member. Members share memory.
+Why use Unions in embedded?
+
+To access the same memory in different ways (e.g., as bytes or as a 32-bit word).
+Code Example: Union for Register Access.
+
+C
+
+union Data {
+    uint32_t word;
+    struct {
+        uint8_t b0;
+        uint8_t b1;
+        uint8_t b2;
+        uint8_t b3;
+    } bytes;
+};
+What is Structure Padding/Packing?
+
+Compilers add gaps (padding) to align data with processor architecture.
+Packing removes gaps to save space (using #pragma pack or __attribute__((packed))).
+What are bit-fields?
+
+C
+
+struct Status {
+    unsigned int flagA : 1; // Uses 1 bit
+    unsigned int flagB : 3; // Uses 3 bits
+};
+How do you determine the offset of a struct member?
+
+C
+
+#include <stddef.h>
+size_t offset = offsetof(struct MyStruct, memberName);
+Part 7: The Preprocessor
+Write a macro for MIN and MAX.
+
+C
+
+#define MIN(A,B) ((A) <= (B) ? (A) : (B))
+What is #ifdef used for?
+
+Conditional compilation (e.g., compiling code only for a specific architecture).
+What is the # operator in macros?
+
+Stringification (converts argument to string).
+#define STR(x) #x
+What is the ## operator?
+
+Token pasting (concatenates two tokens).
+#define VAR(n) var##n // VAR(1) becomes var1
+Write an infinite loop macro.
+
+C
+
+#define FOREVER for(;;)
+Difference between #include <file.h> and #include "file.h"?
+
+< >: Searches system directories.
+" ": Searches current directory first.
+What is #pragma?
+
+Compiler-specific directives (e.g., #pragma once, #pragma pack).
+Why use do { ... } while(0) in macros?
+
+To allow multi-statement macros to be used safely in if-else blocks.
+Part 8: Interrupts (ISRs)
+Can an ISR return a value?
+
+No.
+Can you pass parameters to an ISR?
+
+No.
+What should be avoided inside an ISR?
+
+printf (slow/blocking), malloc (non-deterministic), floating point operations (context save overhead).
+How do ISRs communicate with the main loop?
+
+Using volatile global flags or ring buffers.
+What is interrupt latency?
+
+Time from the hardware signal to the execution of the first instruction of the ISR.
+What is a nested interrupt?
+
+A higher priority interrupt interrupting a lower priority ISR.
+Part 9: Algorithms & Logic
+Write code to check for Endianness.
+
+C
+
+int i = 1;
+char *p = (char *)&i;
+if (*p == 1) printf("Little Endian");
+else printf("Big Endian");
+Implement strcpy function.
+
+C
+
+char *my_strcpy(char *dest, const char *src) {
+    char *start = dest;
+    while((*dest++ = *src++));
+    return start;
+}
+Implement strlen.
+
+C
+
+size_t my_strlen(const char *str) {
+    const char *s = str;
+    while (*s) s++;
+    return s - str;
+}
+Reverse a string in place.
+
+C
+
+void reverse(char *s) {
+    int i = 0, j = strlen(s) - 1;
+    while (i < j) {
+        char temp = s[i]; s[i] = s[j]; s[j] = temp;
+        i++; j--;
+    }
+}
+Convert String to Integer (atoi implementation).
+
+C
+
+int my_atoi(char *str) {
+    int res = 0;
+    while (*str >= '0' && *str <= '9') {
+        res = res * 10 + (*str - '0');
+        str++;
+    }
+    return res;
+}
+Find the factorial using recursion.
+
+C
+
+int fact(int n) { return (n == 0) ? 1 : n * fact(n - 1); }
+Fibonacci series using recursion.
+
+C
+
+int fib(int n) { return (n <= 1) ? n : fib(n - 1) + fib(n - 2); }
+How to detect a loop in a linked list?
+
+Floyd’s Cycle-Finding Algorithm (Tortoise and Hare pointers).

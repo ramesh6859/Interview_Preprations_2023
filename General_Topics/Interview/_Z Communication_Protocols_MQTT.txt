@@ -1,0 +1,41 @@
+01.	What is a "Broker"?
+	The Broker is the central server that receives all messages, filters them, determines who is subscribed to them, and sends the message to all subscribed clients. Examples: Mosquitto, HiveMQ, AWS IoT Core.
+	
+02.	What is a "Client"?
+	Any device (microcontroller, server, mobile app) that connects to the broker to send (publish) or receive (subscribe) messages.
+	
+03.	What is "Decoupling" in MQTT?
+	1.	Space Decoupling: Publisher and Subscriber don't need to know each other's IP address.
+	2.	Time Decoupling: (With persistent sessions) The subscriber doesn't need to be online when the publisher sends the message.
+	3.	Synchronization Decoupling: Operations are not halted while waiting for the other party.
+	
+04.	What is an MQTT Topic?
+	A topic is a UTF-8 string, which the broker uses to filter messages for each connected client. It consists of one or more topic levels separated by a forward slash (/). Example: home/kitchen/light.
+	
+05.	What is QoS in MQTT?
+	Quality of Service defines the guarantee of message delivery between the client and the broker.
+	
+06.	Explain QoS 0.
+	"At most once" (Fire and Forget). The message is sent, and no acknowledgement is expected. If the connection drops, the message is lost. Lowest overhead.
+	
+07.	Explain QoS 1.
+	"At least once". The sender ensures the receiver gets the message. The receiver sends back a PUBACK. If the sender doesn't get the ack, it resends. This may result in duplicate messages.
+	
+08.	Explain QoS 2.
+	"Exactly once". The highest guarantee. It ensures the message is received exactly once, with no duplicates. It involves a 4-step handshake (PUBLISH, PUBREC, PUBREL, PUBCOMP). Highest overhead.
+	
+09.	What is Packet Identifier (Packet ID)?
+	A unique number identifying a message. It is required for QoS 1 and QoS 2 flows to match acknowledgments with messages. QoS 0 does not use a Packet ID.
+	
+10.	What is the Client ID?
+	A unique string identifying the client to the Broker. If two clients try to connect with the same Client ID, the Broker will disconnect the first one.
+	
+11.	What are the three parts of an MQTT packet?
+	1.	Fixed Header: Present in all packets.
+	2.	Variable Header: Present in some packets.
+	3.	Payload: Present in some packets (e.g., PUBLISH, CONNECT).
+	
+12.	How are integers usually encoded in MQTT variable headers?
+	Big-endian (MSB first).
+	
+13.	

@@ -1,0 +1,78 @@
+01.	How do you handle communication between different devices in Embedded C (e.g., I2C, SPI)?
+	1.	I2C (Inter-Integrated Circuit): A serial protocol using two wires (SDA, SCL). Slower than SPI but requires fewer pins; good for multi-device connections.
+	2.	SPI (Serial Peripheral Interface): High-speed serial protocol using multiple lines (MISO, MOSI, SCK, SS). Faster than I2C; good for point-to-point (SD cards, displays).
+
+02.	How does bit-banging work for communication protocols like I2C or SPI?
+	Bit-banging uses software to manually toggle I/O pins to emulate protocols instead of using dedicated hardware.
+	1.	I2C Bit-Banging: Software drives SCL and SDA lines, toggling clock and sampling data bit-by-bit.
+	2.	SPI Bit-Banging: Software toggles MOSI, MISO, SCK, and SS lines.
+	3.	Trade-off: More flexible but slower and consumes more CPU than hardware peripherals.
+	
+03.	What is the importance of I2C communication in Embedded C applications?
+	1.	Simplicity: Uses only two wires (SDA, SCL).
+	2.	Multi-Master/Slave: Supports complex systems with multiple peripherals sharing the bus.
+	3.	Addressing: Devices have unique addresses, simplifying communication.
+
+04. Compare I2C and SPI.
+    1.  Wires: I2C uses 2, SPI uses 4 (typically).
+    2.  Speed: SPI is generally much faster.
+    3.  Duplex: SPI is full-duplex, I2C is half-duplex.
+    4.  Addressing: I2C has built-in slave addressing. SPI uses a dedicated Chip Select (CS) line for each slave.
+    5.  Complexity: I2C protocol is more complex (START/STOP/ACK), but wiring is simpler. SPI protocol is simpler, but wiring is more complex with multiple slaves.
+
+05.	How many devices can you connect on a single I2C bus?
+	With standard 7-bit addressing, you can theoretically connect 128 devices (2^7). However, several addresses are reserved, so the practical number is closer to 112. With 10-bit addressing, this number is much larger. The real-world limit is often determined by the bus capacitance.
+	
+06.	What are the standard I2C speed modes?
+	1.	Standard Mode: 100 kbit/s
+	2.	Fast Mode: 400 kbit/s
+	3.	Fast Mode Plus: 1 Mbit/s
+	4.	High-Speed Mode (Hs-mode): 3.4 Mbit/s
+	5.	Ultra-Fast Mode: 5 Mbit/s
+	
+07.	What is an "open-drain" (or open-collector) output? Why is it used in I2C?
+	An open-drain output pin can either pull the line low (to ground) or be in a high-impedance state (effectively disconnected). It cannot drive the line high. This is essential for I2C because it allows multiple devices to share the same line without short-circuits. This creates a "wired-AND" bus logic.
+	
+08.	Why are pull-up resistors required on the SDA and SCL lines?
+	Because the I2C pins are open-drain, they can only pull the line low. The pull-up resistors are responsible for pulling the lines high to Vcc when no device is pulling them low. Without them, the lines would be floating and never reach a logic '1' state.
+	
+09.	What is a START condition?	
+	A START condition is a unique signal that initiates a transaction. It occurs when the SDA line goes from high to low while the SCL line is high. Only a master can generate a START condition.
+	
+10.	What is a STOP condition?
+	A STOP condition is a unique signal that terminates a transaction. It occurs when the SDA line goes from low to high while the SCL line is high. This releases the bus.
+	
+11.	Walk me through a simple master-write transaction.
+	1.	Master sends a START condition.
+	2.	Master sends the 7-bit slave address followed by a Write bit (0).
+	3.	Slave sends an ACK.
+	4.	Master sends a data byte (e.g., a register address to write to).
+	5.	Slave sends an ACK.
+	6.	Master sends another data byte (the value to write).
+	7.	Slave sends an ACK.
+	8.	Master sends a STOP condition.
+	
+12.	Walk me through a simple master-read transaction.
+	1.	Master sends a START condition.
+	2.	Master sends the 7-bit slave address followed by a Read bit (1).
+	3.	Slave sends an ACK.
+	4.	Slave sends a data byte.
+	5.	Master sends an ACK (if it wants more data) or a NACK (if this is the last byte).
+	6.	Master sends a STOP condition.
+	
+13.	What is clock stretching?
+	Clock stretching is when a slave device holds the SCL line low after receiving a byte. This effectively pauses the transaction, forcing the master to wait.
+	
+14.	Why would a slave perform clock stretching?
+	A slave might need more time to process the received data or prepare the data to be transmitted before the next clock pulse arrives. For example, an EEPROM might need time to fetch data from its memory array.
+	
+15.	How does I2C arbitration work?
+	As masters send data, they also monitor the SDA line. Because the bus is "wired-AND," if one master sends a '1' (by releasing the line) but sees a '0' on the line, it knows that another master is pulling it low. This master has lost arbitration and must immediately stop its transmission and wait for the bus to become free (by detecting a STOP condition).
+	
+16.	Differentiate between a blocking (polling) and a non-blocking (interrupt-driven) I2C driver.
+	1.	Blocking: The I2C_Write() function does not return until the entire transaction is complete. It sits in a while loop, polling a status flag. It's simple to use but wastes CPU time.
+	2.	Non-blocking: The I2C_Write() function just configures the peripheral to start the transaction and returns immediately. The rest of the transaction is handled by ISRs. This is efficient but more complex to implement.
+	
+17.	How can you recover from a bus that is stuck low?
+	The master can send 9 clock pulses on the SCL line. Any slave that was holding SDA low waiting to transmit a bit will see these clock pulses and should eventually release the SDA line. After this, the master can send a STOP condition to reset the bus state.
+

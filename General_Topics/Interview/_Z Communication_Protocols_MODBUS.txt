@@ -1,0 +1,67 @@
+01.	What is a PDU?
+	Protocol Data Unit. It consists of Function Code + Data. It is independent of the underlying communication layer.
+	
+02.	What is an ADU?
+	Application Data Unit. It is the full packet on the wire. ADU = Additional Address/Error Checks + PDU. (e.g., in RTU: Slave ID + PDU + CRC).
+	
+03.	What are the four primary data tables in Modbus?
+	1.	Coils (Discrete Output) - Read/Write, 1 bit.
+	2.	Discrete Inputs - Read Only, 1 bit.
+	3.	Input Registers - Read Only, 16-bit Word.
+	4.	Holding Registers - Read/Write, 16-bit Word.
+	
+04.	Explain the difference between "Logical Address" and "Physical Address".
+	1.	Logical Address: Starts at 1 (e.g., Register 40001). Used in documentation.
+	2.	Physical Address (Wire Address): Starts at 0.
+	3.	Example: To read Register 40001, the packet sends address 0x0000. To read 40005, it sends 0x0004.
+	
+05.	What constitutes a Modbus RTU Frame?
+	[Slave ID] [Function Code] [Data] [CRC Low] [CRC High].
+	
+06.	What error checking does RTU use?
+	CRC-16 (Cyclic Redundancy Check).
+
+07.	Is Modbus Big-Endian or Little-Endian?
+	The Modbus protocol is Big-Endian (High byte sent first).
+	
+08.	What is the Start of Frame delimiter in ASCII?
+	A Colon character : (0x3A).
+	
+09.	What is the End of Frame delimiter in ASCII?
+	Carriage Return + Line Feed CR LF (0x0D 0x0A).
+	
+10.	What error check does ASCII use?
+	LRC (Longitudinal Redundancy Check).
+	
+11.	What are the Function Codes?
+	1.	Function Code 01: Read Coils.
+	2.	Function Code 02: Read Discrete Inputs.
+	3.	Function Code 03: Read Holding Registers.
+	4.	Function Code 04: Read Input Registers.
+	5.	Function Code 05: Write Single Coil.
+	6.	Function Code 06: Write Single Register.
+	7.	Function Code 15 (0x0F): Write Multiple Coils.
+	8.	Function Code 16 (0x10): Write Multiple Registers.
+	
+12.	What are the Exception Code?
+	1.	Exception Code 01: Illegal Function. The slave does not support the requested Function Code.
+	2.	Exception Code 02: Illegal Data Address. The address requested is outside the valid range of the slave.
+	3.	Exception Code 03: Illegal Data Value. The data value sent is not valid for that register.
+	4.	Exception Code 04: Slave Device Failure. The slave tried to perform the action but failed (hardware error).
+	
+13.	What is the minimum number of wires for RS-485 Modbus?
+	3 wires: Data+ (A), Data- (B), and Common Ground (GND).
+	
+14.	What are Bias Resistors?
+	Pull-up (on A) and Pull-down (on B) resistors used to hold the bus in a known state (Recessive/Logic 1) when no driver is active (idle). Prevents noise from being interpreted as data.
+	
+15.	What are the standard UART settings (N-8-1)?
+	No Parity, 8 Data bits, 1 Stop bit. (Though Even Parity is technically the Modbus default requirement, N-8-1 is most used).
+	
+16.	What is the "Transaction Identifier" in Modbus TCP?
+	A 2-byte field to match requests with responses (since TCP can handle multiple outstanding requests).
+	
+17.	What is the "Protocol Identifier" in Modbus TCP?
+	Always 0.
+	
+18.	

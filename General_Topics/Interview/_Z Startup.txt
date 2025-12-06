@@ -1,0 +1,28 @@
+01.	What is the role of the "startup code" in Embedded C?
+	1.	Runs before main().
+	2.	Stack Setup: Initializes stack pointer.
+	3.	Memory Initialization: Copies initialized data from Flash to RAM; zeroes BSS.
+	4.	Hardware Setup: Clocks, interrupts, memory controllers.
+	5.	Call Main: Jumps to main().
+
+02. What are the main tasks performed by a typical startup code?
+    1.  Disable all interrupts.
+    2.  Configure the core clock system (e.g., setting up the PLL).
+    3.  Initialize the stack pointer.
+    4.  Initialize the C runtime environment: copy initialized data from Flash to RAM (.data section) and zero-out the uninitialized data section in RAM (.bss section).
+    5.  Initialize the Floating-Point Unit (FPU) if present and used.
+    6.  (In C++) Call constructors for global/static objects.
+    7.  Call the main() function.
+
+03. What is the relationship between startup code and a bootloader?
+    1.  A bootloader runs first. Its primary job is to determine if a valid application exists and, if so, to load it into memory and jump to its entry point. 
+    2.  The application's entry point is the beginning of its startup code. 
+    3.  So, the sequence is: Reset -> Bootloader -> Application Startup Code -> main().
+
+04. What is typically the first piece of hardware initialized in the startup code?
+    The watchdog timer. If a watchdog is enabled by default, the startup code must disable it or start "petting" it immediately to prevent the system from resetting itself during the initialization sequence.
+
+05. Explain the relationship between the startup file and the linker script.
+    They are a team. The linker script defines the memory map and creates symbols that mark the addresses and sizes of all sections (.data, .bss, stack, heap). The startup code reads these symbols to know where to copy data, where to clear memory, and what value to set for the initial stack pointer.
+
+06.

@@ -1,0 +1,39 @@
+01.	What is the difference between a CAN Controller and a CAN Transceiver?
+	1.	Controller: Handles the digital logic (framing, arbitration, CRC, error handling). It is often built into the MCU.
+	2.	Transceiver: Converts the digital logic levels (TX/RX) from the controller into differential voltage levels (CAN_H, CAN_L) on the physical bus.
+	
+02.	What are the different types of CAN frames?
+	1.	Data Frame: Carries data.
+	2.	Remote Frame: Requests data (RTR).
+	3.	Error Frame: Signals an error to all nodes.
+	4.	Overload Frame: Adds a delay between frames.
+	
+03.	Describe the fields of a Standard Data Frame (CAN 2.0A).
+	1.	SOF (Start of Frame): 1 dominant bit.
+	2.	Arbitration Field: 11-bit Identifier + RTR bit.
+	3.	Control Field: IDE, r0, DLC (4 bits).
+	4.	Data Field: 0 to 8 bytes.
+	5.	CRC Field: 15-bit CRC + delimiter.
+	6.	ACK Field: ACK Slot + delimiter.
+	7.	EOF (End of Frame): 7 recessive bits.
+	
+04.	How does Arbitration work?
+	If two nodes start transmitting at the same time, they check the bus while sending the Identifier bits. If Node A sends a Recessive bit (1) but reads a Dominant bit (0) on the bus (sent by Node B), Node A knows it has lost arbitration. It stops transmitting and becomes a listener. Node B continues unaffected.
+	
+05.	What happens if two nodes send the exact same ID at the same time?
+	This is illegal in standard CAN design. Every message ID on the network should be unique to a specific node. If it happens, they will likely collide during the data phase, causing a Bit Error.
+	
+06.	What is Bit Stuffing?
+	To maintain synchronization, the protocol ensures there are enough signal transitions. If the controller detects 5 consecutive bits of the same polarity, it automatically inserts 1 bit of the opposite polarity.
+	
+07.	What is J1939?
+	A higher-layer protocol based on CAN (using 29-bit extended IDs), used heavily in heavy-duty vehicles (trucks, buses, tractors).
+	
+08.	What is a PGN in J1939?
+	Parameter Group Number. It identifies the type of message being sent (e.g., Engine Temperature).
+	
+09.	What is an SPN in J1939?
+	Suspect Parameter Number. It identifies a specific data element within the PGN (e.g., specific byte for RPM).
+	
+10.	What is a "wakeup frame"?
+	A specific message or bus activity that wakes up transceivers/controllers from Sleep Mode to save power when the vehicle is parked.
