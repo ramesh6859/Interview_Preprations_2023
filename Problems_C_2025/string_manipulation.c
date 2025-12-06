@@ -26,9 +26,20 @@ void reverse(char *s) {
     }
 }
 
+int my_atoi(char *str) {
+    int res = 0;
+    while (*str >= '0' && *str <= '9') {
+        res = res * 10 + (*str - '0');
+        str++;
+    }
+    return res;
+}
+
 int main() {
     char string_initial[50] = "Ramesh";
     char string_final[50];
+    char string_number[10] = "101";
+    int number1;
 
     // endian_check();
 
@@ -38,6 +49,9 @@ int main() {
     // reverse(string_initial);
     // printf("Reversed String : %s\n", string_initial);
 
-    
+    printf("Number : %d\n", number1);
+    number1 = my_atoi(string_number);
+    printf("Number : %d\n", number1);
+
     return 0;
 }
