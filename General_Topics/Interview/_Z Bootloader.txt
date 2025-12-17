@@ -49,4 +49,59 @@
     4.  Verify: Read back the data to ensure it was written correctly.
     5.  Lock: Re-lock the Flash control registers to prevent accidental writes.
 
-10. 
+10. What are the two specific CPU registers that must be manually set before a jump on Cortex-M?
+    1.  MSP (Main Stack Pointer): To ensure a valid stack for the app.
+    2.  PC (Program Counter): To point to the Reset Handler of the app.
+
+11. What is a "Scatter File" or Linker Script?
+    A file that defines the memory map. It tells the linker strictly where the Bootloader ends and where the Application begins.
+
+12. What is the .isr_vector section?
+    The specific linker section where the interrupt vector table is placed, usually at the very beginning of the binary.
+
+13. Explain "A/B Partitioning" (Dual Bank).
+    Flash is split into two equal slots (A and B). App runs from A; update downloads to B. On reboot, if B is valid, the bootloader swaps them (or updates a flag to boot B).
+
+14. What is the main advantage of A/B Partitioning?
+    1.  Power-Fail Safety: If power cuts during update, the old App is still valid.
+    2.  Rollback: Can easily revert to the previous version.
+
+15. What is the disadvantage of A/B Partitioning?
+    Cost: Requires 2x the flash memory space.
+
+16. What is the "Swap Scratch" method?
+    Used in single-bank MCUs to simulate dual-bank. It uses a small sector (scratch) to swap the new firmware and old firmware chunk-by-chunk.
+
+17. What is "Delta" or "Differential" update?
+    Transmitting only the binary difference (diff) between the old and new version to save bandwidth. The bootloader patches the binary in place.
+
+18. What is a "Golden Image"?
+    A factory-programmed, read-only backup of the firmware. If the main App is corrupted and the update fails, the system reverts to the Golden Image.
+
+19. What is "Background OTA"?
+    The Application downloads the new firmware to an external flash/Bank B while running normal tasks. The Bootloader is only invoked for the final swap/verify.
+
+20. What is a Hash (SHA-256)?
+    A one-way function to generate a unique fingerprint of the firmware. The signature is created by encrypting this hash.
+
+21. What is "Brown-out Detection" relevance?
+    If voltage drops during a flash write, the bit might not flip correctly. The bootloader should enable BOD to reset immediately if voltage dips to prevent data corruption.
+
+22. Why use a "Shared Memory" struct?
+    A fixed RAM location known to both Bootloader and App to share version info, update status, and reset reasons.
+
+23. What is the difference between Soft Reset and Hard Reset?
+    Hard reset clears all registers. Soft reset jumps to reset vector but might leave peripherals (USB, DMA) active.
+
+24. Why are interrupts usually not used inside the bootloader communication loop?
+    To keep it deterministic and simple. Polling is often preferred to avoid stack complexity and interrupt vector management issues.
+
+25. What is the role of the Linker .bss section initialization?
+    The bootloader startup code must zero out the .bss (uninitialized variables) section, otherwise, variables will have random values.
+
+26. Can you update the Interrupt Vector Table?
+    Yes, it is just data at the start of the binary. The new binary brings its own new vector table.
+
+27. What is a "Combined Image"?
+    A single hex file containing Bootloader + App + Config, used for manufacturing programming.
+

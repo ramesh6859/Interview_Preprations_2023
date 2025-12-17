@@ -37,3 +37,112 @@
 	
 10.	What is a "wakeup frame"?
 	A specific message or bus activity that wakes up transceivers/controllers from Sleep Mode to save power when the vehicle is parked.
+
+11.	What is the characteristic impedance of a standard CAN cable?
+	120 Ohms (nominally).
+
+12.	What is "Split Termination"?
+	Using two 60-ohm resistors in series with a capacitor to ground in the middle (instead of a single 120-ohm resistor). This helps filter high-frequency noise and stabilizes the common-mode voltage.
+
+13.	What is the typical voltage of CAN_H and CAN_L in the Recessive state?
+	Both are approximately 2.5V relative to ground.
+
+14.	What is the typical voltage of CAN_H and CAN_L in the Dominant state?
+	CAN_H rises to ~3.5V; CAN_L drops to ~1.5V.
+
+15.	What is the differential voltage (Vdiff) in Dominant state?
+	Vdiff = VCAN_H − VCAN_L ≈ 2.0 V
+
+16.	What is the differential voltage in Recessive state?
+	Vdiff ≈ 0V
+
+17.	How does Fault-Tolerant CAN differ physically?
+	It can operate on a single wire if one is cut or shorted to Ground/Vcc. It uses different voltage levels and termination (R/C network at every node).
+
+18.	What connector is standard for CAN in industrial automation (CiA)?
+	The DB9 (D-Sub 9-pin) connector. Pin 2 (CAN_L), Pin 7 (CAN_H), Pin 3 (GND).
+
+19.	What is UDS?
+	Unified Diagnostic Services (ISO 14229). A protocol usually running on CAN for vehicle diagnostics and flashing.
+
+------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+SAE J1939
+
+01.	What is SAE J1939?
+	It is a higher-layer protocol based on CAN (Controller Area Network), defined by the Society of Automotive Engineers (SAE) for heavy-duty vehicles.
+
+02.	What is the default baud rate for J1939?
+	250 kbps is the classic standard. Newer vehicles use 500 kbps.
+
+03.	What is a PGN?
+	Parameter Group Number. It acts as the message ID, identifying the function of the data (e.g., Engine Temp, Trans Speed).
+
+04.	What is an SPN?
+	Suspect Parameter Number. It identifies a specific data element within a PGN (e.g., Engine Speed is an SPN inside the Electronic Engine Controller PGN).
+
+05.	How is priority handled in J1939?
+	It uses a 3-bit Priority field in the CAN ID. 0 is highest (critical control), 7 is lowest. Default is 6.
+
+06.	What is the relationship between J1939 and NMEA 2000?
+	NMEA 2000 (Marine) is based on J1939 but uses different connectors and Physical layer definitions (Data Page 1).
+
+07.	Break down the 29-bit J1939 Identifier.
+	Priority (3 bits) | 
+	Reserved (1) | 
+	Data Page (1) | 
+	PDU Format (8) | 
+	PDU Specific (8) | 
+	Source Address (8).
+
+08.	How do you calculate the PGN from the CAN ID?
+	It is composed of the Reserved bit, Data Page, PDU Format (PF), and PDU Specific (PS).
+
+09.	What happens if two ECUs claim the same address?
+	Arbitration occurs based on the 64-bit NAME. The ECU with the lower numerical NAME value wins the address.
+
+10.	What is the multibyte byte order in J1939?
+	Little Endian (Least Significant Byte first).
+
+11.	What is the characteristic impedance of the J1939 cable?
+	120 Ohms.
+
+12.	What is the voltage on CAN_H and CAN_L in Recessive state?
+	Both ~2.5V.
+
+13.	What is the voltage in Dominant state?
+	CAN_H ~3.5V, CAN_L ~1.5V.
+
+14.	Difference between J1939 and UDS (ISO 14229)?
+	J1939 is a full stack (Physical to App). UDS is an Application protocol that can run on top of J1939 (or standard CAN).
+
+15.	What does DBC stand for?
+	DataBase CAN.
+
+16.	What is a DBC file?
+	It is a standardized ASCII file format used to describe the communications of a CAN network. It translates raw CAN frame data (hex) into readable physical values (signals).
+
+17.	Why is a DBC file necessary?
+	The CAN protocol only carries raw bytes (payload). The DBC tells the receiving node (or analysis tool) how to interpret those bytes (e.g., that "Byte 0" is "Engine Speed").
+
+18.	What are the main components defined in a DBC?
+	Nodes (ECUs), Messages (Frames), and Signals (Data points).
+
+19.	What tool is commonly used to create/edit DBC files?
+	Vector CANdb++.
+
+20.	What is the formula to convert a raw value to a physical value?
+	Physical_Value = (Raw_Value * Factor) + Offset.
+
+21.	If I want to encode 30 back to Raw, what is the formula?
+	Raw_Value = (Physical_Value - Offset) / Factor.
+
+22.	In a DBC, does the "Start Bit" refer to the LSB or MSB of the signal?
+	Vector Standard: The Start Bit always refers to the Least Significant Bit (LSB) of the signal, regardless of whether it is Intel or Motorola. (Note: Some non-Vector tools define Motorola by MSB, which causes confusion).
+
+23.	How do you use a DBC file in Embedded C?
+	You don't include the .dbc file directly. You use a tool (like Vector GENy, Python cantools, or a custom script) to generate C code (structs and packing/unpacking macros) from the DBC.
+
+24.	How does Python's cantools library work?
+	It loads a DBC, creates objects for messages, and provides .encode() and .decode() methods for python dictionaries.
+

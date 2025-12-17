@@ -118,4 +118,93 @@
 14.	How does ADC work in an embedded system, and what is the significance of the sampling rate?
 	1.	How it works: Samples analog signal -> Quantizes to digital value (based on resolution).
 	2.	Sampling Rate: Must be >2x highest frequency (Nyquist). High rate = better accuracy but higher power/processing; Low rate = lower power but less accuracy.
-	
+
+15.	What is the difference between Harvard and Von Neumann architectures?
+	1.	Harvard Architecture: Uses separate memory and buses for instruction (code) and data. This allows simultaneous access to both, improving performance (e.g., fetching an instruction while reading data). Commonly used in microcontrollers (e.g., AVR, PIC).
+	2.	Von Neumann Architecture: Uses a single shared memory and bus for both instructions and data. It is simpler and cheaper to implement but can suffer from the "Von Neumann bottleneck" where the CPU is faster than the memory transfer. Common in general-purpose computers and some ARM architectures (internally modified).
+
+16.	What is the significance of the volatile keyword in relation to memory? 
+	The volatile keyword tells the compiler not to optimize reads or writes to a specific variable or memory address because its value can change at any time outside the program's control (e.g., by hardware or an interrupt).
+	1.	Memory-Mapped Peripheral Registers: If you read a status register in a loop, the compiler might cache the value. volatile forces the compiler to read the actual memory address every time.
+	2.	Global Variables modified by Interrupt Service Routines (ISRs): Ensures the main code sees the updated value set by the interrupt.
+	3.	Multi-threaded applications: Ensures shared variables are read from memory, not registers.
+
+17.	Explain the standard memory segments in an Embedded C program (.text, .data, .bss). 
+	When a C program is compiled, memory is organized into specific sections:
+	1.	.text (Code Segment): Stores the executable instructions (machine code) and is usually located in Flash/ROM (read-only).
+	2.	.data (Initialized Data Segment): Stores global and static variables that are initialized to a non-zero value. These are stored in Flash but copied to RAM at startup so they can be modified.
+	3.	.bss (Block Started by Symbol): Stores global and static variables that are uninitialized or initialized to zero. This section is allocated in RAM and zeroed out by the startup code before main() begins.
+
+18.	What is Endianness and how does it affect memory access? 
+	Endianness refers to the order in which bytes of a multi-byte word (like a 32-bit int) are stored in memory.
+	1.	Little-Endian: The Least Significant Byte (LSB) is stored at the lowest memory address. (Common in x86, most ARM Cortex-M).
+	2.	Big-Endian: The Most Significant Byte (MSB) is stored at the lowest memory address. (Common in TCP/IP networks, older PowerPC). Significance: You must be careful when casting pointers (e.g., reading a uint32_t as bytes) or transmitting data between systems with different endianness.
+
+19.	What is Structure Padding and Packing?
+	1.	Padding: The compiler automatically inserts unused "gap" bytes between structure members to align data types to their natural boundaries (e.g., aligning a 4-byte int to a 4-byte address). This improves access speed but wastes memory.
+	2.	Packing: You can force the compiler to remove these gaps (e.g., using __attribute__((packed)) or #pragma pack(1)). This saves memory but may decrease performance or cause hardware faults on architectures that do not support unaligned access.
+
+20.	What is an MPU (Memory Protection Unit)? 
+	An MPU is a hardware unit in many higher-end microcontrollers (like ARM Cortex-M3/M4) that provides memory protection.
+	1.	Region Protection: It allows you to define specific memory regions and assign permissions (Read/Write/Execute).
+	2.	Stack Overflow Protection: It can be set up to trigger a fault if the stack grows into a forbidden area.
+	3.	Safety: It prevents user code from accidentally corrupting kernel data or executing code from data regions (preventing code injection attacks).
+
+21.	What is the difference between an MPU and an MMU?
+	1.	MPU (Memory Protection Unit): Found in simpler or real-time cores (e.g., Cortex-M). It enforces permissions (Read/Write/Execute) on specific memory regions but does not map virtual addresses to physical ones. It is deterministic and low overhead.
+	2.	MMU (Memory Management Unit): Found in application processors (e.g., Cortex-A). It supports Virtual Memory, effectively mapping virtual addresses to physical addresses (paging). It allows OSs like Linux to isolate processes completely and handle memory fragmentation.
+	3.	Significance: Choosing between a microcontroller (MPU) and a microprocessor (MMU) drives the software architecture (RTOS vs Linux).
+
+22.	What is TCM (Tightly Coupled Memory) and why is it preferred for Critical ISRs?
+	TCM is a small, high-speed memory physically located very close to the CPU core.
+	1.	Determinism: It runs at the speed of the processor and has no wait states.
+	2.	No Cache Misses: Unlike general RAM accessed via cache, TCM access is always deterministic.
+	3.	Usage: Critical Interrupt Service Routines (ISRs), DSP loops, or cryptographic functions are placed in TCM (via linker scripts) to guarantee hard real-time execution times.
+
+23.	Explain the "Startup Code" (Reset_Handler) functionality before main().
+	Before `main()` is called, the system must initialize the C runtime environment. This code is usually written in Assembly or C.
+	1.	Initialize Stack Pointer (SP): The very first action (hardware often does this automatically from the vector table).
+	2.	Copy .data section: Copy initialized global variables from Flash (Load Address) to RAM (Execution Address).
+	3.	Zero .bss section: Fill the uninitialized memory region in RAM with zeros.
+	4.	System Initialization: Configure clocks, PLLs, and memory controllers (for external SDRAM).
+	5.	Call Constructors: For C++ environments (static objects).
+	6.	Jump to main().
+
+24.	What is Structure Padding/Packing and how does Alignment affect the system?
+	1.	Padding: Compilers insert unused bytes to align structure members to natural boundaries (e.g., 4-byte integers on 4-byte addresses). This optimizes fetch speed.
+		Risk: Wastes memory. Structure size != sum of members.
+	2.	Packing: Using `__attribute__((packed))` forces no padding.
+		Risk: Unaligned access can cause Usage Faults on some architectures (e.g., ARMv6-M) or severe performance penalties on others.
+		Leadership usage: Critical for defining network protocols or hardware register maps in structures.
+
+25.	How do you detect and prevent Stack Overflows?
+	1.	Stack Canaries (Software): The compiler places a magic value (canary) at the end of the stack frame. If this value is corrupted, an error handler is triggered.
+	2.	Wattermark Pattern: Fill the stack area with a known pattern (e.g., 0xDEADBEEF) at startup. Periodically check how much of the pattern is overwritten to gauge max usage.
+	3.	MPU Guard Regions (Hardware): Configure an MPU region at the very bottom of the stack to be "No Access". Any PUSH operation hitting this region triggers a memory fault immediately.
+
+26.	What is the role of the Linker Script (.ld file)?
+	The linker script tells the linker how to map the code and data sections to the physical memory layout of the specific microcontroller.
+	1.	Memory Definition: Defines start addresses and lengths of Flash, RAM, CCM, etc.
+	2.	Section Placement: Directs code (`.text`) to Flash, variables (`.data`) to RAM.
+	3.	Advanced Usage: Creating custom sections for placing code in TCM, placing buffers in specific non-cached RAM regions for DMA, or reserving space for a Bootloader.
+
+27.	Explain bit-banding in ARM Cortex-M architectures.
+	Bit-banding maps a single bit in a specific "bit-band region" to a full 32-bit word in a "alias region".
+	1.	Atomic Access: Writing to the alias address atomically sets or clears the individual bit in the peripheral/SRAM.
+	2.	Thread Safety: Eliminates the need for Read-Modify-Write sequences (which can be interrupted), making individual bit manipulation thread-safe without disabling interrupts.
+
+28.	What is ECC (Error Correction Code) memory?
+	In safety-critical systems (Automotive - ISO26262), memory bits can flip due to radiation (Single Event Upsets).
+	1.	SEC-DED: Single Error Correction, Double Error Detection. Extra bits are stored with data to detect and fix 1-bit errors automatically.
+	2.	Hard Faults: If a 2-bit error occurs (uncorrectable), the system usually triggers a Bus Fault or NMI (Non-Maskable Interrupt) to transition to a safe state.
+
+29.	How do you handle Endianness when communicating between systems?
+	1.	Little Endian: LSB at lowest address (Standard for ARM Cortex).
+	2.	Big Endian: MSB at lowest address (Network Standard).
+	3.	Solution: When receiving a packet over Ethernet (Big Endian) to an ARM device (Little Endian), you must swap bytes using functions like `ntohl` (Network to Host Long) or `__builtin_bswap32()`. Failing to do so results in corrupted integer values.
+
+30.	What are "Weak Symbols" in C and how are they used in interruptions?
+	A function marked `__attribute__((weak))` can be overridden by a user-defined function with the same name.
+	1.	Usage: Startup code defines default Interrupt Handlers (e.g., `Default_Handler`) as weak symbols.
+	2.	Flexibility: If the user writes `void UART0_Handler()`, the linker prefers the strong user version over the weak default one. This allows drivers to "hook" into interrupts without modifying core startup documents.
+

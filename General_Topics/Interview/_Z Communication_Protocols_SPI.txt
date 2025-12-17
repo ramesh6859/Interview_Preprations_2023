@@ -101,4 +101,12 @@
 	3.	Wires: SPI needs 3-4; UART needs 2.
 	4.	Topology: SPI is master-slave; UART is point-to-point.	
 	
+16.	What is "Daisy Chaining" in SPI?
+	Connecting multiple slaves in series: Master MOSI -> Slave1 MOSI -> Slave1 MISO -> Slave2 MOSI -> Slave2 MISO -> Master MISO. All share one CS line.
+
+17.	What is QSPI typically used for?
+	Interfacing with high-speed external Flash memory or RAM (e.g., for XIP - Execute In Place).
+
+18.	What is Octal SPI (OSPI)?
+	Similar to QSPI but with 8 data lines. Even faster throughput.
 

@@ -76,18 +76,5 @@
 17.	How can you recover from a bus that is stuck low?
 	The master can send 9 clock pulses on the SCL line. Any slave that was holding SDA low waiting to transmit a bit will see these clock pulses and should eventually release the SDA line. After this, the master can send a STOP condition to reset the bus state.
 
-18.	How does bus capacitance affect the signal?
-	It slows down the rise time (Low-to-High transition) because the pull-up resistor has to charge the capacitor.
-
-19.	What happens if the pull-up resistor is too strong (resistance too low)?
-	The device might not be able to sink enough current to pull the line to a valid Logic Low (VOL), leading to communication errors or potential damage to the pin.
-
-20.	What happens if the pull-up resistor is too weak (resistance too high)?
-	The signal rise time becomes too slow, potentially violating the timing specification and causing bit errors, especially at higher speeds.
-
-21.	What is "Clock Synchronization"?
-	In multi-master systems, if two masters drive SCL, the one driving it Low holds it Low. The High period starts only when all masters have released SCL. This synchronizes their clocks.
-
-22.	Is bit 0 of the address byte the LSB of the address?
-	No. The address is bits 7-1. Bit 0 is the R/W bit.
-
+----
+Can you give me at least 100 interview questions with answers on Bootloader other than the above ones ?

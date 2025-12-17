@@ -85,4 +85,131 @@
     4.  Simplicity and Readability:
         1.  Inline functions make the code more readable and reusable while avoiding code duplication for small utility functions.
     5.  However, the compiler may ignore the inline keyword if it determines that inlining is not beneficial (e.g., for large functions).
+------
+12. How does static affect the symbol table during linking?
+    A static global variable or function has internal linkage. The compiler does not export the symbol to the linker, so the linker cannot see it from other object files.
 
+13. What is the difference between static int x; inside a function and int x; inside a function regarding memory allocation?
+    int x is allocated on the stack (or register) and created/destroyed with the function call. static int x is allocated in the .bss (or .data if initialized) section and persists for the program's life.
+
+14. Can a static function be recursive?
+	Yes, static functions can be recursive. The static keyword only limits the scope (visibility) of the function name, not its internal logic.
+	
+15.	Where is an uninitialized static variable stored in the final binary?
+    It is stored in the .bss (Block Started by Symbol) section. It takes up no space in the flash memory (ROM) binary, only in the RAM map. It is automatically initialized to zero (0).
+
+16. Where is an initialized static variable (e.g., static int x = 5;) stored?
+    It is stored in the .data section. The initial value (5) takes up space in Flash and is copied to RAM at startup.
+
+17. How does using static functions help the compiler optimize code?
+    Since the function is local to the file, the compiler knows all callers. It can aggressively inline the function or optimize register usage without worrying about external calls.
+
+18. How does const differ from #define regarding debugging?
+    const variables have types and symbol table entries, making them visible in a debugger. #define is a text substitution and often invisible to the debugger.
+
+19. Can a pointer be volatile?
+    Yes. int * volatile p means the pointer itself (the address it holds) can change unexpectedly.
+
+20. What is volatile int * p?
+    Pointer to a volatile integer. The integer changes unexpectedly, but the pointer address is stable.
+
+21. Does volatile guarantee atomicity?
+    No. A read-modify-write on a volatile variable (e.g., volatile_var++) can still be interrupted. volatile only ensures the compiler doesn't optimize out the memory access.
+
+22. Syntax: How do you define a pointer to a const volatile register at address 0x4000?
+    #define REG (*(const volatile uint32_t *)0x4000)
+
+23. How to define a const variable in a specific Flash sector?
+    const int x __attribute__((section(".sector5"))) = 10;.
+
+24. 
+Q: What is typedef redefinition?
+A: In C11, you can typedef the same name to the same type multiple times. In C90, it was an error.
+Q: Does volatile work on non-memory mapped I/O (like CPU internal registers)?
+A: No, volatile applies to addressable memory. You need inline assembly to access CPU core registers (like Stack Pointer, Program Counter).
+Q: Why use const for lookup tables?
+A: Saves RAM. If not const, the table takes up Flash (storage) AND RAM (runtime copy). If const, it stays in Flash.
+Section 12: Structs and Unions with Qualifiers
+Q: typedef struct { volatile int a; int b; } S;. If I copy S s1 = s2;, is a accessed atomically?
+A: No. The compiler generates a copy (memcpy or field-by-field). volatile forces a read, but not atomicity.
+Q: Can a union member be const?
+A: Yes, but writing to other members of the union might overwrite the const value, which is technically undefined behavior if the object was instantiated as const.
+Q: Is const struct S the same as struct S { const int a; ... }?
+A: No. const struct S makes the whole object read-only. The second makes only member a read-only for every instance of S.
+Q: Can you cast a volatile pointer to non-volatile?
+A: Yes, but it is dangerous. The compiler may optimize subsequent accesses incorrectly.
+Section 13: Compiler Specifics (Common in Embedded)
+Q: What is the packed attribute?
+A: __attribute__((packed)) prevents padding in structs. Important for communication protocols but can cause unaligned access faults.
+Q: What is aligned attribute?
+A: __attribute__((aligned(4))) forces variables to start at specific memory boundaries. Important for cache performance or hardware requirements (DMA).
+Q: What does __attribute__((used)) do?
+A: Tells the compiler/linker not to remove a variable/function even if it appears unreferenced (prevent dead code elimination). Useful for static variables accessed only via debugger or ISRs.
+Q: How do static inline functions differ from plain inline?
+A: inline in C99 can create link errors if not managed well (it might expect an external definition). static inline is safer: if not inlined, a local copy is created, preventing link errors.
+Q: What is the naked attribute for functions?
+A: __attribute__((naked)). The compiler generates no prologue/epilogue (no stack push/pop). Used for writing ISRs or context switchers in C.
+Section 14: Practical Embedded Scenarios
+Q: You have a variable int count. Interrupt increments it. Main reads it. What qualifiers needed?
+A: volatile. Also needs to be atomic or protected by critical section if int is larger than word size or RMW usage.
+Q: Why define a variable as static const inside a function?
+A: To create a constant value that is initialized once and not visible outside the function, often keeping it in ROM.
+Q: Can malloc allocate const memory?
+A: You can cast the return pointer to const, but the heap memory itself is writable hardware-wise.
+Q: Why does volatile sometimes slow down code?
+A: It disables caching in registers. Every access must go to the bus/RAM, which is slower.
+Q: What is the risk of large auto variables in embedded?
+A: Stack Overflow. Embedded stacks are small (e.g., 1KB). A char buf[2048] will crash it.
+Q: How to access a specific memory address without a pointer variable consuming stack space?
+A: Macros. #define REG (*(volatile uint32_t*)0x1234). The address is an immediate value in the instruction, not a variable on the stack.
+Section 15: Miscellaneous & Deep Dive
+Q: Does static initialization to 0 happen via code or hardware?
+A: Code. The startup code iterates through the .bss range and writes 0s. RAM does not power up zeroed.
+Q: Can extern be used with const in a header file?
+A: Yes. extern const int MAX_VAL; in header, const int MAX_VAL = 10; in one source file.
+Q: What happens if you define a const variable without initialization?
+A: Error. const variables must be initialized at definition (except extern const).
+Q: Is void * compatible with volatile void *?
+A: You can assign volatile to non-volatile without cast (unsafe), but usually warnings. Assigning non-volatile to volatile is safe.
+Q: What is the purpose of const in int * const p regarding hardware?
+A: It represents a fixed hardware resource (like a specific buffer address) that shouldn't be re-pointed elsewhere.
+Q: How do you declare an array of function pointers that are read-only?
+A: void (* const f_array[])(void) = { ... }; or const on the data type depending on intent.
+Q: What is the "Lifetime" of a string literal "Hello"?
+A: Static lifetime. It exists for the whole program duration.
+Q: char *p = "Hello"; p[0] = 'h';. Runtime result?
+A: Crash (Bus fault/Seg fault). String literals are usually stored in .rodata.
+Q: char p[] = "Hello"; p[0] = 'h';. Runtime result?
+A: Success. p is an array on the stack (auto) initialized with a copy of the string.
+Q: Why use static for helper functions in a driver?
+A: Encapsulation. Prevents namespace pollution. The driver's internal helper shouldn't be callable by the application.
+Q: Can volatile be optimized out if the variable is never read?
+A: No. volatile writes are "side effects" that must be preserved.
+Q: What is a "Sequence Point"?
+A: Points in execution where all side effects of previous evaluations must be complete. volatile accesses are often related to sequence points.
+Q: Can you declare a static variable inside a switch statement?
+A: Yes, but skipping the initialization via case labels is risky (though initialization happens at startup, not runtime).
+Q: Is register usage deprecated?
+A: It is deprecated in C++17, but still valid in C. However, modern compilers mostly ignore it.
+Q: How to ensure a variable is NOT initialized at startup?
+A: Put it in a custom .noinit section using linker attributes.
+Q: extern "C" in C++ code interacting with C?
+A: Tells the C++ compiler not to name-mangle the symbol so the C linker can find the extern function/variable.
+Q: Can you have a volatile bit-field?
+A: Yes. Common in defining register structs.
+Q: Does const affect the visibility of a symbol?
+A: No, static vs extern determines visibility. const determines writability.
+Q: What is the size of a static variable?
+A: Same as the underlying type. The keyword adds no size overhead.
+Q: If a function is static, does it have a stack frame?
+A: Yes, unless inlined by the compiler.
+Q: Can a static variable be a VLA (Variable Length Array)?
+A: No. Static storage size must be known at compile time.
+Q: const int n = 5; int arr[n];. Is this valid C90?
+A: No. n is const-qualified, but not a "constant expression". Valid in C99 as VLA, or C++ as constant.
+Q: How to create a global variable that is read-only for other files but writable for the defining file?
+A: Create a static variable and provide a public "Getter" function, but no "Setter".
+Q: Can you use memcpy on volatile data?
+A: Dangerous. memcpy is optimized and might not respect volatile access width/order rules. Use a manual loop for hardware registers.
+Q: What is the storage class of main() parameters argc and argv?
+A: auto (local to the function).
