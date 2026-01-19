@@ -1,0 +1,30 @@
+1.	What is an RTOS, and how does it differ from a general-purpose operating system?
+2.	What are the key features and characteristics of an RTOS?
+3.	Explain priority-based pre-emptive scheduling.
+4.	What are the different types of real-time systems?
+5.	How does an RTOS handle hardware interrupts?
+6.	What is a task (or thread) in RTOS?
+7.	What is the difference between a task and a process?
+8.	What are semaphores and how are they used in RTOS?
+9.	What is a mutex and how does it differ from a semaphore?
+10.	What is priority inversion and how can it be handled?
+11.	What are the different types of RTOS scheduling algorithms?
+12.	What is a real-time clock and its purpose in RTOS?
+13.	How do tasks communicate and synchronize in an RTOS?
+14.	Explain tick interrupts and their role in an RTOS.
+15.	What is the difference between hard and soft real-time systems?
+16.	What is latency in RTOS context?
+17.	What is the difference between interrupt latency and thread switching latency?
+18.	What is a watchdog timer?
+19.	How does an RTOS ensure task deadlines?
+20.	What are the main types of RTOS architectures?
+21.	What is context switching?
+22.	How does memory management differ in RTOS from general-purpose OS?
+23.	Can you explain interprocess communication (IPC) in RTOS?
+24.	What is a task control block (TCB)?
+25.	What is a deadlock? How can it be avoided in RTOS?
+26.	How do you design an RTOS from scratch?
+27.	What challenges do you face while working with RTOS?
+28.	What are some typical applications that use RTOS?
+29.	Name some popular RTOS families.
+30.	How do you debug an application running on an RTOS?
