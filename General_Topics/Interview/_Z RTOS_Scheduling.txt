@@ -38,4 +38,4 @@
 	2.	Priority-based: Highest priority runs first; preemptive allows interruption.
 	3.	Earliest Deadline First (EDF): Earliest deadline runs first.
 	4.	Rate-Monotonic Scheduling (RMS): Tasks with shorter periods get higher priority.
-	
+
